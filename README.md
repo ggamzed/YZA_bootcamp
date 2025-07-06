@@ -66,4 +66,15 @@ Tamamlanması gereken puan: 160
 Tamamlanan puan: 160
 
 ## Ekran Görselleri (Screenshots)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/a896f207-e230-40a8-988c-c9a145a25c1b" alt="Görsel 1" width="600"/>
+</p>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/6d6917a2-a723-4e53-87cb-9da5ce4084e2" alt="Görsel 2" width="300"/>
+  &nbsp;&nbsp;
+  <img src="https://github.com/user-attachments/assets/d50def58-ca8b-471d-837f-f1c71cf84f8f" alt="Görsel 3" width="300"/>
+</p>
+
+
 
