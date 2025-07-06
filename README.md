@@ -4,6 +4,9 @@ AI-150 Veri grubu
 # Uygulama İsmi  
 hazerFen
 
+## hazerFen
+Öğrencilerin zayıf noktalarını analiz eden, yapay zeka destekli kişisel soru çözüm platformu.
+
 # Uygulama Açıklaması
 - Öğrencilerin farklı derslerden (matematik, fizik, kimya vb.) sorular çözerek kendilerini geliştirmelerini sağlamak.  
 - Kullanıcının **zayıf olduğu konuları tespit etmek**, buna göre akıllı öneriler sunmak.  
