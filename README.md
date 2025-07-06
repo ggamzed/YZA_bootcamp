@@ -73,15 +73,11 @@ Uygulama kullanıcı dostu arayüzle tasarlanacak.
 
 Soruları büyük dil modeliyle oluşturacağız. 
 
-Soruları büyük dil modelinden çekeceğiz. 
-
 Uygulamanın tasarımını uygulamanın ismine göre uyarlayarak yapacağız. 
 
-Projede iyi bir ilerleme kaydediyoruz. 
+Projede iyi bir ilerleme kaydediğimiz için uygulamayı derinleştirmek adına uygulamaya eklemeler yapmaya karar verdik. 
 
-Bunun için uygulamayı derinleştirmek adına uygulamaya ekstra yerler eklemeye karar verdik. 
-
-Bu sayede kullanıcı ekstra bir not sayfası ya da hesap makinesi kullanmadan sadece uygulamada kalarak işlerini halledebilecek.
+Kullanıcı ekleyeceğimiz özelliklerle ekstra bir not sayfası ya da hesap makinesi kullanmadan sadece uygulamada kalarak işlerini halledebilecek.
   
 # Katılımcılar: 
 
