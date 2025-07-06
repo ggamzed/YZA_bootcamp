@@ -68,16 +68,27 @@ Daily scrum toplantıları için gün içinde iletişimi whatsapp üzerinden ak�
 # Sprint Review  
 
 #Alınan kararlar: Uygulama kullanıcı dostu arayüzle tasarlanacak. 
+
 Soruları büyük dil modeliyle oluşturacağız. 
+
 Soruları büyük dil modelinden çekeceğiz. 
+
 Uygulamanın tasarımını uygulamanın ismine göre uyarlayarak yapacağız. 
+
 Projede iyi bir ilerleme kaydediyoruz. 
+
 Bunun için uygulamayı derinleştirmek adına uygulamaya ekstra yerler eklemeye karar verdik. 
+
 Bu sayede kullanıcı ekstra bir not sayfası ya da hesap makinesi kullanmadan sadece uygulamada kalarak işlerini halledebilecek.
   
-#Katılımcıları: Muhammet Seyfi Büyük
+#Katılımcıları: 
+
+Muhammet Seyfi Büyük
+
 Gamze Demirci
+
 Ayşe Mermer
+
 Ayşenur Akbaba
 
 
