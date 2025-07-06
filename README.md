@@ -67,7 +67,9 @@ Daily scrum toplantıları için gün içinde iletişimi whatsapp üzerinden ak�
 
 # Sprint Review  
 
-# Alınan kararlar: Uygulama kullanıcı dostu arayüzle tasarlanacak. 
+# Alınan kararlar: 
+
+Uygulama kullanıcı dostu arayüzle tasarlanacak. 
 
 Soruları büyük dil modeliyle oluşturacağız. 
 
