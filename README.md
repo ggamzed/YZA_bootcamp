@@ -75,9 +75,9 @@ Soruları büyük dil modeliyle oluşturacağız.
 
 Uygulamanın tasarımını uygulamanın ismine göre uyarlayarak yapacağız. 
 
-Projede iyi bir ilerleme kaydediğimiz için uygulamayı derinleştirmek adına uygulamaya eklemeler yapmaya karar verdik. 
+Projede iyi bir ilerleme kaydedidğimiz  için uygulamayı derinleştirmek adına uygulamaya eklemeler yapmaya karar verdik. 
 
-Kullanıcı ekleyeceğimiz özelliklerle ekstra bir not sayfası ya da hesap makinesi kullanmadan sadece uygulamada kalarak işlerini halledebilecek.
+Kullanıcı, ekleyeceğimiz özelliklerle ekstra bir not sayfası ya da hesap makinesi kullanmadan sadece uygulamada kalarak işlerini halledebilecek.
   
 # Katılımcılar: 
 
