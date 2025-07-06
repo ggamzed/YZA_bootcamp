@@ -43,7 +43,7 @@ Daily Scrum toplantıları için gün içi iletişim WhatsApp üzerinden, akşam
 - Kullanıcının gelişimini birebir gösterir
 
 # Hedef Kitle
-- O rtaöğretim eğitimi almış herkes
+- Ortaöğretim eğitimi almış herkes
 
 # Takım Üyeleri
 
@@ -64,15 +64,20 @@ Her sprint için 160 puanlık bir hedef
 ## Daily Scrum  
 Daily scrum toplantıları için gün içinde iletişimi whatsapp üzerinden akşam toplantıları ise Slack üzerinden yapmayı tercih ediyoruz.
 
-## Sprint Review  
-Alınan kararlar: Uygulama kullanıcı dostu arayüzle tasarlanacak. Soruları büyük dil modeliyle oluşturacağız. Soruları büyük dil modelinden çekeceğiz. Uygulamanın tasarımını uygulamanın ismine göre uyarlayarak yapacağız. Projede iyi bir ilerleme kaydediyoruz. Bunun için uygulamayı derinleştirmek adına uygulamaya ekstra yerler eklemeye karar verdik. Bu sayede kullanıcı ekstra bir not sayfası ya da hesap makinesi kullanmadan sadece uygulamada kalarak işlerini halledebilecek.  
-Katılımcıları: Muhammet Seyfi Büyük, Gamze Demirci, Ayşe Mermer, Ayşenur Akbaba
 
-## Sprint Retrospective
-- Grupta dört kişiyiz, roller buna göre dağıtıldı
-- Tasarım, yazılım, veri toplama olarak görev dağılımı yapıldı
-- Sık sık toplanarak uygulamanın üstünden geçiyoruz
-- Uygulamın ismi ve logosu üzerinde geliştirmeler yapıyoruz
+# Sprint Review  
+
+# Alınan kararlar: Uygulama kullanıcı dostu arayüzle tasarlanacak. Soruları büyük dil modeliyle oluşturacağız. Soruları büyük dil modelinden çekeceğiz. Uygulamanın tasarımını uygulamanın ismine göre uyarlayarak yapacağız. Projede iyi bir ilerleme kaydediyoruz. Bunun için uygulamayı derinleştirmek adına uygulamaya ekstra yerler eklemeye karar verdik. Bu sayede kullanıcı ekstra bir not sayfası ya da hesap makinesi kullanmadan sadece uygulamada kalarak işlerini halledebilecek.
+  
+# Katılımcıları: Muhammet Seyfi Büyük, Gamze Demirci, Ayşe Mermer, Ayşenur Akbaba
+
+
+# Sprint Retrospective
+- Grupta dört kişiyiz, roller buna göre dağıtıldı.
+- Tasarım, yazılım, veri toplama olarak görev dağılımı yapıldı.
+- Sık sık toplanarak uygulamanın üstünden geçiyoruz.
+- Uygulamanın ismi ve logosu üzerinde geliştirmeler yapıyoruz.
+
 
 ## Diğer Notlar  
 Tamamlanması gereken puan: 160  
