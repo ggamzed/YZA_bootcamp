@@ -16,9 +16,10 @@ hazerFen
 # Product Backlog URL
 https://trello.com/b/i5hluFZv/tasks
 
+# Sprint 1
+
 # Daily Scrum
 Daily Scrum toplantıları için gün içi iletişim WhatsApp üzerinden, akşam toplantıları ise Slack üzerinden yapılmaktadır.
-
 
 # Sprint Review
 - Alınan kararlar:
@@ -37,7 +38,6 @@ Daily Scrum toplantıları için gün içi iletişim WhatsApp üzerinden, akşam
 
 **Diğer Notlar:** Tamamlanması gereken puan: 160 | Tamamlanan puan: 160
 
----
 
 # Ürün Özellikleri
 - Kullanıcı dostu arayüz.
@@ -57,48 +57,9 @@ Daily Scrum toplantıları için gün içi iletişim WhatsApp üzerinden, akşam
 | Gamze Demirci          | Developer                  |
 | Ayşe Mermer            | Developer                  |
 
-# Sprint 1
-
-**Sprint içinde tamamlanması tahmin edilen puan:** 480 Puan
 
 **Puan tamamlama mantığı:** Proje boyunca toplam 480 puanlık bir backlog bulunmaktadır.  
 Her sprint için 160 puanlık bir hedef
-
-## Daily Scrum  
-Daily scrum toplantıları için gün içinde iletişimi whatsapp üzerinden akşam toplantıları ise Slack üzerinden yapmayı tercih ediyoruz.
-
-
-# Sprint Review  
-
-# Alınan kararlar: 
-
-Uygulama kullanıcı dostu arayüzle tasarlanacak. 
-
-Soruları büyük dil modeliyle oluşturacağız. 
-
-Uygulamanın tasarımını uygulamanın ismine göre uyarlayarak yapacağız. 
-
-Projede iyi bir ilerleme kaydedidğimiz  için uygulamayı derinleştirmek adına uygulamaya eklemeler yapmaya karar verdik. 
-
-Kullanıcı, ekleyeceğimiz özelliklerle ekstra bir not sayfası ya da hesap makinesi kullanmadan sadece uygulamada kalarak işlerini halledebilecek.
-  
-# Katılımcılar: 
-
-Muhammet Seyfi Büyük
-
-Gamze Demirci
-
-Ayşe Mermer
-
-Ayşenur Akbaba
-
-
-# Sprint Retrospective
-- Grupta dört kişiyiz, roller buna göre dağıtıldı.
-- Tasarım, yazılım, veri toplama olarak görev dağılımı yapıldı.
-- Sık sık toplanarak uygulamanın üstünden geçiyoruz.
-- Uygulamanın ismi ve logosu üzerinde geliştirmeler yapıyoruz.
-
 
 ## Diğer Notlar  
 Tamamlanması gereken puan: 160  
