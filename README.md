@@ -37,13 +37,13 @@ Daily Scrum toplantıları için gün içi iletişim WhatsApp üzerinden, akşam
 ---
 
 # Ürün Özellikleri
-- kullanıcı dostu arayüz
+- Kullanıcı dostu arayüz
 - Konu bazlı zayıf noktaları tespit eder
 - Her çözülen soruda doğru çözme olasılığını göstererek geri bildirim verir
 - Kullanıcının gelişimini birebir gösterir
 
 # Hedef Kitle
-- ortaöğretim eğitimi almış herkes
+- O rtaöğretim eğitimi almış herkes
 
 # Takım Üyeleri
 
@@ -62,7 +62,7 @@ Daily Scrum toplantıları için gün içi iletişim WhatsApp üzerinden, akşam
 Her sprint için 160 puanlık bir hedef
 
 ## Daily Scrum  
-daily scrum toplantıları için gün içinde iletişimi whatsapp üzerinden akşam toplantıları ise Slack üzerinden yapmayı tercih ediyoruz.
+Daily scrum toplantıları için gün içinde iletişimi whatsapp üzerinden akşam toplantıları ise Slack üzerinden yapmayı tercih ediyoruz.
 
 ## Sprint Review  
 Alınan kararlar: Uygulama kullanıcı dostu arayüzle tasarlanacak. Soruları büyük dil modeliyle oluşturacağız. Soruları büyük dil modelinden çekeceğiz. Uygulamanın tasarımını uygulamanın ismine göre uyarlayarak yapacağız. Projede iyi bir ilerleme kaydediyoruz. Bunun için uygulamayı derinleştirmek adına uygulamaya ekstra yerler eklemeye karar verdik. Bu sayede kullanıcı ekstra bir not sayfası ya da hesap makinesi kullanmadan sadece uygulamada kalarak işlerini halledebilecek.  
@@ -79,4 +79,4 @@ Tamamlanması gereken puan: 160
 Tamamlanan puan: 160
 
 ## Ekran Görselleri (Screenshots)
-**Buraya proje ekran görüntülerini ekle**
+
