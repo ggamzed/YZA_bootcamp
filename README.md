@@ -59,7 +59,7 @@ Daily Scrum toplantıları için gün içi iletişim WhatsApp üzerinden, akşam
 
 
 **Puan tamamlama mantığı:** Proje boyunca toplam 480 puanlık bir backlog bulunmaktadır.  
-Her sprint için 160 puanlık bir hedef
+Her sprint için 160 puanlık bir hedef bulunmakta.
 
 ## Diğer Notlar  
 Tamamlanması gereken puan: 160  
