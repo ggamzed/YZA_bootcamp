@@ -37,10 +37,10 @@ Daily Scrum toplantıları için gün içi iletişim WhatsApp üzerinden, akşam
 ---
 
 # Ürün Özellikleri
-- Kullanıcı dostu arayüz
-- Konu bazlı zayıf noktaları tespit eder
-- Her çözülen soruda doğru çözme olasılığını göstererek geri bildirim verir
-- Kullanıcının gelişimini birebir gösterir
+- Kullanıcı dostu arayüz.
+- Konu bazlı zayıf noktaları tespit eder.
+- Her çözülen soruda doğru çözme olasılığını göstererek geri bildirim verir.
+- Kullanıcının gelişimini birebir gösterir.
 
 # Hedef Kitle
 - Ortaöğretim eğitimi almış herkes
@@ -67,9 +67,18 @@ Daily scrum toplantıları için gün içinde iletişimi whatsapp üzerinden ak�
 
 # Sprint Review  
 
-# Alınan kararlar: Uygulama kullanıcı dostu arayüzle tasarlanacak. Soruları büyük dil modeliyle oluşturacağız. Soruları büyük dil modelinden çekeceğiz. Uygulamanın tasarımını uygulamanın ismine göre uyarlayarak yapacağız. Projede iyi bir ilerleme kaydediyoruz. Bunun için uygulamayı derinleştirmek adına uygulamaya ekstra yerler eklemeye karar verdik. Bu sayede kullanıcı ekstra bir not sayfası ya da hesap makinesi kullanmadan sadece uygulamada kalarak işlerini halledebilecek.
+#Alınan kararlar: Uygulama kullanıcı dostu arayüzle tasarlanacak. 
+Soruları büyük dil modeliyle oluşturacağız. 
+Soruları büyük dil modelinden çekeceğiz. 
+Uygulamanın tasarımını uygulamanın ismine göre uyarlayarak yapacağız. 
+Projede iyi bir ilerleme kaydediyoruz. 
+Bunun için uygulamayı derinleştirmek adına uygulamaya ekstra yerler eklemeye karar verdik. 
+Bu sayede kullanıcı ekstra bir not sayfası ya da hesap makinesi kullanmadan sadece uygulamada kalarak işlerini halledebilecek.
   
-# Katılımcıları: Muhammet Seyfi Büyük, Gamze Demirci, Ayşe Mermer, Ayşenur Akbaba
+#Katılımcıları: Muhammet Seyfi Büyük
+Gamze Demirci
+Ayşe Mermer
+Ayşenur Akbaba
 
 
 # Sprint Retrospective
