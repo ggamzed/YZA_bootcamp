@@ -1,54 +1,60 @@
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
-from backend.app import models, database
-from backend.app.ml_model import PracticeModel
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from backend.app import auth_def  # auth.py token işleri için
+from backend.app.auth_def import decode_token
+from backend.app.ml_model import PracticeModel
+from pydantic import BaseModel
 
 router = APIRouter(prefix="/answers", tags=["answers"])
-
 bearer_scheme = HTTPBearer()
 model = PracticeModel()
 
-def get_db():
-    db = database.SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
 
-# ✅ Cevabı kaydet ve modeli güncelle
+class SubmitAnswerIn(BaseModel):
+    ders_id: int
+    konu_id: int
+    zorluk: int
+    is_correct: int
+
+class PredictIn(BaseModel):
+    ders_id: int
+    konu_id: int
+    zorluk: int
+
+
 @router.post("/submit")
 def submit_answer(
-    answer: dict,
+    answer: SubmitAnswerIn,
     credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme),
-    db: Session = Depends(get_db)
 ):
-    payload = auth_def.decode_token(credentials.credentials)
-    user_id = int(payload.get("sub"))
+    # token’dan user_id falan gerekiyorsa:
+    payload = decode_token(credentials.credentials)
 
     X = {
-        "ders_id": answer["ders_id"],
-        "konu_id": answer["konu_id"],
-        "zorluk": answer["zorluk"]
+        "ders_id": answer.ders_id,
+        "konu_id": answer.konu_id,
+        "zorluk": answer.zorluk
     }
-    y = answer["is_correct"]
+    y = answer.is_correct
 
     model.update(X, y)
-
     return {"message": "Cevap işlendi, model güncellendi."}
+
 
 @router.post("/predict")
 def predict_next(
-    request: dict,
-    credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme)
+    req: PredictIn,
+    credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme),
 ):
+    payload = decode_token(credentials.credentials)
+
     X = {
-        "ders_id": request["ders_id"],
-        "konu_id": request["konu_id"],
-        "zorluk": request["zorluk"]
+        "ders_id": req.ders_id,
+        "konu_id": req.konu_id,
+        "zorluk": req.zorluk
     }
-
-    proba = model.predict(X)  # Doğru method adı!
-
-    return {"correct_probability": [[proba.get(0, 0), proba.get(1, 0)]]}
+    proba = model.predict(X)
+    return {
+        "correct_probability": [
+            [proba.get(0, 0), proba.get(1, 0)]
+        ]
+    }
