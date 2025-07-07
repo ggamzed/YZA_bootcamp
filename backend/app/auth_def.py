@@ -1,6 +1,6 @@
 from passlib.context import CryptContext
 from jose import jwt
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 SECRET_KEY = "secret_key"
 ALGORITHM = "HS256"
@@ -16,7 +16,7 @@ def verify_password(raw_pass, hashed):
 
 def create_access_token(data: dict):
     data_to_sign = data.copy()
-    expire = datetime.now(datetime.timezone.utc) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    expire = datetime.now(timezone.utc) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     data_to_sign.update({"exp": expire})
     return jwt.encode(data_to_sign, SECRET_KEY, algorithm=ALGORITHM)
 

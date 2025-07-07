@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="e55514ba-883c-4dd9-a7d0-fd8dc6dac717" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/backend/app/antreman.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/app/auth_def.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/app/ml_model.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/app/routers/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/app/routers/answers.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/app/routers/auth.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/auth.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/crud.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/crud.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/test.db" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;qwthree8&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/ggamzed/YZA_bootcamp.git&quot;,
+    &quot;accountId&quot;: &quot;54a96b83-221a-41d4-9326-34d77d210a0a&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
+  <component name="ProjectId" id="2zQ1Ef5wWXKdHESfaUh5Jl5AnrD" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.antreman.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "seyfi",
+    "last_opened_file_path": "D:/python_projeler/YZA_bootcamp/YZA_bootcamp",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\python_projeler\YZA_bootcamp\YZA_bootcamp\backend\app\routers" />
+      <recent name="D:\python_projeler\YZA_bootcamp\YZA_bootcamp\backend\app" />
+      <recent name="D:\python_projeler\YZA_bootcamp\YZA_bootcamp\backend" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-495700d161d3-aa17d162503b-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-243.22562.220" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e55514ba-883c-4dd9-a7d0-fd8dc6dac717" name="Changes" comment="" />
+      <created>1751648372265</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1751648372265</updated>
+    </task>
+    <servers />
+  </component>
+</project>

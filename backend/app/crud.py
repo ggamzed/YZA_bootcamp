@@ -1,6 +1,6 @@
-from app.models import User
+from backend.app.models import User
 from sqlalchemy.orm import Session
-from app.auth import hash_password, verify_password
+from backend.app.auth_def import hash_password, verify_password
 
 def get_user_by_email(db: Session, email: str):
     return db.query(User).filter(User.email == email).first()
