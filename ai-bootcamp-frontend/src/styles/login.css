@@ -1,0 +1,19 @@
+.container {
+  max-width: 400px;
+  margin: 60px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+}
+.input {
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 8px;
+  border: 1px solid #ccc;
+}
+.button {
+  width: 100%;
+  padding: 10px;
+  background: #6200ee;
+  color: white;
+}

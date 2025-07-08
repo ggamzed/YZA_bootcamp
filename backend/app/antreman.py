@@ -1,4 +1,3 @@
-# antreman.py
 import sys
 import os
 
