@@ -76,5 +76,23 @@ Tamamlanan puan: 160
   <img src="https://github.com/user-attachments/assets/d50def58-ca8b-471d-837f-f1c71cf84f8f" alt="Görsel 3" width="300"/>
 </p>
 
+## Uygulama Görselleri
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/96f4c849-9c9b-4abf-9f17-1b08bf2fe226" width="300"/>
+  &nbsp;&nbsp;
+  <img src="https://github.com/user-attachments/assets/7a3bdc0b-4237-439b-9b75-4dc8b9603105" width="300"/>
+</p>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/b30f19dc-c8aa-4437-99b3-686b676181bb" width="300"/>
+  &nbsp;&nbsp;
+  <img src="https://github.com/user-attachments/assets/824c141a-402c-44f4-843b-2c2d77d60c1d" width="300"/>
+</p>
+
+<br>
+
+*Sorular henüz havuza eklenmediğinden dolayı örnek senaryolar üzerinde model eğitimi yaparak test ediyoruz.*
+
 
 
