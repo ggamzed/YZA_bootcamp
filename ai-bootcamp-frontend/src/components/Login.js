@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { login } from '../api/auth';
+import './Login.css'; // 👉 Artık bileşene özel
 
 export default function Login({ setToken }) {
   const [email, setEmail] = useState('');
@@ -15,11 +16,7 @@ export default function Login({ setToken }) {
       setToken(data.access_token);
       nav('/test');
     } catch (err) {
-      console.error(err);
-      const msg =
-        err.response?.data?.detail ||
-        err.message ||
-        'Bilinmeyen hata';
+      const msg = err.response?.data?.detail || err.message || 'Bilinmeyen hata';
       alert('Giriş hatası: ' + msg);
     }
   };
@@ -33,20 +30,20 @@ export default function Login({ setToken }) {
           placeholder="Email"
           value={email}
           onChange={e => setEmail(e.target.value)}
+          className="form-input"
         />
         <input
           type="password"
           placeholder="Şifre"
           value={password}
           onChange={e => setPassword(e.target.value)}
+          className="form-input"
         />
-        <button type="submit">Giriş Yap</button>
+        <button type="submit" className="form-button">Giriş Yap</button>
       </form>
-      <p style={{ marginTop: '1rem', textAlign: 'center' }}>
+      <p className="form-link">
         Hesabın yok mu?{' '}
-        <Link to="/register" style={{ color: '#007bff', textDecoration: 'none' }}>
-          Kayıt Ol
-        </Link>
+        <Link to="/register">Kayıt Ol</Link>
       </p>
     </div>
   );

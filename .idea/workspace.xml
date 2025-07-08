@@ -5,20 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e55514ba-883c-4dd9-a7d0-fd8dc6dac717" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/ai-bootcamp-frontend/src/api/answers.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ai-bootcamp-frontend/src/api/auth.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ai-bootcamp-frontend/src/components/Login.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ai-bootcamp-frontend/src/components/Profile.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ai-bootcamp-frontend/src/components/Register.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ai-bootcamp-frontend/src/components/TestPage.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ai-bootcamp-frontend/src/styles/login.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ai-bootcamp-frontend/src/components/Login.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ai-bootcamp-frontend/src/components/Register.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/antreman.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/antreman.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai-bootcamp-frontend/src/components/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/ai-bootcamp-frontend/src/components/Login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai-bootcamp-frontend/src/components/Register.js" beforeDir="false" afterPath="$PROJECT_DIR$/ai-bootcamp-frontend/src/components/Register.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai-bootcamp-frontend/src/styles/login.css" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app/model.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/model.pkl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/routers/answers.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/routers/answers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/frontend.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/test.db" beforeDir="false" afterPath="$PROJECT_DIR$/test.db" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { register } from '../api/auth';
+import './Register.css'; // 👉 Bileşene özel
 
 export default function Register() {
   const [email, setEmail] = useState('');
@@ -15,11 +16,7 @@ export default function Register() {
       alert(data.message || 'Kayıt başarılı!');
       nav('/');
     } catch (err) {
-      console.error(err);
-      const msg =
-        err.response?.data?.detail ||
-        err.message ||
-        'Bilinmeyen hata';
+      const msg = err.response?.data?.detail || err.message || 'Bilinmeyen hata';
       alert('Kayıt hatası: ' + msg);
     }
   };
@@ -33,25 +30,26 @@ export default function Register() {
           placeholder="Email"
           value={email}
           onChange={e => setEmail(e.target.value)}
+          className="form-input"
         />
         <input
           placeholder="Username"
           value={username}
           onChange={e => setUsername(e.target.value)}
+          className="form-input"
         />
         <input
           type="password"
           placeholder="Şifre"
           value={password}
           onChange={e => setPassword(e.target.value)}
+          className="form-input"
         />
-        <button type="submit">Kayıt Ol</button>
+        <button type="submit" className="form-button">Kayıt Ol</button>
       </form>
-      <p style={{ marginTop: '1rem', textAlign: 'center' }}>
+      <p className="form-link">
         Zaten hesabın var mı?{' '}
-        <Link to="/" style={{ color: '#007bff', textDecoration: 'none' }}>
-          Giriş Yap
-        </Link>
+        <Link to="/">Giriş Yap</Link>
       </p>
     </div>
   );
