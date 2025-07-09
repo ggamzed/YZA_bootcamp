@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { login } from '../api/auth';
-import './Login.css'; // 👉 Artık bileşene özel
+import './Login.css';
 
 export default function Login({ setToken }) {
   const [email, setEmail] = useState('');
@@ -22,7 +22,7 @@ export default function Login({ setToken }) {
   };
 
   return (
-    <div className="form-container">
+    <div className="login-container">
       <h2>Giriş Yap</h2>
       <form onSubmit={handleLogin}>
         <input
@@ -39,7 +39,7 @@ export default function Login({ setToken }) {
           onChange={e => setPassword(e.target.value)}
           className="form-input"
         />
-        <button type="submit" className="form-button">Giriş Yap</button>
+        <button type="submit" className="login-button">Giriş Yap</button>
       </form>
       <p className="form-link">
         Hesabın yok mu?{' '}

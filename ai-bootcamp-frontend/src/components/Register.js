@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { register } from '../api/auth';
-import './Register.css'; // 👉 Bileşene özel
+import './Register.css';
 
 export default function Register() {
   const [email, setEmail] = useState('');
@@ -22,7 +22,7 @@ export default function Register() {
   };
 
   return (
-    <div className="form-container">
+    <div className="register-container">
       <h2>Kayıt Ol</h2>
       <form onSubmit={handleRegister}>
         <input
@@ -45,7 +45,7 @@ export default function Register() {
           onChange={e => setPassword(e.target.value)}
           className="form-input"
         />
-        <button type="submit" className="form-button">Kayıt Ol</button>
+        <button type="submit" className="register-button">Kayıt Ol</button>
       </form>
       <p className="form-link">
         Zaten hesabın var mı?{' '}
