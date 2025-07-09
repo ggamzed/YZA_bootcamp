@@ -5,20 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e55514ba-883c-4dd9-a7d0-fd8dc6dac717" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/ai-bootcamp-frontend/src/api/answers.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ai-bootcamp-frontend/src/api/auth.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ai-bootcamp-frontend/src/components/Login.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ai-bootcamp-frontend/src/components/Profile.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ai-bootcamp-frontend/src/components/Register.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ai-bootcamp-frontend/src/components/TestPage.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ai-bootcamp-frontend/src/styles/login.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ai-bootcamp-frontend/src/components/Login.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ai-bootcamp-frontend/src/components/Register.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/antreman.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/antreman.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai-bootcamp-frontend/src/components/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/ai-bootcamp-frontend/src/components/Login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai-bootcamp-frontend/src/components/Register.js" beforeDir="false" afterPath="$PROJECT_DIR$/ai-bootcamp-frontend/src/components/Register.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai-bootcamp-frontend/src/styles/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/ai-bootcamp-frontend/src/styles/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai-bootcamp-frontend/src/styles/login.css" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app/model.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/model.pkl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/routers/answers.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/routers/answers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/frontend.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/test.db" beforeDir="false" afterPath="$PROJECT_DIR$/test.db" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -56,16 +50,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.antreman.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;seyfi&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/python_projeler/YZA_bootcamp/YZA_bootcamp&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.antreman.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "Merging main",
+    "last_opened_file_path": "D:/python_projeler/YZA_bootcamp/YZA_bootcamp",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\python_projeler\YZA_bootcamp\YZA_bootcamp\ai-bootcamp-frontend\src\styles" />
