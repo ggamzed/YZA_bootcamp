@@ -9,17 +9,17 @@ export default function Login({ setToken }) {
   const nav = useNavigate();
 
   const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      const data = await login(email, password);
-      localStorage.setItem('token', data.access_token);
-      setToken(data.access_token);
-      nav('/test');
-    } catch (err) {
-      const msg = err.response?.data?.detail || err.message || 'Bilinmeyen hata';
-      alert('Giriş hatası: ' + msg);
-    }
-  };
+  e.preventDefault();
+  try {
+    const data = await login(email, password);
+    localStorage.setItem('token', data.access_token);
+    setToken(data.access_token);
+    nav('/home');
+  } catch (err) {
+    const msg = err.response?.data?.detail || err.message || 'Bilinmeyen hata';
+    alert('Giriş hatası: ' + msg);
+  }
+};
 
   return (
     <div className="login-container">

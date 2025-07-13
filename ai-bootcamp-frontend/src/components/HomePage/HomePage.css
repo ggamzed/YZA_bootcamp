@@ -1,0 +1,116 @@
+
+.home-container {
+  display: flex;
+  height: 100vh;
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+}
+
+.logout-button {
+  background: none;
+  border: none;
+  color: #e74c3c;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0;
+  font-size: 1rem;
+}
+
+.logout-button:hover {
+  text-decoration: underline;
+}
+.home-sidebar {
+  width: 200px;
+  background: #fff;
+  border-right: 1px solid #eee;
+}
+.home-sidebar ul {
+  list-style: none;
+  padding: 1rem;
+}
+.home-sidebar li {
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+.home-sidebar li:hover {
+  background: #f0f0f0;
+}
+
+
+.home-content {
+  flex: 1;
+  padding: 2rem;
+  background: #f9fafa;
+  overflow-y: auto;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.test-form {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+.test-form h2 {
+  margin-bottom: 1rem;
+}
+.test-form label {
+  display: block;
+  margin: 0.75rem 0 0.25rem;
+  font-weight: 600;
+}
+.test-form select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.test-form button {
+  margin-top: 1.5rem;
+  width: 100%;
+  padding: 0.75rem;
+  background: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.test-form button:disabled {
+  opacity: 0.7;
+}
+
+
+.test-area {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+.test-area h3 {
+  margin-bottom: 1rem;
+}
+.test-area label {
+  display: block;
+  margin: 0.5rem 0;
+}
+.test-area button {
+  margin-top: 1rem;
+  padding: 0.6rem 1.2rem;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.result-msg {
+  margin-top: 0.75rem;
+  font-weight: bold;
+}
+.progress {
+  margin-top: 0.5rem;
+  color: #555;
+}

@@ -1,60 +1,73 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from sqlalchemy.orm import Session
+from datetime import datetime
+
 from backend.app.auth_def import decode_token
+from backend.app.database import get_db
+from backend.app.models import Submission
 from backend.app.ml_model import PracticeModel
-from pydantic import BaseModel
+from backend.app.schemas import AnswerIn, PredictIn
 
 router = APIRouter(prefix="/answers", tags=["answers"])
-bearer_scheme = HTTPBearer()
+bearer = HTTPBearer()
 model = PracticeModel()
 
 
-class SubmitAnswerIn(BaseModel):
-    ders_id: int
-    konu_id: int
-    zorluk: int
-    is_correct: int
-
-class PredictIn(BaseModel):
-    ders_id: int
-    konu_id: int
-    zorluk: int
-
-
 @router.post("/submit")
-def submit_answer(
-    answer: SubmitAnswerIn,
-    credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme),
+def submit(
+    answer: AnswerIn,
+    creds: HTTPAuthorizationCredentials = Depends(bearer),
+    db: Session = Depends(get_db),
 ):
-    # token’dan user_id falan gerekiyorsa:
-    payload = decode_token(credentials.credentials)
+    payload = decode_token(creds.credentials)
+    user_id = int(payload.get("sub"))
+
 
     X = {
         "ders_id": answer.ders_id,
         "konu_id": answer.konu_id,
-        "zorluk": answer.zorluk
+        "zorluk": answer.zorluk,
+        "user_id": user_id,
     }
-    y = answer.is_correct
+    model.update(X, answer.is_correct)
 
-    model.update(X, y)
-    return {"message": "Cevap işlendi, model güncellendi."}
+
+    sub = Submission(
+        user_id=user_id,
+        question_id=answer.soru_id,
+        selected=answer.selected,
+        is_correct=bool(answer.is_correct),
+        answered_at=datetime.utcnow(),
+    )
+    db.add(sub)
+    db.commit()
+
+    return {"message": "OK"}
 
 
 @router.post("/predict")
-def predict_next(
+def predict(
     req: PredictIn,
-    credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme),
+    creds: HTTPAuthorizationCredentials = Depends(bearer),
+    db: Session = Depends(get_db),
 ):
-    payload = decode_token(credentials.credentials)
+    payload = decode_token(creds.credentials)
+    user_id = int(payload.get("sub"))
+
 
     X = {
         "ders_id": req.ders_id,
         "konu_id": req.konu_id,
-        "zorluk": req.zorluk
+        "zorluk": req.zorluk,
+        "user_id": user_id,
     }
-    proba = model.predict(X)
+    p = model.predict(X)
+
+
     return {
         "correct_probability": [
-            [proba.get(0, 0), proba.get(1, 0)]
+            p.get(0, 0) * 100,
+            p.get(1, 0) * 100
         ]
     }

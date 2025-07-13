@@ -13,6 +13,19 @@ class UserOut(BaseModel):
     id: int
     email: str
     username: str
-
     class Config:
         orm_mode = True
+
+class AnswerIn(BaseModel):
+    soru_id: int
+    selected: str
+    ders_id: int
+    konu_id: int
+    zorluk: int
+    is_correct: int
+
+class PredictIn(BaseModel):
+    user_id: int
+    ders_id: int
+    konu_id: int
+    zorluk: int
