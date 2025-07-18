@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { submitAnswer } from '../../api/answers';
 import './HomePage.css';
@@ -6,33 +6,91 @@ import './HomePage.css';
 export default function HomePage({ token, setToken }) {
   const navigate = useNavigate();
 
-  // State’ler
-  const [dersId, setDersId] = useState('');
-  const [etiket, setEtiket] = useState('');
+  // State
+  const [dersId, setDersId]       = useState('');
+  const [etiket, setEtiket]       = useState('');
   const [questions, setQuestions] = useState([]);
-  const [idx, setIdx] = useState(0);
-  const [sel, setSel] = useState('');
-  const [msg, setMsg] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [idx, setIdx]             = useState(0);
+  const [sel, setSel]             = useState('');
+  const [msg, setMsg]             = useState('');
+  const [loading, setLoading]     = useState(false);
 
+  const canvasRef = useRef(null);
+
+  // Dersler listesi (Kimya eklendi)
   const dersler = [
     { id: 1, name: 'Matematik' },
     { id: 2, name: 'Fizik' },
     { id: 3, name: 'Biyoloji' },
     { id: 4, name: 'Tarih' },
     { id: 5, name: 'Türkçe' },
+    { id: 6, name: 'Kimya' },
   ];
   const etiketler = ['TYT', 'AYT', 'YKS', 'DGS', 'KPSS'];
 
-  // Test başlatma
+  // Hangi derslerde çizim gösterilsin
+  const showCanvasSubjects = ['Matematik', 'Fizik', 'Kimya'];
+  const currentSubjectName = questions.length
+    ? (dersler.find(d => d.id === questions[idx].ders_id)?.name || '')
+    : '';
+  const shouldShowCanvas = showCanvasSubjects.includes(currentSubjectName);
+
+  // Çizim logic’i
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let drawing = false;
+
+    const start = e => {
+      drawing = true;
+      ctx.beginPath();
+      const r = canvas.getBoundingClientRect();
+      ctx.moveTo(e.clientX - r.left, e.clientY - r.top);
+    };
+    const stop = () => {
+      drawing = false;
+      ctx.beginPath();
+    };
+    const draw = e => {
+      if (!drawing) return;
+      const r = canvas.getBoundingClientRect();
+      ctx.lineWidth   = 2;
+      ctx.lineCap     = 'round';
+      ctx.strokeStyle = '#000';
+      ctx.lineTo(e.clientX - r.left, e.clientY - r.top);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(e.clientX - r.left, e.clientY - r.top);
+    };
+
+    canvas.addEventListener('mousedown', start);
+    canvas.addEventListener('mouseup',   stop);
+    canvas.addEventListener('mouseout',  stop);
+    canvas.addEventListener('mousemove', draw);
+    return () => {
+      canvas.removeEventListener('mousedown', start);
+      canvas.removeEventListener('mouseup',   stop);
+      canvas.removeEventListener('mouseout',  stop);
+      canvas.removeEventListener('mousemove', draw);
+    };
+  }, [questions.length]);
+
+  // Canvas’ı temizle
+  const clearCanvas = () => {
+    const canvas = canvasRef.current;
+    const ctx    = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  };
+
+  // Test başlat
   const startTest = async () => {
-    if (!dersId || !etiket) {
-      return alert('Lütfen ders ve etiket seçin');
-    }
+    if (!dersId || !etiket) return alert('Lütfen ders ve etiket seçin');
     setLoading(true);
-    const res = await fetch(`/questions/batch?ders_id=${dersId}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const res = await fetch(
+      `/questions/batch?ders_id=${dersId}&etiket=${encodeURIComponent(etiket)}`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
     const data = await res.json();
     setQuestions(data);
     setIdx(0);
@@ -41,20 +99,22 @@ export default function HomePage({ token, setToken }) {
     setLoading(false);
   };
 
-  // Cevap gönderme
+  // Cevap gönder
   const handleSubmit = async () => {
     if (!sel) return alert('Lütfen bir şık seçin');
     const q = questions[idx];
     const correct = sel === q.correct_choice;
     await submitAnswer({
-      soru_id: q.soru_id,
-      selected: sel,
-      ders_id: q.ders_id,
-      konu_id: q.konu_id,
-      zorluk: q.zorluk,
-      is_correct: correct ? 1 : 0,
-      user_id: q.user_id || 1,
+      soru_id:      q.soru_id,
+      selected:     sel,
+      ders_id:      q.ders_id,
+      konu_id:      q.konu_id,
+      altbaslik_id: q.altbaslik_id,
+      zorluk:       q.zorluk,
+      is_correct:   correct ? 1 : 0,
+      user_id:      q.user_id || 1,
     }, token);
+
     setMsg(correct ? '✔️ Doğru' : '❌ Yanlış');
     setTimeout(() => {
       if (idx + 1 < questions.length) {
@@ -70,7 +130,7 @@ export default function HomePage({ token, setToken }) {
     }, 800);
   };
 
-  // Çıkış yapma
+  // Logout
   const handleLogout = () => {
     localStorage.removeItem('token');
     setToken('');
@@ -105,6 +165,7 @@ export default function HomePage({ token, setToken }) {
                 <option key={d.id} value={d.id}>{d.name}</option>
               ))}
             </select>
+
             <label>Etiket</label>
             <select value={etiket} onChange={e => setEtiket(e.target.value)}>
               <option value="" disabled>Seçin</option>
@@ -112,13 +173,28 @@ export default function HomePage({ token, setToken }) {
                 <option key={t} value={t}>{t}</option>
               ))}
             </select>
+
             <button onClick={startTest} disabled={loading}>
               {loading ? 'Yükleniyor...' : 'Teste Başla'}
             </button>
           </div>
         ) : (
           <div className="test-area">
+
+            {/* Resimli soru desteği */}
+            {questions[idx].image_url && (
+              <div className="image-wrapper">
+                <img
+                  src={questions[idx].image_url}
+                  alt="Soru görseli"
+                  className="question-image"
+                />
+              </div>
+            )}
+
             <h3>{questions[idx].soru_metin}</h3>
+
+
             {Object.entries(questions[idx].choices).map(([lbl, txt]) => (
               <label key={lbl}>
                 <input
@@ -131,9 +207,30 @@ export default function HomePage({ token, setToken }) {
                 {lbl}) {txt}
               </label>
             ))}
+
             <button onClick={handleSubmit}>Sonraki</button>
             {msg && <div className="result-msg">{msg}</div>}
             <div className="progress">{idx + 1} / {questions.length}</div>
+
+            {shouldShowCanvas && (
+              <>
+                <div className="notepad">
+                  <canvas
+                    id="sketchpad"
+                    ref={canvasRef}
+                    width={500}
+                    height={250}
+                  />
+                </div>
+                <button
+                  className="clear-button"
+                  onClick={clearCanvas}
+                >
+                  🗑️ Çizimleri Temizle
+                </button>
+              </>
+            )}
+
           </div>
         )}
       </div>

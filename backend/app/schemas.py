@@ -22,10 +22,12 @@ class AnswerIn(BaseModel):
     ders_id: int
     konu_id: int
     zorluk: int
+    altbaslik_id: int  # ekledik
     is_correct: int
 
 class PredictIn(BaseModel):
     user_id: int
     ders_id: int
     konu_id: int
+    altbaslik_id: int
     zorluk: int

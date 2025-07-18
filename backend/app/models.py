@@ -9,15 +9,15 @@ class User(Base):
     username = Column(String)
     role = Column(String)
     hashed_password = Column(String)
-    first_test_done = Column(Boolean, default=False)
-    first_test_counter = Column(Integer, default=0)
 
 class Questions(Base):
     __tablename__ = "questions"
     soru_id = Column(Integer, primary_key=True, index=True)
     ders_id = Column(Integer)
     konu_id = Column(Integer)
-    tags = Column(String)
+    tags = Column(String)  # CSV “etiketler”
+    altbaslik_id = Column(Integer)  # JSON’dan gelecek altbaşlık_id
+    gorsel_url = Column(String, nullable=True)  # JSON’dan gelecek resim URL’si
     zorluk = Column(Integer)
     soru_metin = Column(String, nullable=False)
     choice_a = Column(String, nullable=False)

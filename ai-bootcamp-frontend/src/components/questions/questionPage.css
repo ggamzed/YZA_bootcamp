@@ -1,4 +1,5 @@
-.question-box {
+/* questionPage.css */
+.question-page .question-container {
   width: 100%;
   max-width: 600px;
   margin: 4rem auto;
@@ -8,30 +9,40 @@
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
-.question-box h3 {
+.question-page .question-container h2 {
   margin-bottom: 1rem;
   color: #333;
 }
 
-.question-box label {
+.question-page .image-wrapper {
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.question-page .question-image {
+  max-width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.question-page .options button {
   display: block;
+  width: 100%;
+  text-align: left;
   padding: 0.5rem;
   margin-bottom: 0.5rem;
   border: 1px solid #ccc;
+  background: #f9f9f9;
   border-radius: 4px;
   cursor: pointer;
 }
 
-.question-box label.selected {
+.question-page .options button.selected {
   background-color: #e9f5ff;
   border-color: #007bff;
 }
 
-.question-box input[type="radio"] {
-  margin-right: 0.5rem;
-}
-
-.question-box button {
+.question-page .submit-button {
   display: block;
   margin-top: 1rem;
   padding: 0.75rem 1.5rem;
@@ -42,12 +53,29 @@
   cursor: pointer;
 }
 
-.question-box button:hover {
+.question-page .submit-button:hover {
   background-color: #218838;
 }
 
-.message {
+.question-page .question-message {
   margin-top: 1rem;
   font-style: italic;
   color: #555;
+}
+
+.question-page .notepad {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  min-height: 220px;
+}
+
+.question-page canvas#sketchpad {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  cursor: crosshair;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  z-index: 1;
+  max-width: 100%;
 }

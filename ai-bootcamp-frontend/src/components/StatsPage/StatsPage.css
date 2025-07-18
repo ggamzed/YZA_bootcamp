@@ -1,4 +1,11 @@
-
+    .stats-table th, .stats-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+}
+.stats-table th {
+  background-color: #3498db;
+  color: white;
+}
 .stats-container {
   padding: 2rem;
   background-color: #fefefe;

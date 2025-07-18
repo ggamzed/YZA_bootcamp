@@ -1,11 +1,63 @@
-
 .home-container {
   display: flex;
   height: 100vh;
   font-family: 'Segoe UI', Tahoma, sans-serif;
 }
 
-.logout-button {
+/* sidebar, test-form vb. önceki stilleriniz… */
+
+/* test-area içindeki resimli soru */
+.home-container .test-area .image-wrapper {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+.home-container .test-area .question-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  margin-bottom: 1rem;
+}
+
+/* notepad */
+.home-container .notepad {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  min-height: 180px;
+}
+.home-container canvas#sketchpad {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  z-index: 1;
+  /* Kalemin alt ucundan başlayan hotspot */
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16'><path d='M2 14 L8 2 L14 8 L6 16 Z' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>") 6 15, auto;
+}
+
+/* Çizimleri temizle butonu */
+.home-container .clear-button {
+  display: block;
+  margin: 1rem auto 0;
+  padding: 0.6rem 1.2rem;
+  background: linear-gradient(135deg, #ff8a00, #e52e71);
+  color: white;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.home-container .clear-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+}
+
+/* logout butonu */
+.home-container .logout-button {
   background: none;
   border: none;
   color: #e74c3c;
@@ -14,32 +66,33 @@
   padding: 0;
   font-size: 1rem;
 }
-
-.logout-button:hover {
+.home-container .logout-button:hover {
   text-decoration: underline;
 }
-.home-sidebar {
+
+/* sidebar */
+.home-container .home-sidebar {
   width: 200px;
   background: #fff;
   border-right: 1px solid #eee;
 }
-.home-sidebar ul {
+.home-container .home-sidebar ul {
   list-style: none;
   padding: 1rem;
 }
-.home-sidebar li {
+.home-container .home-sidebar li {
   padding: 0.75rem 1rem;
   margin-bottom: 0.5rem;
   cursor: pointer;
   border-radius: 4px;
   transition: background 0.2s;
 }
-.home-sidebar li:hover {
+.home-container .home-sidebar li:hover {
   background: #f0f0f0;
 }
 
-
-.home-content {
+/* content */
+.home-container .home-content {
   flex: 1;
   padding: 2rem;
   background: #f9fafa;
@@ -48,27 +101,28 @@
   margin: 0 auto;
 }
 
-.test-form {
+/* test-form */
+.home-container .test-form {
   background: #fff;
   padding: 2rem;
   border-radius: 6px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
-.test-form h2 {
+.home-container .test-form h2 {
   margin-bottom: 1rem;
 }
-.test-form label {
+.home-container .test-form label {
   display: block;
   margin: 0.75rem 0 0.25rem;
   font-weight: 600;
 }
-.test-form select {
+.home-container .test-form select {
   width: 100%;
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
-.test-form button {
+.home-container .test-form button {
   margin-top: 1.5rem;
   width: 100%;
   padding: 0.75rem;
@@ -79,25 +133,25 @@
   font-weight: 600;
   cursor: pointer;
 }
-.test-form button:disabled {
+.home-container .test-form button:disabled {
   opacity: 0.7;
 }
 
-
-.test-area {
+/* test-area */
+.home-container .test-area {
   background: #fff;
   padding: 2rem;
   border-radius: 6px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
-.test-area h3 {
+.home-container .test-area h3 {
   margin-bottom: 1rem;
 }
-.test-area label {
+.home-container .test-area label {
   display: block;
   margin: 0.5rem 0;
 }
-.test-area button {
+.home-container .test-area button {
   margin-top: 1rem;
   padding: 0.6rem 1.2rem;
   background: #007bff;
@@ -106,11 +160,13 @@
   border-radius: 4px;
   cursor: pointer;
 }
-.result-msg {
+
+/* diğer */
+.home-container .result-msg {
   margin-top: 0.75rem;
   font-weight: bold;
 }
-.progress {
+.home-container .progress {
   margin-top: 0.5rem;
   color: #555;
 }

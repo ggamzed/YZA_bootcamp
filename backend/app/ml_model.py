@@ -1,7 +1,8 @@
 import os
 import pickle
-from river import linear_model
-from river import preprocessing
+
+from river import compose, linear_model
+from river.preprocessing import StandardScaler, FeatureHasher
 
 class PracticeModel:
     def __init__(self):
@@ -11,11 +12,17 @@ class PracticeModel:
             with open(self.model_path, "rb") as f:
                 self.model = pickle.load(f)
         else:
-
-            self.model = preprocessing.StandardScaler() | linear_model.LogisticRegression()
+            num_pipeline = StandardScaler()
+            cat_pipeline = FeatureHasher(n_features=2**10)
+            self.model = (
+                compose.TransformerUnion(
+                    num_pipeline,
+                    cat_pipeline
+                )
+                | linear_model.LogisticRegression()
+            )
 
     def predict(self, X):
-
         return self.model.predict_proba_one(X)
 
     def update(self, X, y):
