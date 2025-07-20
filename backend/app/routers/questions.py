@@ -69,7 +69,8 @@ def get_batch_questions(
                 "D": q.choice_d,
                 "E": q.choice_e
             },
-            "correct_choice": q.correct_choice
+            "correct_choice": q.correct_choice,
+            "dogru_cevap_aciklamasi": q.dogru_cevap_aciklamasi
         }
         for q in final_batch
     ]

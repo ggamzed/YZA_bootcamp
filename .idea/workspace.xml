@@ -5,19 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e55514ba-883c-4dd9-a7d0-fd8dc6dac717" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/app/ImportQuestions/Bıyoloji-yeni.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/app/ImportQuestions/Soru-konu-prompt.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/app/ImportQuestions/TR-yeni.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/app/ImportQuestions/Tarih-Yeni.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/app/ImportQuestions/fizik-yeni.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/app/ImportQuestions/kimya-yeni.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai-bootcamp-frontend/src/components/HomePage/HomePage.css" beforeDir="false" afterPath="$PROJECT_DIR$/ai-bootcamp-frontend/src/components/HomePage/HomePage.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ai-bootcamp-frontend/src/components/HomePage/HomePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/ai-bootcamp-frontend/src/components/HomePage/HomePage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/database.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai-bootcamp-frontend/src/components/questions/QuestionPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/ai-bootcamp-frontend/src/components/questions/QuestionPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/ImportQuestions/import_questions.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/ImportQuestions/import_questions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/database.db" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app/init_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/init_db.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/ml_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/ml_model.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app/model.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/model.pkl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/routers/questions.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/routers/questions.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app/routers/statistics.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/routers/statistics.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app/schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/schemas.py" afterDir="false" />
     </list>

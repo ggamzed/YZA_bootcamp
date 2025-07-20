@@ -32,11 +32,10 @@
   background-color: #fff;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   z-index: 1;
-  /* Kalemin alt ucundan başlayan hotspot */
+
   cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16'><path d='M2 14 L8 2 L14 8 L6 16 Z' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>") 6 15, auto;
 }
 
-/* Çizimleri temizle butonu */
 .home-container .clear-button {
   display: block;
   margin: 1rem auto 0;

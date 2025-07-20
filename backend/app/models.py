@@ -20,6 +20,7 @@ class Questions(Base):
     gorsel_url = Column(String, nullable=True)
     zorluk = Column(Integer)
     soru_metin = Column(String, nullable=False)
+    dogru_cevap_aciklamasi = Column(String, nullable=True)
     choice_a = Column(String, nullable=False)
     choice_b = Column(String, nullable=False)
     choice_c = Column(String, nullable=False)

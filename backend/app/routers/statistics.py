@@ -18,7 +18,6 @@ def get_user_stats(
     payload = decode_token(creds.credentials)
     user_id = int(payload.get("sub"))
 
-    # Ders, altbaslik, konu ve is_correct sütunlarını bu sırayla çekiyoruz
     results = (
         db.query(
             Questions.ders_id,

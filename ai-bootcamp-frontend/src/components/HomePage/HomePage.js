@@ -6,7 +6,6 @@ import './HomePage.css';
 export default function HomePage({ token, setToken }) {
   const navigate = useNavigate();
 
-  // State
   const [dersId, setDersId]       = useState('');
   const [etiket, setEtiket]       = useState('');
   const [questions, setQuestions] = useState([]);
@@ -14,10 +13,10 @@ export default function HomePage({ token, setToken }) {
   const [sel, setSel]             = useState('');
   const [msg, setMsg]             = useState('');
   const [loading, setLoading]     = useState(false);
+  const [showExplanation, setShowExplanation] = useState(false);
 
   const canvasRef = useRef(null);
 
-  // Dersler listesi (Kimya eklendi)
   const dersler = [
     { id: 1, name: 'Matematik' },
     { id: 2, name: 'Fizik' },
@@ -28,14 +27,12 @@ export default function HomePage({ token, setToken }) {
   ];
   const etiketler = ['TYT', 'AYT', 'YKS', 'DGS', 'KPSS'];
 
-  // Hangi derslerde çizim gösterilsin
   const showCanvasSubjects = ['Matematik', 'Fizik', 'Kimya'];
   const currentSubjectName = questions.length
     ? (dersler.find(d => d.id === questions[idx].ders_id)?.name || '')
     : '';
   const shouldShowCanvas = showCanvasSubjects.includes(currentSubjectName);
 
-  // Çizim logic’i
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -76,14 +73,12 @@ export default function HomePage({ token, setToken }) {
     };
   }, [questions.length]);
 
-  // Canvas’ı temizle
   const clearCanvas = () => {
     const canvas = canvasRef.current;
     const ctx    = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   };
 
-  // Test başlat
   const startTest = async () => {
     if (!dersId || !etiket) return alert('Lütfen ders ve etiket seçin');
     setLoading(true);
@@ -96,12 +91,19 @@ export default function HomePage({ token, setToken }) {
     setIdx(0);
     setSel('');
     setMsg('');
+    setShowExplanation(false);
     setLoading(false);
   };
 
-  // Cevap gönder
-  const handleSubmit = async () => {
+  const handleCheck = () => {
     if (!sel) return alert('Lütfen bir şık seçin');
+    const q = questions[idx];
+    const correct = sel === q.correct_choice;
+    setMsg(correct ? '✔️ Doğru' : '❌ Yanlış');
+    setShowExplanation(true);
+  };
+
+  const handleSubmit = async () => {
     const q = questions[idx];
     const correct = sel === q.correct_choice;
     await submitAnswer({
@@ -115,22 +117,19 @@ export default function HomePage({ token, setToken }) {
       user_id:      q.user_id || 1,
     }, token);
 
-    setMsg(correct ? '✔️ Doğru' : '❌ Yanlış');
-    setTimeout(() => {
-      if (idx + 1 < questions.length) {
-        setIdx(idx + 1);
-        setSel('');
-        setMsg('');
-      } else {
-        alert('Test tamamlandı!');
-        setQuestions([]);
-        setDersId('');
-        setEtiket('');
-      }
-    }, 800);
+    if (idx + 1 < questions.length) {
+      setIdx(idx + 1);
+      setSel('');
+      setMsg('');
+      setShowExplanation(false);
+    } else {
+      alert('Test tamamlandı!');
+      setQuestions([]);
+      setDersId('');
+      setEtiket('');
+    }
   };
 
-  // Logout
   const handleLogout = () => {
     localStorage.removeItem('token');
     setToken('');
@@ -180,8 +179,6 @@ export default function HomePage({ token, setToken }) {
           </div>
         ) : (
           <div className="test-area">
-
-            {/* Resimli soru desteği */}
             {questions[idx].image_url && (
               <div className="image-wrapper">
                 <img
@@ -194,7 +191,6 @@ export default function HomePage({ token, setToken }) {
 
             <h3>{questions[idx].soru_metin}</h3>
 
-
             {Object.entries(questions[idx].choices).map(([lbl, txt]) => (
               <label key={lbl}>
                 <input
@@ -203,13 +199,34 @@ export default function HomePage({ token, setToken }) {
                   value={lbl}
                   checked={sel === lbl}
                   onChange={() => setSel(lbl)}
+                  disabled={showExplanation}
                 />
                 {lbl}) {txt}
               </label>
             ))}
 
-            <button onClick={handleSubmit}>Sonraki</button>
+            <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+              <button
+                onClick={handleCheck}
+                disabled={showExplanation}
+              >
+                Kontrol Et
+              </button>
+              <button
+                onClick={handleSubmit}
+                disabled={!showExplanation}
+              >
+                Sonraki
+              </button>
+            </div>
+
             {msg && <div className="result-msg">{msg}</div>}
+            {showExplanation && questions[idx].dogru_cevap_aciklamasi && (
+              <div className="question-message">
+                Açıklama: {questions[idx].dogru_cevap_aciklamasi}
+              </div>
+            )}
+
             <div className="progress">{idx + 1} / {questions.length}</div>
 
             {shouldShowCanvas && (
@@ -230,7 +247,6 @@ export default function HomePage({ token, setToken }) {
                 </button>
               </>
             )}
-
           </div>
         )}
       </div>
