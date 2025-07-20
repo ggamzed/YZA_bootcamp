@@ -21,10 +21,10 @@ export default function HomePage({ token, setToken }) {
   const dersler = [
     { id: 1, name: 'Matematik' },
     { id: 2, name: 'Fizik' },
-    { id: 3, name: 'Biyoloji' },
-    { id: 4, name: 'Tarih' },
+    { id: 3, name: 'Kimya' },
+    { id: 4, name: 'Biyoloji' },
     { id: 5, name: 'Türkçe' },
-    { id: 6, name: 'Kimya' },
+    { id: 6, name: 'Tarih' },
   ];
   const etiketler = ['TYT', 'AYT', 'YKS', 'DGS', 'KPSS'];
 

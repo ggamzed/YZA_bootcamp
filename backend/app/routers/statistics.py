@@ -31,7 +31,7 @@ def get_user_stats(
         .all()
     )
 
-    # (ders_id, altbaslik_id, konu_id) üçlüsüyle gruplayıp doğru/total say
+
     stats = defaultdict(lambda: {"correct": 0, "total": 0})
     for ders_id, altbaslik_id, konu_id, is_correct in results:
         key = (ders_id, altbaslik_id, konu_id)

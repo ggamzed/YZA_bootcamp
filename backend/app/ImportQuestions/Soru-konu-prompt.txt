@@ -1,0 +1,369 @@
+Matematik (DERS ID: 1)
+Konu: Basit Eşitsizlikler (konu_id: 1)
+
+1: Birinci Dereceden Bir Bilinmeyenli Eşitsizlikler
+
+2: Eşitsizlik Sistemleri
+
+3: Mutlak Değerli Eşitsizlikler
+
+4: İkinci Dereceden Eşitsizlikler ve İşaret Tablosu
+
+Konu: Fonksiyonlar (konu_id: 2)
+
+1: Fonksiyon Kavramı ve Gösterimi
+
+2: Fonksiyon Çeşitleri (Birebir, Örten, Birim, Sabit, Tek/Çift Fonksiyon vb.)
+
+3: Fonksiyonlarda Dört İşlem ve Bileşke Fonksiyon
+
+4: Bir Fonksiyonun Tersi
+
+5: Fonksiyon Grafikleri ve Yorumlama
+
+Konu: Olasılık (konu_id: 3)
+
+1: Sayma Kuralları (Permütasyon, Kombinasyon, Binom)
+
+2: Basit Olayların Olasılığı
+
+3: Koşullu Olasılık
+
+4: Bağımlı ve Bağımsız Olaylar
+
+Fizik (DERS ID: 2) - TYT/AYT
+Konu: Basit Makineler (konu_id: 1)
+
+Alt Başlık 1: Kaldıraçlar ve Makaralar
+
+Alt Başlık 2: Eğik Düzlem ve Çıkrık
+
+Alt Başlık 3: Dişli Çarklar, Kasnaklar ve Vidalar
+
+Alt Başlık 4: Bileşik Makineler ve Verim
+
+Konu: İş, Güç ve Enerji (konu_id: 2)
+
+Alt Başlık 1: İş-Enerji Teoremi ve Kinetik Enerji
+
+Alt Başlık 2: Yer Çekimi Potansiyel Enerjisi ve Esneklik Potansiyel Enerjisi
+
+Alt Başlık 3: Mekanik Enerjinin Korunumu
+
+Alt Başlık 4: Güç ve Verim
+
+Konu: Atom Modelleri (konu_id: 3)
+
+Alt Başlık 1: Dalton, Thomson ve Rutherford Atom Modelleri
+
+Alt Başlık 2: Bohr Atom Modeli ve Enerji Seviyeleri
+
+Alt Başlık 3: Modern Atom Teorisi (Kuantum Sayıları ve Orbitaller - temel düzeyde)
+
+Alt Başlık 4: Atomun Uyarılması, Işıma (Foton Salınımı) ve Spektrumlar
+
+Kimya (DERS ID: 3) - TYT/AYT
+Konu: Kimyasal Türler Arası Etkileşimler (Konu ID: 1)
+
+Alt Başlık 1: Kimyasal Türlerin Sınıflandırılması (Atom, İyon, Molekül)
+
+Alt Başlık 2: Güçlü Etkileşimler (İyonik, Kovalent ve Metalik Bağlar)
+
+Alt Başlık 3: Zayıf Etkileşimler (Van der Waals Kuvvetleri ve Hidrojen Bağları)
+
+Alt Başlık 4: Etkileşimlerin Maddelerin Fiziksel Hallerine Etkisi
+
+Konu: Karışımlar (Konu ID: 2)
+
+Alt Başlık 1: Homojen ve Heterojen Karışımlar
+
+Alt Başlık 2: Derişim Birimleri (Kütlece %, Hacimce %, Molarite)
+
+Alt Başlık 3: Çözünürlük ve Çözünürlüğe Etki Eden Faktörler
+
+Alt Başlık 4: Karışımların Ayrılması Teknikleri
+
+Konu: Gazlar (Konu ID: 3)
+
+Alt Başlık 1: Gazları Tanımlayan Özellikler ve Gaz Yasaları
+
+Alt Başlık 2: İdeal Gaz Denklemi ve Hesaplamaları
+
+Alt Başlık 3: Gaz Karışımları (Kısmi Basınç ve Dalton Yasası)
+
+Alt Başlık 4: Gerçek Gazlar ve İdeallikten Sapma
+
+Biyoloji (DERS ID: 4) - TYT/AYT
+Konu: Sinir Sistemi (konu_id: 1)
+
+Alt Başlık 1: Nöronun Yapısı ve İmpuls İletimi
+
+Alt Başlık 2: Sinapslarda İletim ve Sinir Sistemi Bölümleri
+
+Alt Başlık 3: Merkezi Sinir Sistemi (Beyin ve Omurilik)
+
+Alt Başlık 4: Çevresel Sinir Sistemi ve Sinir Sistemi Hastalıkları
+
+Konu: Sindirim Sistemi (konu_id: 2)
+
+Alt Başlık 1: Sindirim Organları ve Yapıları
+
+Alt Başlık 2: Besinlerin Kimyasal ve Mekanik Sindirimi
+
+Alt Başlık 3: Sindirimde Görevli Enzimler ve Hormonlar
+
+Alt Başlık 4: Besinlerin Emilimi ve Sindirim Sistemi Hastalıkları
+
+Konu: Solunum Sistemi (konu_id: 3)
+
+Alt Başlık 1: Solunum Organları ve Yapıları
+
+Alt Başlık 2: Soluk Alıp Verme Mekanizması
+
+Alt Başlık 3: Gazların Taşınması (O 
+2
+​
+  ve CO 
+2
+​
+ )
+
+Alt Başlık 4: Solunumun Kontrolü ve Solunum Sistemi Hastalıkları
+
+Türkçe (DERS ID: 5)
+Konu: Sözcükte Anlam (Konu ID: 1)
+
+Alt Başlık 1: Gerçek, Mecaz, Terim Anlam
+
+Alt Başlık 2: Eş Anlam, Zıt Anlam, Eş Sesli
+
+Alt Başlık 3: Deyimler ve Atasözleri
+
+Alt Başlık 4: Sözcük Grupları ve Yorumu
+
+Konu: Cümlede Anlam (Konu ID: 2)
+
+Alt Başlık 1: Cümlenin Konusu ve Ana Fikri
+
+Alt Başlık 2: Neden-Sonuç, Amaç-Sonuç, Koşul-Sonuç
+
+Alt Başlık 3: Anlatım Biçimleri ve Cümle Türleri (Öznel-Nesnel, Doğrudan-Dolaylı)
+
+Alt Başlık 4: Cümle Yorumlama ve Anlam İlişkileri (Yakın Anlam, Çelişen Cümleler)
+
+Konu: Ses Bilgisi (Konu ID: 3)
+
+Alt Başlık 1: Ünlüler ve Ünlü Uyumları
+
+Alt Başlık 2: Ünsüz Benzeşmesi (Sertleşme) ve Ünsüz Yumuşaması
+
+Alt Başlık 3: Ses Düşmesi ve Ses Türemesi
+
+Alt Başlık 4: Ulama, Kaynaştırma ve Diğer Ses Olayları
+
+Tarih (DERS ID: 6)
+Konu: İlk Türk Devletleri (Konu ID: 1)
+
+Alt Başlık 1: Asya ve Avrupa Hun Devletleri
+
+Alt Başlık 2: Göktürkler ve Uygurlar
+
+Alt Başlık 3: Diğer Türk Devletleri ve Toplulukları (Avarlar, Hazarlar, Peçenekler vb.)
+
+Alt Başlık 4: Kültür ve Medeniyet (Devlet Yönetimi, Ordu, Sosyal Hayat, Din ve İnanış)
+
+Konu: Türk-İslam Devletleri (Konu ID: 2)
+
+Alt Başlık 1: İlk Müslüman Türk Devletleri (Karahanlılar, Gazneliler)
+
+Alt Başlık 2: Büyük Selçuklu Devleti ve Anadolu Selçuklu Devleti (Siyasi Olaylar)
+
+Alt Başlık 3: Anadolu Beylikleri (Birinci ve İkinci Dönem)
+
+Alt Başlık 4: Kültür ve Medeniyet (Devlet Yönetimi, Bilim, Sanat, Mimari)
+
+Konu: Kurtuluş Savaşı’nda Cepheler (Konu ID: 3)
+
+Alt Başlık 1: Doğu Cephesi ve Antlaşmaları (Gümrü, Moskova, Kars)
+
+Alt Başlık 2: Güney Cephesi ve Ankara Antlaşması
+
+Alt Başlık 3: Batı Cephesi (Savaşlar, Düzenli Ordunun Kurulması)
+
+Alt Başlık 4: Savaşın Sona Ermesi ve Diplomatik Süreç (Mudanya, Lozan)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Lise ve sınavlara hazırlık (TYT, AYT) düzeyinde Fizik dersi için aşağıdaki detaylara uygun şekilde 600 adet gerçek, özgün ve çoktan seçmeli soru üret: BU 600 SORUYU 10 KISIMDA ÜRET VE HER KISIM ÜRETİMİ SONRASI DEVAM KOMUTUMLA DEVAM ET.
+
+🔹 Konu, Alt Başlık ve Zorluk Yapısı:
+
+Toplam 600 soru üretilecek ve aşağıdaki 3 ana konuya eşit dağtılacak (her konudan 60 soru):
+
+Basit Makineler
+
+İş, Güç ve Enerji
+
+Atom Modelleri
+
+Her ana konudan:
+
+Zorluk seviyeleri: 1, 2, 3, 4, 5
+
+Her seviyeden dengeli dağıt.
+
+Zorluklar, 1’den 5’e doğru giderken net şekilde artmalı.
+
+Sorular, aşağıda belirtilen alt başlıkları kapsayacak şekilde çeşitlilik göstermelidir.
+
+🔹 ID Tanımlamaları:
+
+Ders ID: 2 (Fizik)
+
+Konu ID'leri:
+
+1: Basit Makineler
+
+2: İş, Güç ve Enerji
+
+3: Atom Modelleri
+
+Alt Başlık ID'leri:
+
+Basit Makineler için (konu_id: 1):
+
+1: Kaldıraçlar ve Makaralar
+
+2: Eğik Düzlem ve Çıkrık
+
+3: Dişli Çarklar, Kasnaklar ve Vidalar
+
+4: Bileşik Makineler ve Verim
+
+İş, Güç ve Enerji için (konu_id: 2):
+
+1: İş-Enerji Teoremi ve Kinetik Enerji
+
+2: Yer Çekimi Potansiyel Enerjisi ve Esneklik Potansiyel Enerjisi
+
+3: Mekanik Enerjinin Korunumu
+
+4: Güç ve Verim
+
+Atom Modelleri için (konu_id: 3):
+
+1: Dalton, Thomson ve Rutherford Atom Modelleri
+
+2: Bohr Atom Modeli ve Enerji Seviyeleri
+
+3: Modern Atom Teorisi (Kuantum Sayıları ve Orbitaller - temel düzeyde)
+
+4: Atomun Uyarılması, Işıma (Foton Salınımı) ve Spektrumlar
+
+🧩 Her soru şu yapıda olmalı (JSON formatında):
+
+JSON
+
+{
+  "ders_id": 2,
+  "konu_id": <1, 2, veya 3>,
+  "altbaslik_id": <1, 2, 3, veya 4>,
+  "zorluk": <1'den 5'e kadar bir sayı>,
+  "etiketler": ["tyt"],
+  "soru_metni": "Fizik müfredatına uygun, gerçek ve özgün bir soru metni burada yer almalı. Matematiksel ifadeler F_net = m.a, E_p = m.g.h gibi doğru formatta yazılmalıdır.",
+  "secenekler": {
+    "A": "Bir seçenek",
+    "B": "Başka bir seçenek",
+    "C": "Başka bir seçenek",
+    "D": "Doğru cevap olan seçenek",
+    "E": "Eklenmiş bir çeldirici seçenek"
+  },
+  "dogru_cevap": "D",
+  "dogru_cevap_aciklamasi": "Doğru cevabın neden bu şık olduğunu, kullanılan formülü veya fiziksel ilkeyi anlatan kısa ve net bir açıklama burada yer almalı."
+}
+⚠️ Kurallar:
+
+Sorular, lise müfredatının yanı sıra TYT ve AYT sınavlarının formatına ve zorluk seviyesine uygun olmalıdır.
+
+Soru metni, açıklayıcı, net ve seviyeye uygun hazırlanmalı.
+
+Tüm sorularda 5 seçenek (A, B, C, D, E) olmalıdır.
+
+Şıklar birbirine yakın ve çeldiriciliği yüksek olmalı, ancak yalnızca biri doğru olmalıdır.
+
+"dogru_cevap_aciklamasi" alanı, çözüm yolunu veya doğru cevabın arkasındaki fiziksel ilkeyi kısa ve anlaşılır bir dille açıklamalıdır.
+
+"etiketler" alanı, sorunun uygun olduğu sınavı belirtmelidir. Bazı sorular sadece ["tyt"], bazıları ["ayt"], bazıları da ["tyt", "ayt"] olabilir. Özellikle "Atom Modelleri" konusu ve zor sorular "ayt" etiketine daha yatkın olmalıdır.
+
+Her soru geçerli bir JSON nesnesi olmalı.
+
+🔁 Çıktı:
+
+İlk aşamada 60 adet soru (JSON dizisi içinde), devam komutuyla sonraki 60'şer adetlik kısımlar verilmeli.
+
+Konular, alt başlıklar ve zorluk seviyeleri arasında belirtilen şekilde dengeli dağılım olmalı.
+
+Sorular öğretici, net, anlaşılır ve ayırt edici olmalı.

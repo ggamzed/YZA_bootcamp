@@ -15,9 +15,9 @@ class Questions(Base):
     soru_id = Column(Integer, primary_key=True, index=True)
     ders_id = Column(Integer)
     konu_id = Column(Integer)
-    tags = Column(String)  # CSV “etiketler”
-    altbaslik_id = Column(Integer)  # JSON’dan gelecek altbaşlık_id
-    gorsel_url = Column(String, nullable=True)  # JSON’dan gelecek resim URL’si
+    tags = Column(String)
+    altbaslik_id = Column(Integer)
+    gorsel_url = Column(String, nullable=True)
     zorluk = Column(Integer)
     soru_metin = Column(String, nullable=False)
     choice_a = Column(String, nullable=False)

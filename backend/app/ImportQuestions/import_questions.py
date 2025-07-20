@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from backend.app.database import SessionLocal
 from backend.app.models import Questions
 
-JSON_PATH = "400MATSORUSU.json"
+JSON_PATH = "kimya-yeni.json"
 
 with open(JSON_PATH, "r", encoding="utf-8") as f:
     questions = json.load(f)
