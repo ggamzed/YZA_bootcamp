@@ -1,60 +1,35 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from sqlalchemy.orm import Session
+from datetime import datetime
 from backend.app.auth_def import decode_token
+from backend.app.database import get_db
+from backend.app.models import Submission
 from backend.app.ml_model import PracticeModel
-from pydantic import BaseModel
+from backend.app.schemas import AnswerIn
 
 router = APIRouter(prefix="/answers", tags=["answers"])
-bearer_scheme = HTTPBearer()
+bearer = HTTPBearer()
 model = PracticeModel()
 
-
-class SubmitAnswerIn(BaseModel):
-    ders_id: int
-    konu_id: int
-    zorluk: int
-    is_correct: int
-
-class PredictIn(BaseModel):
-    ders_id: int
-    konu_id: int
-    zorluk: int
-
-
 @router.post("/submit")
-def submit_answer(
-    answer: SubmitAnswerIn,
-    credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme),
-):
-    # token’dan user_id falan gerekiyorsa:
-    payload = decode_token(credentials.credentials)
-
+def submit(answer: AnswerIn, creds: HTTPAuthorizationCredentials = Depends(bearer), db: Session = Depends(get_db)):
+    user_id = int(decode_token(creds.credentials).get("sub"))
     X = {
         "ders_id": answer.ders_id,
         "konu_id": answer.konu_id,
-        "zorluk": answer.zorluk
+        "altbaslik_id": answer.altbaslik_id,
+        "zorluk": answer.zorluk,
+        "user_id": user_id
     }
-    y = answer.is_correct
-
-    model.update(X, y)
-    return {"message": "Cevap işlendi, model güncellendi."}
-
-
-@router.post("/predict")
-def predict_next(
-    req: PredictIn,
-    credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme),
-):
-    payload = decode_token(credentials.credentials)
-
-    X = {
-        "ders_id": req.ders_id,
-        "konu_id": req.konu_id,
-        "zorluk": req.zorluk
-    }
-    proba = model.predict(X)
-    return {
-        "correct_probability": [
-            [proba.get(0, 0), proba.get(1, 0)]
-        ]
-    }
+    model.update(X, answer.is_correct)
+    sub = Submission(
+        user_id=user_id,
+        question_id=answer.soru_id,
+        selected=answer.selected,
+        is_correct=bool(answer.is_correct),
+        answered_at=datetime.utcnow()
+    )
+    db.add(sub)
+    db.commit()
+    return {"message": "OK"}

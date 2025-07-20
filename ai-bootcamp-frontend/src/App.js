@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 import Login from './components/Login';
 import Register from './components/Register';
+import HomePage from './components/HomePage/HomePage';
 import TestPage from './components/TestPage';
+import QuestionPage from './components/questions/QuestionPage';
+import Statistics from './components/StatsPage/StatsPage';
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
@@ -13,7 +16,24 @@ function App() {
       <Routes>
         <Route path="/" element={<Login setToken={setToken} />} />
         <Route path="/register" element={<Register />} />
+
+        <Route
+          path="/home"
+          element={<HomePage token={token} setToken={setToken} />}
+        />
+
         <Route path="/test" element={<TestPage token={token} />} />
+        <Route
+          path="/question"
+          element={<QuestionPage token={token} />}
+        />
+
+        <Route
+          path="/statistics"
+          element={<Statistics token={token} />}
+        />
+
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );

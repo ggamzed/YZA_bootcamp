@@ -8,12 +8,26 @@
       <change afterPath="$PROJECT_DIR$/ai-bootcamp-frontend/src/components/Login.css" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/ai-bootcamp-frontend/src/components/Register.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/ai-bootcamp-frontend/src/components/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/ai-bootcamp-frontend/src/components/Login.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ai-bootcamp-frontend/src/components/Register.js" beforeDir="false" afterPath="$PROJECT_DIR$/ai-bootcamp-frontend/src/components/Register.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ai-bootcamp-frontend/src/styles/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/ai-bootcamp-frontend/src/styles/index.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ai-bootcamp-frontend/src/styles/login.css" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app/model.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/model.pkl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test.db" beforeDir="false" afterPath="$PROJECT_DIR$/test.db" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/ai-bootcamp-frontend/src/components/HomePage/HomePage.css" beforeDir="false" afterPath="$PROJECT_DIR$/ai-bootcamp-frontend/src/components/HomePage/HomePage.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai-bootcamp-frontend/src/components/HomePage/HomePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/ai-bootcamp-frontend/src/components/HomePage/HomePage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai-bootcamp-frontend/src/components/questions/QuestionPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/ai-bootcamp-frontend/src/components/questions/QuestionPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/ImportQuestions/import_questions.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/ImportQuestions/import_questions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/database.db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/init_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/init_db.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/model.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/model.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/routers/questions.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/routers/questions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/routers/statistics.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/routers/statistics.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/schemas.py" afterDir="false" />
+>>>>>>> seyfi
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,6 +64,7 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+<<<<<<< HEAD
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Python.antreman.executor": "Run",
@@ -58,15 +73,34 @@
     "git-widget-placeholder": "Merging main",
     "last_opened_file_path": "D:/python_projeler/YZA_bootcamp/YZA_bootcamp",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+=======
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.antreman.executor&quot;: &quot;Run&quot;,
+    &quot;Python.database.executor&quot;: &quot;Run&quot;,
+    &quot;Python.import_questions.executor&quot;: &quot;Run&quot;,
+    &quot;Python.init_db.executor&quot;: &quot;Run&quot;,
+    &quot;Python.ml_model.executor&quot;: &quot;Run&quot;,
+    &quot;Python.questions.executor&quot;: &quot;Run&quot;,
+    &quot;Python.testt.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;seyfi&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/python_projeler/YZA_bootcamp/YZA_bootcamp/backend/app/Import Questions&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+>>>>>>> seyfi
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\python_projeler\YZA_bootcamp\YZA_bootcamp\backend\app\Import Questions" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\python_projeler\YZA_bootcamp\YZA_bootcamp\ai-bootcamp-frontend\src\styles" />
-      <recent name="D:\python_projeler\YZA_bootcamp\YZA_bootcamp\ai-bootcamp-frontend\src" />
-      <recent name="D:\python_projeler\YZA_bootcamp\YZA_bootcamp\ai-bootcamp-frontend" />
-      <recent name="D:\python_projeler\YZA_bootcamp\YZA_bootcamp\backend\app\routers" />
+      <recent name="D:\python_projeler\YZA_bootcamp\YZA_bootcamp\backend\app\ImportQuestions" />
+      <recent name="D:\python_projeler\YZA_bootcamp\YZA_bootcamp\backend\app\ml_models" />
       <recent name="D:\python_projeler\YZA_bootcamp\YZA_bootcamp\backend\app" />
+      <recent name="D:\python_projeler\YZA_bootcamp\YZA_bootcamp\ai-bootcamp-frontend\src\components\questions" />
+      <recent name="D:\python_projeler\YZA_bootcamp\YZA_bootcamp\ai-bootcamp-frontend\src\components" />
     </key>
   </component>
   <component name="SharedIndexes">
