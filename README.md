@@ -132,7 +132,8 @@ Tamamlanan puan: 160
 ## Ürün Durumu  
 - Giriş ekranı ve kayıt ekranı çalışır durumda.  
 - Buton ve hover animasyonları CSS ile eklendi.  
-- “Bilgiyle Kanatlan!” sloganı ana ekrana entegre edildi.  
+- “Bilgiyle Kanatlan!” sloganı ana ekrana entegre edildi.
+- Sorular eklendi.
 
 ---
 
@@ -145,7 +146,11 @@ Tamamlanan puan: 160
 Sprint 2 sonunda ekibimiz toplanmış ve Sprint gözden geçirilmiştir. Alınan kararlar:  
 - Açılış ekranına logo animasyonu eklenmesi.  
 - Kayıt ekranına doğrulama formu (e-mail kontrolü) eklenmesi.  
-- Kullanıcı deneyimini artırmak için arka plan geçiş efektleri eklenmesi.  
+- Kullanıcı deneyimini artırmak için arka plan geçiş efektleri eklenmesi.
+- İstatiksel analizlrle kullanıcıya fayda sağlamak.
+- Hesap makinesi eklenmesi yerine, zamanlayıcı konulmasına karar verildi.
+- Matenmatik, Fizik, Biyoloji ve Tarih dersleri seçildi.
+- Her dersten yeterli soruda soru eklenerek doğru istatistikler yapılmasına karar verildi.
 
 **Sprint Review katılımcıları:** Ayşenur Akbaba, Gamze Demirci, Ayşe Mermer, Muhammed Seyfi Büyük
 
