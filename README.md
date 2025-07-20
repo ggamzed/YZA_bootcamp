@@ -113,7 +113,12 @@ Tamamlanan puan: 160
 ---
 
 ## Daily Scrum Toplantı ScreenShotları  
-*(Buraya toplantı ekran görüntülerini ekleyebilirsin.)*  
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/3c6c459c-3adb-4e15-b552-568ad257f608" alt="Görsel 1" width="30%">
+  <img src="https://github.com/user-attachments/assets/074cc8db-436f-45d4-ae4a-4ba1926f4bb4" alt="Görsel 2" width="30%">
+  <img src="https://github.com/user-attachments/assets/514175d3-688b-4d4a-ae1e-1a7c2e802710" alt="Görsel 3" width="30%">
+</p>
 
 ---
 
@@ -125,7 +130,8 @@ Tamamlanan puan: 160
 ---
 
 ## Sprint Board Screenshots  
-*(Buraya board görüntüleri eklenecek.)*
+<img width="1919" height="912" alt="Ekran görüntüsü 2025-07-20 205014" src="https://github.com/user-attachments/assets/f8f802a5-4421-47b8-85c3-c2811762bfec" />
+
 
 ---
 
@@ -138,7 +144,10 @@ Tamamlanan puan: 160
 ---
 
 ## Uygulama Screenshots  
-*(Buraya giriş sayfası ekran görüntüsü koy.)*  
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/7d481ebe-2a63-43e6-861d-10a506ebb9df" alt="Ortalanmış Görsel" width="40%">
+</p>
 
 ---
 
