@@ -147,7 +147,7 @@ Sprint 2 sonunda ekibimiz toplanmış ve Sprint gözden geçirilmiştir. Alınan
 - Kayıt ekranına doğrulama formu (e-mail kontrolü) eklenmesi.  
 - Kullanıcı deneyimini artırmak için arka plan geçiş efektleri eklenmesi.  
 
-**Sprint Review katılımcıları:** Ayşenur Akbaba, [ekip arkadaşları buraya yazılabilir].  
+**Sprint Review katılımcıları:** Ayşenur Akbaba, Gamze Demirci, Ayşe Mermer, Muhammed Seyfi Büyük
 
 ---
 
