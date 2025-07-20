@@ -149,7 +149,7 @@ Sprint 2 sonunda ekibimiz toplanmış ve Sprint gözden geçirilmiştir. Alınan
 - Kullanıcı deneyimini artırmak için arka plan geçiş efektleri eklenmesi.
 - İstatiksel analizlrle kullanıcıya fayda sağlamak.
 - Hesap makinesi eklenmesi yerine, zamanlayıcı konulmasına karar verildi.
-- Matenmatik, Fizik, Biyoloji ve Tarih dersleri seçildi.
+- Matematik, Fizik, Biyoloji ve Tarih dersleri seçildi.
 - Her dersten yeterli soruda soru eklenerek doğru istatistikler yapılmasına karar verildi.
 
 **Sprint Review katılımcıları:** Ayşenur Akbaba, Gamze Demirci, Ayşe Mermer, Muhammed Seyfi Büyük
@@ -157,10 +157,10 @@ Sprint 2 sonunda ekibimiz toplanmış ve Sprint gözden geçirilmiştir. Alınan
 ---
 
 ## Sprint Retrospective  
-- Ekip üyelerinin iletişim planını daha aktif hale getirmesi gerektiği vurgulandı.  
-- Logo animasyonu ve tasarım detaylarının sonraki sprintte iyileştirilmesine karar verildi.  
-- Responsive tasarımda bazı eksikliklerin bir sonraki sprintte giderilmesi kararlaştırıldı.  
-- Kullanıcı testleri için prototip hazırlığı yapılacak.  
+- Logo animasyonu ve arka plan efektlerinin geliştirilmesi sonraki sprintte daha detaylı ele alınacak.  
+- İstatistiklerin doğru ve anlamlı çalışması için ders başına eklenen soru sayısının dengelenmesi gerektiği tespit edildi.  
+- Kullanıcı deneyimi için UI/UX tasarımının test edilmesine karar verildi.  
+- Ekip iletişiminde WhatsApp ve Slack kullanımı verimli bulundu, devam edilecek. 
 
 ---
 
