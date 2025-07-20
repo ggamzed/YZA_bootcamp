@@ -94,5 +94,75 @@ Tamamlanan puan: 160
 
 *Sorular henüz havuza eklenmediğinden dolayı örnek senaryolar üzerinde model eğitimi yaparak test ediyoruz.*
 
+# Sprint 2  
+
+- **Sprint notları:** Ekibimiz, HazerFen uygulamasının tasarımını ve kullanıcı deneyimini geliştirmeye odaklanmıştır. Giriş ve kayıt ekranları oluşturulmuş, logo tasarımı tamamlanmış ve slogan belirlenmiştir. Açılış sayfasında kullanıcıyı karşılayan animasyon fikirleri geliştirilmiş, CSS düzenlemeleri yapılmıştır.  
+
+- **Sprint içinde tamamlanması tahmin edilen puan:** 160 Puan  
+
+- **Puan tamamlama mantığı:** Bu sprintte giriş sayfasının ve kayıt sayfasının tasarımı, temel HTML ve CSS entegrasyonu ve responsive (mobil uyumlu) yapı tamamlanmıştır.  
+  **Tamamlanması Gereken Puan:** 160  
+  **Tamamlanan Puan:** 160  
+
+---
+
+## Sprint Planı  
+- **Daily Scrum:** Günlük kısa toplantılar WhatsApp üzerinden yapılmış, haftada iki kez proje ilerlemesi ve tasarım kararları tartışılmıştır.  
+- Logo ve slogan netleştirilmiş, giriş/kayıt ekranı tasarımları finalize edilmiştir.  
+
+---
+
+## Daily Scrum Toplantı ScreenShotları  
+*(Buraya toplantı ekran görüntülerini ekleyebilirsin.)*  
+
+---
+
+## Sprint board update  
+- Giriş ve kayıt sayfalarının temel versiyonu tamamlandı.  
+- Kanat animasyonu tasarım fikirleri hazırlandı.  
+- UI renk paleti ve yazı tipi seçimi yapıldı.  
+
+---
+
+## Sprint Board Screenshots  
+*(Buraya board görüntüleri eklenecek.)*
+
+---
+
+## Ürün Durumu  
+- Giriş ekranı ve kayıt ekranı çalışır durumda.  
+- Buton ve hover animasyonları CSS ile eklendi.  
+- “Bilgiyle Kanatlan!” sloganı ana ekrana entegre edildi.  
+
+---
+
+## Uygulama Screenshots  
+*(Buraya giriş sayfası ekran görüntüsü koy.)*  
+
+---
+
+## Sprint Review  
+Sprint 2 sonunda ekibimiz toplanmış ve Sprint gözden geçirilmiştir. Alınan kararlar:  
+- Açılış ekranına logo animasyonu eklenmesi.  
+- Kayıt ekranına doğrulama formu (e-mail kontrolü) eklenmesi.  
+- Kullanıcı deneyimini artırmak için arka plan geçiş efektleri eklenmesi.  
+
+**Sprint Review katılımcıları:** Ayşenur Akbaba, [ekip arkadaşları buraya yazılabilir].  
+
+---
+
+## Sprint Retrospective  
+- Ekip üyelerinin iletişim planını daha aktif hale getirmesi gerektiği vurgulandı.  
+- Logo animasyonu ve tasarım detaylarının sonraki sprintte iyileştirilmesine karar verildi.  
+- Responsive tasarımda bazı eksikliklerin bir sonraki sprintte giderilmesi kararlaştırıldı.  
+- Kullanıcı testleri için prototip hazırlığı yapılacak.  
+
+---
+
+**Diğer Notlar:**  
+Tamamlanması Gereken Puan: 160  
+Tamamlanan Puan: 160  
+
+
 
 
