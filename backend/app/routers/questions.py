@@ -28,7 +28,7 @@ def get_batch_questions(
     if etiket:
         query = query.filter(Questions.tags.ilike(f"%{etiket}%"))
     qs = query.all()
-    if len(qs) < 30:
+    if len(qs) < 5:
         raise HTTPException(status_code=400, detail="Yeterli soru yok")
 
     scored = []
@@ -44,8 +44,8 @@ def get_batch_questions(
         scored.append((q, p))
 
     scored.sort(key=lambda tup: tup[1])
-    targeted_count = int(30 * targeted_percent)
-    general_count = 30 - targeted_count
+    targeted_count = int(5 * targeted_percent)
+    general_count = 5 - targeted_count
     targeted = [q for q, _ in scored[:targeted_count]]
     remaining = [q for q, _ in scored[targeted_count:]]
     shuffle(remaining)
