@@ -3,6 +3,118 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { submitAnswer } from '../../api/answers';
 import './questionPage.css';
 
+// Soru metnini parse eden bileşen
+const QuestionText = ({ text }) => {
+  // Soru işaretine göre böl
+  const parts = text.split('?');
+  
+  if (parts.length >= 2) {
+    const mainQuestion = parts[0].trim() + '?';
+    const additionalInfo = parts.slice(1).join('?').trim();
+    
+    return (
+      <>
+        {/* Ana Soru */}
+        <div style={{
+          marginBottom: additionalInfo ? '1rem' : '0'
+        }}>
+          <p style={{
+            fontSize: '1.2rem',
+            lineHeight: '1.7',
+            color: '#2c3e50',
+            margin: 0,
+            fontWeight: '600'
+          }}>
+            {mainQuestion}
+          </p>
+        </div>
+        
+        {/* Ek Bilgiler */}
+        {additionalInfo && (
+          <div style={{
+            padding: '1rem',
+            background: '#f8f9fa',
+            borderRadius: '8px',
+            border: '1px solid #e9ecef',
+            marginTop: '1rem'
+          }}>
+            <p style={{
+              fontSize: '1rem',
+              lineHeight: '1.6',
+              color: '#6c757d',
+              margin: 0,
+              fontStyle: 'italic'
+            }}>
+              {additionalInfo}
+            </p>
+          </div>
+        )}
+      </>
+    );
+  }
+  
+  // Soru işareti yoksa, cümle yapısına göre ayır
+  const sentences = text.split(/[.!]+/).filter(s => s.trim());
+  
+  if (sentences.length >= 2) {
+    const mainQuestion = sentences[0].trim();
+    const additionalInfo = sentences.slice(1).join('. ').trim();
+    
+    return (
+      <>
+        {/* Ana Soru */}
+        <div style={{
+          marginBottom: additionalInfo ? '1rem' : '0'
+        }}>
+          <p style={{
+            fontSize: '1.2rem',
+            lineHeight: '1.7',
+            color: '#2c3e50',
+            margin: 0,
+            fontWeight: '600'
+          }}>
+            {mainQuestion}
+          </p>
+        </div>
+        
+        {/* Ek Bilgiler */}
+        {additionalInfo && (
+          <div style={{
+            padding: '1rem',
+            background: '#f8f9fa',
+            borderRadius: '8px',
+            border: '1px solid #e9ecef',
+            marginTop: '1rem'
+          }}>
+            <p style={{
+              fontSize: '1rem',
+              lineHeight: '1.6',
+              color: '#6c757d',
+              margin: 0,
+              fontStyle: 'italic'
+            }}>
+              {additionalInfo}
+            </p>
+          </div>
+        )}
+      </>
+    );
+  }
+  
+  // Tek cümle varsa
+  return (
+    <p style={{
+      fontSize: '1.2rem',
+      lineHeight: '1.7',
+      color: '#2c3e50',
+      margin: 0,
+      fontWeight: '600'
+    }}>
+      {text}
+    </p>
+  );
+};
+
 export default function QuestionPage({ token }) {
   const [questions, setQuestions] = useState([]);
   const [current, setCurrent] = useState(0);
@@ -147,9 +259,65 @@ export default function QuestionPage({ token }) {
   return (
     <div className="question-page">
       {showReport && <div style={{position:'fixed',top:0,left:0,zIndex:9999,background:'red',color:'white',padding:'2rem'}}>RAPOR MODAL BURADA</div>}
+      
+      {/* İlerleme Çubuğu */}
+      <div style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        height: '4px',
+        background: '#e9ecef',
+        zIndex: 1000
+      }}>
+        <div style={{
+          height: '100%',
+          background: 'linear-gradient(90deg, #667eea, #764ba2)',
+          width: `${((current + 1) / questions.length) * 100}%`,
+          transition: 'width 0.3s ease'
+        }}></div>
+      </div>
+      
       <div className="question-container">
-        <h2>Soru {current + 1}</h2>
-        <p>{question.soru_metni}</p>
+        {/* Soru Başlığı ve İlerleme */}
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: '2rem',
+          padding: '1rem',
+          background: '#f8f9fa',
+          borderRadius: '12px',
+          border: '1px solid #e9ecef'
+        }}>
+          <h2 style={{ margin: 0, fontSize: '1.5rem', color: '#2c3e50' }}>
+            Soru {current + 1} / {questions.length}
+          </h2>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            fontSize: '0.9rem',
+            color: '#6c757d'
+          }}>
+            <span>İlerleme:</span>
+            <span style={{ fontWeight: 'bold', color: '#667eea' }}>
+              {Math.round(((current + 1) / questions.length) * 100)}%
+            </span>
+          </div>
+        </div>
+        
+        {/* Soru Metni */}
+        <div style={{
+          background: '#fff',
+          padding: '1.5rem',
+          borderRadius: '12px',
+          border: '2px solid #e9ecef',
+          marginBottom: '2rem',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.05)'
+        }}>
+          <QuestionText text={question.soru_metni} />
+        </div>
 
         {question.gorsel_url && (
           <div className="image-wrapper">
@@ -169,27 +337,103 @@ export default function QuestionPage({ token }) {
                 className={selected === opt ? 'selected' : ''}
                 onClick={() => setSelected(opt)}
                 disabled={showExplanation}
+                style={{
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: '1rem'
+                }}
               >
-                {opt}) {question.secenekler[opt]}
+                <span style={{
+                  background: selected === opt ? '#fff' : '#e9ecef',
+                  color: selected === opt ? '#667eea' : '#6c757d',
+                  width: '2rem',
+                  height: '2rem',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontWeight: 'bold',
+                  fontSize: '1rem',
+                  flexShrink: 0,
+                  marginTop: '0.2rem'
+                }}>
+                  {opt}
+                </span>
+                <span style={{
+                  textAlign: 'left',
+                  flex: 1
+                }}>
+                  {question.secenekler[opt]}
+                </span>
               </button>
             ) : null
           )}
         </div>
 
-        {message && <p className="question-message">{message}</p>}
+        {/* Mesajlar */}
+        {message && (
+          <div style={{
+            margin: '1.5rem 0',
+            padding: '1rem 1.5rem',
+            borderRadius: '12px',
+            fontWeight: '500',
+            textAlign: 'center',
+            fontSize: '1.1rem',
+            background: message.includes('✔️') ? '#d4edda' : '#f8d7da',
+            color: message.includes('✔️') ? '#155724' : '#721c24',
+            border: `1px solid ${message.includes('✔️') ? '#c3e6cb' : '#f5c6cb'}`,
+            boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+          }}>
+            {message}
+          </div>
+        )}
+        
         {showExplanation && question.dogru_cevap_aciklamasi && (
-          <p className="question-message">
-            Açıklama: {question.dogru_cevap_aciklamasi}
-          </p>
+          <div style={{
+            margin: '1.5rem 0',
+            padding: '1.5rem',
+            borderRadius: '12px',
+            background: '#e3f2fd',
+            border: '2px solid #2196f3',
+            boxShadow: '0 4px 12px rgba(33, 150, 243, 0.15)'
+          }}>
+            <h4 style={{
+              margin: '0 0 1rem 0',
+              color: '#1976d2',
+              fontSize: '1.1rem',
+              fontWeight: '600'
+            }}>
+              📝 Açıklama
+            </h4>
+            <p style={{
+              margin: 0,
+              fontSize: '1rem',
+              lineHeight: '1.6',
+              color: '#1565c0'
+            }}>
+              {question.dogru_cevap_aciklamasi}
+            </p>
+          </div>
         )}
 
-        <div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem' }}>
+        {/* Butonlar */}
+        <div style={{ 
+          display: 'flex', 
+          gap: '1rem', 
+          marginTop: '2rem',
+          justifyContent: 'center',
+          flexWrap: 'wrap'
+        }}>
           <button
             className="submit-button"
             onClick={handleCheck}
             disabled={showExplanation}
+            style={{
+              background: showExplanation ? '#6c757d' : 'linear-gradient(135deg, #17a2b8, #20c997)',
+              minWidth: '140px'
+            }}
           >
-            Kontrol Et
+            {showExplanation ? 'Kontrol Edildi' : 'Kontrol Et'}
           </button>
 
           {current + 1 < questions.length ? (
@@ -197,8 +441,12 @@ export default function QuestionPage({ token }) {
               className="submit-button"
               onClick={handleSubmit}
               disabled={!showExplanation}
+              style={{
+                background: !showExplanation ? '#6c757d' : 'linear-gradient(135deg, #28a745, #20c997)',
+                minWidth: '140px'
+              }}
             >
-              Sonraki Soru
+              Sonraki Soru →
             </button>
           ) : (
             <button
@@ -208,14 +456,53 @@ export default function QuestionPage({ token }) {
                 setShowReport(true);
               }}
               disabled={!showExplanation}
+              style={{
+                background: !showExplanation ? '#6c757d' : 'linear-gradient(135deg, #dc3545, #fd7e14)',
+                minWidth: '140px'
+              }}
             >
-              Testi Bitir
+              Testi Bitir 🏁
             </button>
           )}
         </div>
 
-        <div className="notepad">
-          <canvas id="sketchpad" ref={canvasRef} width="400" height="250" />
+        {/* Notepad */}
+        <div style={{
+          marginTop: '2rem',
+          padding: '1.5rem',
+          background: '#f8f9fa',
+          borderRadius: '12px',
+          border: '2px solid #e9ecef'
+        }}>
+          <h4 style={{
+            margin: '0 0 1rem 0',
+            color: '#495057',
+            fontSize: '1rem',
+            fontWeight: '600',
+            textAlign: 'center'
+          }}>
+            📝 Not Defteri
+          </h4>
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            minHeight: '250px'
+          }}>
+            <canvas 
+              id="sketchpad" 
+              ref={canvasRef} 
+              width="400" 
+              height="250"
+              style={{
+                border: '2px solid #dee2e6',
+                borderRadius: '12px',
+                background: '#fff',
+                cursor: 'crosshair',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                transition: 'border-color 0.3s ease'
+              }}
+            />
+          </div>
         </div>
       </div>
       {showModal && (

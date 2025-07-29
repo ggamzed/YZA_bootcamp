@@ -7,6 +7,7 @@ from backend.app.auth_def import decode_token
 from backend.app.models import Questions, Submission
 from backend.app.ml_model import PracticeModel
 
+
 router = APIRouter(prefix="/questions", tags=["questions"])
 bearer = HTTPBearer()
 model = PracticeModel()
@@ -59,17 +60,17 @@ def get_batch_questions(
             "ders_id": q.ders_id,
             "konu_id": q.konu_id,
             "altbaslik_id": q.altbaslik_id,
-            "image_url": q.gorsel_url,
+            "gorsel_url": q.gorsel_url,
             "zorluk": q.zorluk,
-            "soru_metin": q.soru_metin,
-            "choices": {
+            "soru_metni": q.soru_metin,
+            "secenekler": {
                 "A": q.choice_a,
                 "B": q.choice_b,
                 "C": q.choice_c,
                 "D": q.choice_d,
                 "E": q.choice_e
             },
-            "correct_choice": q.correct_choice,
+            "dogru_cevap": q.correct_choice,
             "dogru_cevap_aciklamasi": q.dogru_cevap_aciklamasi
         }
         for q in final_batch

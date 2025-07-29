@@ -100,6 +100,7 @@ export default function HomePage({ token, setToken }) {
   const handleCheck = () => {
     if (!sel) return alert('Lütfen bir şık seçin');
     const q = questions[idx];
+    if (!q) return;
     const correct = sel === q.correct_choice;
     setMsg(correct ? '✔️ Doğru' : '❌ Yanlış');
     setShowExplanation(true);
@@ -107,6 +108,7 @@ export default function HomePage({ token, setToken }) {
 
   const handleSubmit = async () => {
     const q = questions[idx];
+    if (!q) return;
     const correct = sel === q.correct_choice;
     await submitAnswer({
       soru_id:      q.soru_id,
@@ -287,7 +289,7 @@ export default function HomePage({ token, setToken }) {
           </div>
         ) : (
           <div className="test-area">
-            {questions[idx].image_url && (
+            {questions[idx]?.image_url && (
               <div className="image-wrapper">
                 <img
                   src={questions[idx].image_url}
@@ -297,9 +299,9 @@ export default function HomePage({ token, setToken }) {
               </div>
             )}
 
-            <h3>{questions[idx].soru_metin}</h3>
+            <h3>{questions[idx]?.soru_metin || questions[idx]?.soru_metni || 'Soru yükleniyor...'}</h3>
 
-            {Object.entries(questions[idx].choices).map(([lbl, txt]) => (
+            {(questions[idx]?.choices || questions[idx]?.secenekler) && Object.entries(questions[idx]?.choices || questions[idx]?.secenekler || {}).map(([lbl, txt]) => (
               <label key={lbl}>
                 <input
                   type="radio"
@@ -309,29 +311,46 @@ export default function HomePage({ token, setToken }) {
                   onChange={() => setSel(lbl)}
                   disabled={showExplanation}
                 />
-                {lbl}) {txt}
+                <span style={{ flex: 1 }}>
+                  <strong style={{ color: '#007bff', marginRight: '0.5rem' }}>{lbl})</strong>
+                  {txt}
+                </span>
               </label>
             ))}
 
-            <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+            <div style={{ 
+              display: 'flex', 
+              gap: '1rem', 
+              marginTop: '2rem',
+              justifyContent: 'center',
+              flexWrap: 'wrap'
+            }}>
               <button
                 onClick={handleCheck}
                 disabled={showExplanation}
+                style={{
+                  background: showExplanation ? '#6c757d' : 'linear-gradient(135deg, #17a2b8, #20c997)',
+                  minWidth: '140px'
+                }}
               >
-                Kontrol Et
+                {showExplanation ? 'Kontrol Edildi' : 'Kontrol Et'}
               </button>
               <button
                 onClick={handleSubmit}
                 disabled={!showExplanation}
+                style={{
+                  background: !showExplanation ? '#6c757d' : 'linear-gradient(135deg, #28a745, #20c997)',
+                  minWidth: '140px'
+                }}
               >
-                Sonraki
+                {idx + 1 < questions.length ? 'Sonraki Soru →' : 'Testi Bitir 🏁'}
               </button>
             </div>
 
             {msg && <div className="result-msg">{msg}</div>}
-            {showExplanation && questions[idx].dogru_cevap_aciklamasi && (
+            {showExplanation && questions[idx]?.dogru_cevap_aciklamasi && (
               <div className="question-message">
-                Açıklama: {questions[idx].dogru_cevap_aciklamasi}
+                Açıklama: {questions[idx]?.dogru_cevap_aciklamasi}
               </div>
             )}
 
