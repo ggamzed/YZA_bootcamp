@@ -1,0 +1,134 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>hazerFen</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #d2fcd2, #a8c9ff);
+            color: #2e2b91;
+        }
+        header, nav, section, footer {
+            padding: 20px;
+            text-align: center;
+        }
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: bold;
+            color: #2e2b91;
+        }
+        .button {
+            padding: 10px 20px;
+            margin: 10px;
+            border-radius: 20px;
+            border: 2px solid #2e2b91;
+            background-color: #e5e8ff;
+            color: #2e2b91;
+            font-weight: bold;
+        }
+        .dashboard, .settings, .stats, .lesson {
+            margin: 30px auto;
+            max-width: 900px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .lesson-box {
+            border: 2px solid #2e2b91;
+            border-radius: 10px;
+            margin: 15px;
+            padding: 15px;
+        }
+        h2 {
+            color: #2e2b91;
+        }
+        .progress {
+            font-size: 14px;
+            margin: 5px 0;
+        }
+        .action-buttons {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1><span style="font-weight: bold;">hazer</span><em style="font-family:cursive;">Fen</em></h1>
+        <h3>BİLGİYLE KANATLAN!</h3>
+        <button class="button">GİRİŞ YAP</button>
+        <button class="button">ÜYE OL</button>
+    </header>
+    <nav>
+        <a href="#">DERSLER</a>
+        <a href="#">TESTLER</a>
+        <a href="#">ZAMANLAYICI</a>
+        <a href="#">NOTLAR</a>
+    </nav>
+    <section class="dashboard">
+        <h2>Hoşgeldin, Eylül!</h2>
+        <p>Tebrikler! Bugüne kadar 231 dakika geçirdin, 189 soru çözdün.</p>
+        <ul>
+            <li>MATEMATİK: %65</li>
+            <li>FİZİK: %32</li>
+            <li>BİYOLOJİ: %29</li>
+            <li>TARİH: %75</li>
+        </ul>
+    </section>
+    <section class="settings">
+        <h2>AYARLAR</h2>
+        <p>🌙 Tema: Açık / Koyu<br>🌐 Dil: Türkçe | English<br>🔔 Bildirim: Açık / Kapalı</p>
+    </section>
+    <section class="stats">
+        <h2>SORU İSTATİSTİKLERİ</h2>
+        <p><strong>Genel:</strong> Bugün 27 dakika çalıştın, 14 soru çözdün.</p>
+        <p><strong>Toplam:</strong> 310 dakika çalıştın, 189 soru çözdün.</p>
+    </section>
+    <section class="lesson">
+        <div class="lesson-box">
+            <h3>📐 MATEMATİK</h3>
+            <p class="progress">Tamamlanan: 3 / 5</p>
+            <p class="progress">Kalan: 2 içerik</p>
+            <div class="action-buttons">
+                <button class="button">QUIZİ BAŞLAT</button>
+                <button class="button">PDF NOTLARI İNDİR</button>
+                <button class="button">İLERLEMENİ KAYDET</button>
+            </div>
+        </div>
+        <div class="lesson-box">
+            <h3>🧪 FİZİK</h3>
+            <p class="progress">Tamamlanan: 2 / 5</p>
+            <p class="progress">Kalan: 3 içerik</p>
+            <div class="action-buttons">
+                <button class="button">QUIZİ BAŞLAT</button>
+                <button class="button">PDF NOTLARI İNDİR</button>
+                <button class="button">İLERLEMENİ KAYDET</button>
+            </div>
+        </div>
+        <div class="lesson-box">
+            <h3>🧬 BİYOLOJİ</h3>
+            <p class="progress">Tamamlanan: 4 / 5</p>
+            <p class="progress">Kalan: 1 içerik</p>
+            <div class="action-buttons">
+                <button class="button">QUIZİ BAŞLAT</button>
+                <button class="button">PDF NOTLARI İNDİR</button>
+                <button class="button">İLERLEMENİ KAYDET</button>
+            </div>
+        </div>
+        <div class="lesson-box">
+            <h3>🌍 TARİH</h3>
+            <p class="progress">Tamamlanan: 5 / 5</p>
+            <p class="progress">Kalan: 0 içerik</p>
+            <div class="action-buttons">
+                <button class="button">QUIZİ BAŞLAT</button>
+                <button class="button">PDF NOTLARI İNDİR</button>
+                <button class="button">İLERLEMENİ KAYDET</button>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

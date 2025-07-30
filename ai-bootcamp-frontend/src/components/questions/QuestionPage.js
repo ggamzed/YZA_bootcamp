@@ -3,9 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { submitAnswer } from '../../api/answers';
 import './questionPage.css';
 
-// Soru metnini parse eden bileşen
 const QuestionText = ({ text }) => {
-  // Soru işaretine göre böl
   const parts = text.split('?');
   
   if (parts.length >= 2) {
@@ -14,7 +12,6 @@ const QuestionText = ({ text }) => {
     
     return (
       <>
-        {/* Ana Soru */}
         <div style={{
           marginBottom: additionalInfo ? '1rem' : '0'
         }}>
@@ -29,7 +26,6 @@ const QuestionText = ({ text }) => {
           </p>
         </div>
         
-        {/* Ek Bilgiler */}
         {additionalInfo && (
           <div style={{
             padding: '1rem',
@@ -53,7 +49,6 @@ const QuestionText = ({ text }) => {
     );
   }
   
-  // Soru işareti yoksa, cümle yapısına göre ayır
   const sentences = text.split(/[.!]+/).filter(s => s.trim());
   
   if (sentences.length >= 2) {
@@ -62,7 +57,6 @@ const QuestionText = ({ text }) => {
     
     return (
       <>
-        {/* Ana Soru */}
         <div style={{
           marginBottom: additionalInfo ? '1rem' : '0'
         }}>
@@ -77,7 +71,6 @@ const QuestionText = ({ text }) => {
           </p>
         </div>
         
-        {/* Ek Bilgiler */}
         {additionalInfo && (
           <div style={{
             padding: '1rem',
@@ -101,7 +94,6 @@ const QuestionText = ({ text }) => {
     );
   }
   
-  // Tek cümle varsa
   return (
     <p style={{
       fontSize: '1.2rem',
@@ -130,7 +122,7 @@ export default function QuestionPage({ token }) {
   const [showReport, setShowReport] = useState(false);
 
   // Debug için log
-  console.log("current:", current, "questions.length:", questions.length, "showReport:", showReport);
+
   
   useEffect(() => {
     fetchBatch();
@@ -202,20 +194,38 @@ export default function QuestionPage({ token }) {
   };
 
   const handleSubmit = async () => {
-    const isCorrect = selected === question.dogru_cevap;
+    const isSkipped = !selected;
+    
+    if (isSkipped) {
+      await submitAnswer({
+        soru_id: question.soru_id,
+        ders_id: question.ders_id,
+        konu_id: question.konu_id,
+        zorluk: question.zorluk,
+        altbaslik_id: question.altbaslik_id,
+        selected: null,
+        is_correct: null,
+        is_skipped: true,
+      }, token);
+      
+      setMessage('⏭️ Soru atlandı');
+    } else {
+      const isCorrect = selected === question.dogru_cevap;
+      
+      await submitAnswer({
+        soru_id: question.soru_id,
+        ders_id: question.ders_id,
+        konu_id: question.konu_id,
+        zorluk: question.zorluk,
+        altbaslik_id: question.altbaslik_id,
+        selected: selected,
+        is_correct: isCorrect,
+        is_skipped: false,
+      }, token);
 
-    await submitAnswer({
-      soru_id: question.soru_id,
-      ders_id: question.ders_id,
-      konu_id: question.konu_id,
-      zorluk: question.zorluk,
-      altbaslik_id: question.altbaslik_id,
-      is_correct: isCorrect,
-      selected,
-    }, token);
-
-    const newHistory = [...answerHistory, isCorrect];
-    setAnswerHistory(newHistory);
+      const newHistory = [...answerHistory, isCorrect];
+      setAnswerHistory(newHistory);
+    }
 
     setCurrent(current + 1);
     setSelected('');
@@ -230,14 +240,13 @@ export default function QuestionPage({ token }) {
 
   const handleReportClose = () => {
     setShowReport(false);
-    nav('/home'); // veya başka bir yere yönlendirmek istersen burayı değiştir
+    nav('/home');
   };
 
   if (questions.length === 0) {
     return <p className="question-page">Yükleniyor…</p>;
   }
 
-  // Test raporu için örnek veriler (ileride dinamik yapılabilir)
   const toplamSoru = 30;
   const dogru = 18;
   const yanlis = 9;
@@ -339,29 +348,25 @@ export default function QuestionPage({ token }) {
                 disabled={showExplanation}
                 style={{
                   display: 'flex',
-                  alignItems: 'flex-start',
-                  gap: '1rem'
+                  alignItems: 'center',
+                  gap: '0.8rem',
+                  maxWidth: '400px',
+                  margin: '0 0 0.5rem 0'
                 }}
               >
                 <span style={{
-                  background: selected === opt ? '#fff' : '#e9ecef',
                   color: selected === opt ? '#667eea' : '#6c757d',
-                  width: '2rem',
-                  height: '2rem',
-                  borderRadius: '50%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
                   fontWeight: 'bold',
-                  fontSize: '1rem',
+                  fontSize: '1.1rem',
                   flexShrink: 0,
-                  marginTop: '0.2rem'
+                  marginRight: '0.8rem'
                 }}>
-                  {opt}
+                  {opt})
                 </span>
                 <span style={{
                   textAlign: 'left',
-                  flex: 1
+                  flex: 1,
+                  paddingLeft: '0.5rem'
                 }}>
                   {question.secenekler[opt]}
                 </span>
@@ -437,32 +442,58 @@ export default function QuestionPage({ token }) {
           </button>
 
           {current + 1 < questions.length ? (
-            <button
-              className="submit-button"
-              onClick={handleSubmit}
-              disabled={!showExplanation}
-              style={{
-                background: !showExplanation ? '#6c757d' : 'linear-gradient(135deg, #28a745, #20c997)',
-                minWidth: '140px'
-              }}
-            >
-              Sonraki Soru →
-            </button>
+            <>
+              <button
+                className="submit-button"
+                onClick={handleSubmit}
+                disabled={!showExplanation}
+                style={{
+                  background: !showExplanation ? '#6c757d' : 'linear-gradient(135deg, #28a745, #20c997)',
+                  minWidth: '140px'
+                }}
+              >
+                Sonraki Soru →
+              </button>
+              
+              <button
+                className="submit-button"
+                onClick={handleSubmit}
+                style={{
+                  background: 'linear-gradient(135deg, #ffc107, #fd7e14)',
+                  minWidth: '140px'
+                }}
+              >
+                Boş Bırak ⏭️
+              </button>
+            </>
           ) : (
-            <button
-              className="submit-button"
-              onClick={() => {
-                console.log('TEST BİTTİ, RAPOR AÇILMALI');
-                setShowReport(true);
-              }}
-              disabled={!showExplanation}
-              style={{
-                background: !showExplanation ? '#6c757d' : 'linear-gradient(135deg, #dc3545, #fd7e14)',
-                minWidth: '140px'
-              }}
-            >
-              Testi Bitir 🏁
-            </button>
+            <>
+              <button
+                className="submit-button"
+                onClick={() => {
+                  console.log('TEST BİTTİ, RAPOR AÇILMALI');
+                  setShowReport(true);
+                }}
+                disabled={!showExplanation}
+                style={{
+                  background: !showExplanation ? '#6c757d' : 'linear-gradient(135deg, #dc3545, #fd7e14)',
+                  minWidth: '140px'
+                }}
+              >
+                Testi Bitir 🏁
+              </button>
+              
+              <button
+                className="submit-button"
+                onClick={handleSubmit}
+                style={{
+                  background: 'linear-gradient(135deg, #ffc107, #fd7e14)',
+                  minWidth: '140px'
+                }}
+              >
+                Boş Bırak ⏭️
+              </button>
+            </>
           )}
         </div>
 

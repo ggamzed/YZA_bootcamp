@@ -1,56 +1,108 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
 from collections import defaultdict
 from datetime import datetime, timezone, timedelta
+from jose import JWTError
 
-from backend.app.auth_def import decode_token
-from backend.app.database import get_db
-from backend.app.models import Submission, Questions
+from app.auth_def import decode_token
+from app.database import get_db
+from app.models import Submission, Questions
+from app.enhanced_ml_model import EnhancedPracticeModel
 
 router = APIRouter(prefix="/stats", tags=["statistics"])
 bearer = HTTPBearer()
 
 TURKEY_TIMEZONE = timezone(timedelta(hours=3))
+model = EnhancedPracticeModel()
 
 @router.get("/summary")
 def get_user_stats(
     creds: HTTPAuthorizationCredentials = Depends(bearer),
     db: Session = Depends(get_db)
 ):
-    payload = decode_token(creds.credentials)
-    user_id = int(payload.get("sub"))
+    try:
+        payload = decode_token(creds.credentials)
+        user_id = int(payload.get("sub"))
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Geçersiz token.")
 
     results = (
         db.query(
             Questions.ders_id,
             Questions.altbaslik_id,
             Questions.konu_id,
-            Submission.is_correct
+            Questions.zorluk,
+            Submission.is_correct,
+            Submission.is_skipped,
+            Submission.answered_at
         )
         .join(Submission, Submission.question_id == Questions.soru_id)
         .filter(Submission.user_id == user_id)
         .all()
     )
 
-
-    stats = defaultdict(lambda: {"correct": 0, "total": 0})
-    for ders_id, altbaslik_id, konu_id, is_correct in results:
-        key = (ders_id, altbaslik_id, konu_id)
-        stats[key]["total"] += 1
-        if is_correct:
-            stats[key]["correct"] += 1
+    # Ders bazlı istatistikler
+    ders_stats = defaultdict(lambda: {"correct": 0, "total": 0, "skipped": 0})
+    # Konu bazlı istatistikler
+    konu_stats = defaultdict(lambda: {"correct": 0, "total": 0, "skipped": 0})
+    # Zorluk bazlı istatistikler
+    zorluk_stats = defaultdict(lambda: {"correct": 0, "total": 0, "skipped": 0})
+    
+    for ders_id, altbaslik_id, konu_id, zorluk, is_correct, is_skipped, answered_at in results:
+        # Ders bazlı
+        ders_stats[ders_id]["total"] += 1
+        if is_skipped:
+            ders_stats[ders_id]["skipped"] += 1
+        elif is_correct:
+            ders_stats[ders_id]["correct"] += 1
+            
+        # Konu bazlı
+        konu_key = (ders_id, konu_id)
+        konu_stats[konu_key]["total"] += 1
+        if is_skipped:
+            konu_stats[konu_key]["skipped"] += 1
+        elif is_correct:
+            konu_stats[konu_key]["correct"] += 1
+            
+        # Zorluk bazlı
+        zorluk_stats[zorluk]["total"] += 1
+        if is_skipped:
+            zorluk_stats[zorluk]["skipped"] += 1
+        elif is_correct:
+            zorluk_stats[zorluk]["correct"] += 1
 
     response = []
-    for (ders_id, altbaslik_id, konu_id), val in stats.items():
-        percent = round(100 * val["correct"] / val["total"], 1)
+    # Ders bazlı istatistikler
+    for ders_id, val in ders_stats.items():
+        percent = round(100 * val["correct"] / val["total"], 1) if val["total"] > 0 else 0
         response.append({
-            "ders_id":       ders_id,
-            "altbaslik_id":  altbaslik_id,
-            "konu_id":       konu_id,
-            "correct":       val["correct"],
-            "total":         val["total"],
-            "accuracy":      percent
+            "ders_id": ders_id,
+            "konu_id": 0,  # Genel ders istatistiği
+            "altbaslik_id": 0,
+            "zorluk": 0,
+            "correct": val["correct"],
+            "total": val["total"],
+            "skipped": val["skipped"],
+            "accuracy": percent,
+            "is_correct": True,  # Frontend için gerekli
+            "answered_at": datetime.now(TURKEY_TIMEZONE).isoformat()
+        })
+    
+    # Konu bazlı istatistikler
+    for (ders_id, konu_id), val in konu_stats.items():
+        percent = round(100 * val["correct"] / val["total"], 1) if val["total"] > 0 else 0
+        response.append({
+            "ders_id": ders_id,
+            "konu_id": konu_id,
+            "altbaslik_id": 0,
+            "zorluk": 0,
+            "correct": val["correct"],
+            "total": val["total"],
+            "skipped": val["skipped"],
+            "accuracy": percent,
+            "is_correct": True,  # Frontend için gerekli
+            "answered_at": datetime.now(TURKEY_TIMEZONE).isoformat()
         })
 
     return response
@@ -60,9 +112,13 @@ def get_completed_tests(
     creds: HTTPAuthorizationCredentials = Depends(bearer),
     db: Session = Depends(get_db)
 ):
-    payload = decode_token(creds.credentials)
-    user_id = int(payload.get("sub"))
- # Kullanıcının çözdüğü testleri grupla
+    try:
+        payload = decode_token(creds.credentials)
+        user_id = int(payload.get("sub"))
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Geçersiz token.")
+
+    # Kullanıcının çözdüğü testleri grupla
     results = (
         db.query(
             Questions.ders_id,
@@ -80,16 +136,22 @@ def get_completed_tests(
     # Testleri tarih bazında grupla
     test_sessions = {}
     for ders_id, answered_at, is_correct, konu_id, zorluk in results:
-        if answered_at.tzinfo is None:
+        # Tarih kontrolü ve formatlama
+        if answered_at is None:
+            # Eğer tarih yoksa şu anki zamanı kullan
+            turkey_time = datetime.now(TURKEY_TIMEZONE)
+        elif answered_at.tzinfo is None:
             turkey_time = answered_at.replace(tzinfo=timezone.utc).astimezone(TURKEY_TIMEZONE)
         else:
             turkey_time = answered_at.astimezone(TURKEY_TIMEZONE)
-          # Tarihi Türkiye saatine göre formatla
+        
+        # Tarihi Türkiye saatine göre formatla
         date_key = turkey_time.strftime('%d.%m.%Y %H:%M')
         
         if date_key not in test_sessions:
             test_sessions[date_key] = {
                 "date": turkey_time,
+                "test_date": date_key,
                 "ders_id": ders_id,
                 "total": 0,
                 "correct": 0,
@@ -160,8 +222,11 @@ def get_topic_statistics(
     creds: HTTPAuthorizationCredentials = Depends(bearer),
     db: Session = Depends(get_db)
 ):
-    payload = decode_token(creds.credentials)
-    user_id = int(payload.get("sub"))
+    try:
+        payload = decode_token(creds.credentials)
+        user_id = int(payload.get("sub"))
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Geçersiz token.")
 
     now = datetime.now(TURKEY_TIMEZONE)
 
@@ -233,8 +298,11 @@ def get_subject_statistics(
     creds: HTTPAuthorizationCredentials = Depends(bearer),
     db: Session = Depends(get_db)
 ):
-    payload = decode_token(creds.credentials)
-    user_id = int(payload.get("sub"))
+    try:
+        payload = decode_token(creds.credentials)
+        user_id = int(payload.get("sub"))
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Geçersiz token.")
 
     now = datetime.now(TURKEY_TIMEZONE)
 
@@ -345,3 +413,31 @@ def get_subject_statistics(
         })
 
     return response
+
+@router.get("/ai-recommendations")
+def get_ai_recommendations(
+    creds: HTTPAuthorizationCredentials = Depends(bearer),
+    db: Session = Depends(get_db)
+):
+    try:
+        payload = decode_token(creds.credentials)
+        user_id = int(payload.get("sub"))
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Geçersiz token.")
+    
+    # AI önerilerini al
+    recommendations = model.get_recommendations(user_id, ders_id=1)  # Varsayılan ders
+    
+    # Kullanıcı istatistiklerini al
+    user_stats = model.user_stats[user_id]
+    
+    return {
+        "recommendations": recommendations,
+        "user_stats": {
+            "total_questions": user_stats['total_questions'],
+            "correct_answers": user_stats['correct_answers'],
+            "overall_accuracy": user_stats['correct_answers'] / user_stats['total_questions'] if user_stats['total_questions'] > 0 else 0,
+            "recent_performance": user_stats['recent_performance'][-5:] if len(user_stats['recent_performance']) > 0 else [],
+            "last_activity": user_stats['last_activity'].isoformat() if user_stats['last_activity'] else None
+        }
+    }

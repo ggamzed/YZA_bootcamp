@@ -2,15 +2,17 @@ from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
 from random import shuffle
-from backend.app.database import get_db
-from backend.app.auth_def import decode_token
-from backend.app.models import Questions, Submission
-from backend.app.ml_model import PracticeModel
+import json
+from jose import JWTError
+from app.database import get_db
+from app.auth_def import decode_token
+from app.models import Questions, Submission
+from app.simple_ai_model import SimpleAIModel
 
 
 router = APIRouter(prefix="/questions", tags=["questions"])
 bearer = HTTPBearer()
-model = PracticeModel()
+model = SimpleAIModel()
 
 @router.get("/batch")
 def get_batch_questions(
@@ -19,18 +21,49 @@ def get_batch_questions(
     creds: HTTPAuthorizationCredentials = Depends(bearer),
     db: Session = Depends(get_db)
 ):
-    user_id = int(decode_token(creds.credentials).get("sub"))
+    try:
+        user_id = int(decode_token(creds.credentials).get("sub"))
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Geçersiz token.")
+    
+    # Kullanıcının daha önce çözdüğü soruları al
+    answered_questions = db.query(Submission.question_id).filter(
+        Submission.user_id == user_id
+    ).subquery()
+    
+    # Performans analizi
     total = db.query(Submission).filter(Submission.user_id == user_id).count()
-    wrong = db.query(Submission).filter(Submission.user_id == user_id, Submission.is_correct == False).count()
+    wrong = db.query(Submission).filter(
+        Submission.user_id == user_id, 
+        Submission.is_correct == False
+    ).count()
     ratio = wrong / total if total else 0
     targeted_percent = 0.8 if ratio >= 0.6 else 0.6 if ratio >= 0.3 else 0.4
 
-    query = db.query(Questions).filter(Questions.ders_id == ders_id)
+    # Çözülmemiş soruları filtrele
+    query = db.query(Questions).filter(
+        Questions.ders_id == ders_id,
+        ~Questions.soru_id.in_(answered_questions)  # Çözülmemiş sorular
+    )
+    
     if etiket:
-        query = query.filter(Questions.tags.ilike(f"%{etiket}%"))
+        # Make the search case-insensitive and more flexible
+        query = query.filter(Questions.etiket.ilike(f"%{etiket.lower()}%"))
+    
     qs = query.all()
+    
+    print(f"DEBUG: Found {len(qs)} questions for ders_id={ders_id}, etiket={etiket}")
+    
+    # Eğer çözülmemiş soru yoksa, tüm soruları göster
     if len(qs) < 5:
-        raise HTTPException(status_code=400, detail="Yeterli soru yok")
+        query = db.query(Questions).filter(Questions.ders_id == ders_id)
+        if etiket:
+            # Make the search case-insensitive and more flexible
+            query = query.filter(Questions.etiket.ilike(f"%{etiket.lower()}%"))
+        qs = query.all()
+        
+        if len(qs) < 5:
+            raise HTTPException(status_code=400, detail="Yeterli soru yok")
 
     scored = []
     for q in qs:
@@ -41,37 +74,31 @@ def get_batch_questions(
             "zorluk": q.zorluk,
             "user_id": user_id
         }
-        p = model.predict(X).get(1, 0)
+        p = model.predict(X)
         scored.append((q, p))
 
+    # AI skorlarına göre sırala (düşük skor = önerilen soru)
     scored.sort(key=lambda tup: tup[1])
-    targeted_count = int(5 * targeted_percent)
-    general_count = 5 - targeted_count
-    targeted = [q for q, _ in scored[:targeted_count]]
-    remaining = [q for q, _ in scored[targeted_count:]]
-    shuffle(remaining)
-    randoms = remaining[:general_count]
-    final_batch = targeted + randoms
-    shuffle(final_batch)
-
-    return [
-        {
-            "soru_id": q.soru_id,
-            "ders_id": q.ders_id,
-            "konu_id": q.konu_id,
-            "altbaslik_id": q.altbaslik_id,
-            "gorsel_url": q.gorsel_url,
-            "zorluk": q.zorluk,
-            "soru_metni": q.soru_metin,
-            "secenekler": {
-                "A": q.choice_a,
-                "B": q.choice_b,
-                "C": q.choice_c,
-                "D": q.choice_d,
-                "E": q.choice_e
-            },
-            "dogru_cevap": q.correct_choice,
-            "dogru_cevap_aciklamasi": q.dogru_cevap_aciklamasi
-        }
-        for q in final_batch
-    ]
+    
+    # Performans analizi ile hedefleme
+    if ratio >= 0.6:
+        # Zayıf performans - kolay sorular
+        easy_questions = [q for q, _ in scored if q.zorluk <= 2]
+        if len(easy_questions) >= 5:
+            # secenekler alanını JSON'dan parse et
+            for q in easy_questions[:5]:
+                try:
+                    q.secenekler = json.loads(q.secenekler) if q.secenekler else {}
+                except (json.JSONDecodeError, TypeError):
+                    q.secenekler = {}
+            return easy_questions[:5]
+    
+    # Normal seçim - AI skoruna göre
+    selected_questions = [q for q, _ in scored[:5]]
+    # secenekler alanını JSON'dan parse et
+    for q in selected_questions:
+        try:
+            q.secenekler = json.loads(q.secenekler) if q.secenekler else {}
+        except (json.JSONDecodeError, TypeError):
+            q.secenekler = {}
+    return selected_questions

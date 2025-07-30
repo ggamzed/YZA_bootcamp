@@ -1,6 +1,7 @@
-// src/components/StatsPage/StatsPage.js
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import { getCurrentUser } from '../../api/auth';
+import { fetchStats, fetchSubjectStats, fetchTopicStats } from '../../api/statistics';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -17,7 +18,6 @@ import {
 import { Bar, Doughnut, Line } from 'react-chartjs-2';
 import './StatsPage.css';
 
-// Chart.js bileşenlerini kaydet
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -31,7 +31,6 @@ ChartJS.register(
   Filler
 );
 
-// Ders adları
 const DERS_ISIMLERI = {
   1: 'Matematik',
   2: 'Fizik',
@@ -41,12 +40,10 @@ const DERS_ISIMLERI = {
   6: 'Tarih'
 };
 
-// Konu (topic) adları - ders bazlı
 const KONU_ISIMLERI = {
-  // Matematik (ders_id: 1)
   1: {
-  1: 'Basit Eşitsizlikler',
-  2: 'Fonksiyonlar',
+    1: 'Basit Eşitsizlikler',
+    2: 'Fonksiyonlar',
     3: 'Olasılık',
     4: 'Türev',
     5: 'İntegral',
@@ -56,7 +53,6 @@ const KONU_ISIMLERI = {
     9: 'Süreklilik',
     10: 'Asimptotlar'
   },
-  // Fizik (ders_id: 2)
   2: {
     1: 'Mekanik',
     2: 'Elektrik',
@@ -69,7 +65,6 @@ const KONU_ISIMLERI = {
     9: 'Elektromanyetizma',
     10: 'Modern Fizik'
   },
-  // Kimya (ders_id: 3)
   3: {
     1: 'Atomun Yapısı',
     2: 'Periyodik Sistem',
@@ -82,7 +77,6 @@ const KONU_ISIMLERI = {
     9: 'Organik Kimya',
     10: 'Çevre Kimyası'
   },
-  // Biyoloji (ders_id: 4)
   4: {
     1: 'Hücre Bilimi',
     2: 'Genetik',
@@ -95,101 +89,62 @@ const KONU_ISIMLERI = {
     9: 'Mikrobiyoloji',
     10: 'Biyoteknoloji'
   },
-  // Türkçe (ders_id: 5)
   5: {
     1: 'Dil Bilgisi',
     2: 'Anlatım Bozuklukları',
     3: 'Paragraf',
     4: 'Cümle Yapısı',
-    5: 'Sözcük Türleri',
+    5: 'Kelime Bilgisi',
     6: 'Yazım Kuralları',
     7: 'Noktalama',
     8: 'Ses Bilgisi',
     9: 'Şekil Bilgisi',
-    10: 'Cümle Bilgisi'
+    10: 'Söz Sanatları'
   },
-  // Tarih (ders_id: 6)
   6: {
-    1: 'İlk Çağ Uygarlıkları',
-    2: 'Orta Çağ Tarihi',
-    3: 'Yeni Çağ Tarihi',
-    4: 'Yakın Çağ Tarihi',
-    5: 'Osmanlı Tarihi',
-    6: 'Türkiye Cumhuriyeti',
-    7: 'İnkılap Tarihi',
-    8: 'Çağdaş Türk Tarihi',
+    1: 'İnkılap Tarihi',
+    2: 'Osmanlı Tarihi',
+    3: 'Cumhuriyet Tarihi',
+    4: 'İslam Tarihi',
+    5: 'Orta Çağ Tarihi',
+    6: 'Yeni Çağ Tarihi',
+    7: 'Yakın Çağ Tarihi',
+    8: 'Türk Tarihi',
     9: 'Dünya Tarihi',
-    10: 'Türk Kültür Tarihi'
-  }
-};
-
-// Alt başlık (subtopic) adları: konu_id → (altbaslik_id → isim)
-const ALT_BASLIK_ISIMLERI = {
-  1: { // Basit Eşitsizlikler
-    1: 'Birinci Dereceden Bir Bilinmeyenli Eşitsizlikler',
-    2: 'Eşitsizlik Sistemleri',
-    3: 'Mutlak Değerli Eşitsizlikler',
-    4: 'İkinci Dereceden Eşitsizlikler ve İşaret Tablosu'
-  },
-  2: { // Fonksiyonlar
-    1: 'Fonksiyon Kavramı ve Gösterimi',
-    2: 'Fonksiyon Çeşitleri (Birebir, Örten, Birim, Sabit, Tek/Çift vb.)',
-    3: 'Fonksiyonlarda Dört İşlem ve Bileşke Fonksiyon',
-    4: 'Bir Fonksiyonun Tersi',
-    5: 'Fonksiyon Grafiklerine Yorumlama'
-  },
-  3: { // Olasılık
-    1: 'Sayma Kuralları (Permütasyon, Kombinasyon, Binom)',
-    2: 'Basit Olayların Olasılığı',
-    3: 'Koşullu Olasılık',
-    4: 'Bağımlı ve Bağımsız Olaylar'
+    10: 'Çağdaş Tarih'
   }
 };
 
 export default function Statistics({ token }) {
   const navigate = useNavigate();
-  const [subjectStats, setSubjectStats] = useState([]);
-  const [detailedStats, setDetailedStats] = useState([]);
-  const [topicStats, setTopicStats] = useState([]);
+  const [stats, setStats] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState('overview');
-  const [timeFilter, setTimeFilter] = useState('week'); // 'week', 'month', 'all'
+  const [timeFilter, setTimeFilter] = useState('all'); // all, week, month, year
+  const [selectedSubject, setSelectedSubject] = useState('all');
   const [expandedSubjects, setExpandedSubjects] = useState(new Set());
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     fetchAllStats();
-  }, [token, timeFilter]);
+    fetchUser();
+  }, [timeFilter]);
+
+  const fetchUser = async () => {
+    try {
+      const userData = await getCurrentUser(token);
+      setUser(userData);
+    } catch (error) {
+      console.error('Kullanıcı bilgileri alınamadı:', error);
+    }
+  };
 
   const fetchAllStats = async () => {
-      try {
+    try {
       setLoading(true);
-      
-      // Ders bazlı istatistikler
-      const subjectResponse = await fetch('/stats/subject-stats', {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      
-      // Detaylı istatistikler
-      const detailedResponse = await fetch('/stats/summary', {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      
-      // Konu bazlı istatistikler (zaman filtresine göre)
-      const topicResponse = await fetch(`/stats/topic-stats?time_filter=${timeFilter}`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      
-      if (subjectResponse.ok && detailedResponse.ok && topicResponse.ok) {
-        const subjectData = await subjectResponse.json();
-        const detailedData = await detailedResponse.json();
-        const topicData = await topicResponse.json();
-        
-        setSubjectStats(subjectData);
-        setDetailedStats(detailedData);
-        setTopicStats(topicData);
-      }
+      const data = await fetchStats(token);
+      setStats(data);
     } catch (error) {
-      console.error('İstatistik verisi alınamadı:', error);
+      console.error('İstatistik yükleme hatası:', error);
     } finally {
       setLoading(false);
     }
@@ -200,22 +155,24 @@ export default function Statistics({ token }) {
   };
 
   const getKonuName = (dersId, konuId) => {
-    return KONU_ISIMLERI[dersId] && KONU_ISIMLERI[dersId][konuId] || `Konu ${konuId}`;
+    return KONU_ISIMLERI[dersId]?.[konuId] || `Konu ${konuId}`;
   };
 
   const getZorlukText = (zorluk) => {
-    switch (zorluk) {
-      case 1: return 'Kolay';
-      case 2: return 'Orta';
-      case 3: return 'Zor';
-      default: return `Seviye ${zorluk}`;
-    }
+    const zorlukMap = {
+      1: 'Kolay',
+      2: 'Orta',
+      3: 'Zor',
+      4: 'Çok Zor',
+      5: 'Uzman'
+    };
+    return zorlukMap[zorluk] || 'Bilinmiyor';
   };
 
   const getProgressColor = (accuracy) => {
-    if (accuracy >= 80) return '#4caf50';
-    if (accuracy >= 60) return '#ff9800';
-    return '#f44336';
+    if (accuracy >= 80) return 'success';
+    if (accuracy >= 60) return 'warning';
+    return 'danger';
   };
 
   const toggleSubjectExpansion = (dersId) => {
@@ -229,531 +186,437 @@ export default function Statistics({ token }) {
   };
 
   const getSubjectTopics = (dersId) => {
-    return topicStats.filter(stat => stat.ders_id === dersId);
+    return stats.filter(stat => stat.ders_id === dersId);
   };
 
-  // Zaman filtresine göre veri getir
   const getFilteredStats = (subject) => {
+    let filtered = stats;
+    
+    if (subject !== 'all') {
+      filtered = filtered.filter(stat => stat.ders_id === parseInt(subject));
+    }
+
+    // Zaman filtresi
+    const now = new Date();
+    const filterDate = new Date();
+    
     switch (timeFilter) {
       case 'week':
-        return {
-          correct: subject.week_correct,
-          total: subject.week_total,
-          incorrect: subject.week_total - subject.week_correct,
-          accuracy: subject.week_accuracy,
-          time: subject.week_time
-        };
+        filterDate.setDate(now.getDate() - 7);
+        break;
       case 'month':
-        return {
-          correct: subject.month_correct,
-          total: subject.month_total,
-          incorrect: subject.month_total - subject.month_correct,
-          accuracy: subject.month_accuracy,
-          time: subject.month_time || '0s 0dk' // Eğer yoksa varsayılan değer
-        };
-      case 'all':
-        return {
-          correct: subject.total_correct,
-          total: subject.total_questions,
-          incorrect: subject.total_questions - subject.total_correct,
-          accuracy: subject.overall_accuracy,
-          time: subject.total_time
-        };
+        filterDate.setMonth(now.getMonth() - 1);
+        break;
+      case 'year':
+        filterDate.setFullYear(now.getFullYear() - 1);
+        break;
       default:
-        return {
-          correct: subject.week_correct,
-          total: subject.week_total,
-          incorrect: subject.week_total - subject.week_correct,
-          accuracy: subject.week_accuracy,
-          time: subject.week_time
-        };
+        return filtered;
     }
+
+    return filtered.filter(stat => {
+      if (!stat.answered_at) return true;
+      try {
+        const statDate = new Date(stat.answered_at);
+        const turkeyStatDate = new Date(statDate.getTime() + (3 * 60 * 60 * 1000));
+        return turkeyStatDate >= filterDate;
+      } catch (error) {
+        return true; // Hata durumunda dahil et
+      }
+    });
   };
 
   const getTimeFilterTitle = () => {
-    switch (timeFilter) {
-      case 'week': return 'Bu Hafta';
-      case 'month': return 'Bu Ay';
-      case 'all': return 'Tüm Zamanlar';
-      default: return 'Bu Hafta';
-    }
+    const titles = {
+      all: 'Tüm Zamanlar',
+      week: 'Son 1 Hafta',
+      month: 'Son 1 Ay',
+      year: 'Son 1 Yıl'
+    };
+    return titles[timeFilter] || 'Tüm Zamanlar';
   };
 
-  // Grafik verilerini hazırla
   const prepareChartData = () => {
-    if (subjectStats.length === 0) return null;
-
+    const filteredStats = getFilteredStats(selectedSubject);
+    
     // Ders bazlı başarı oranları
-    const subjectAccuracyData = {
-      labels: subjectStats.map(subject => getDersName(subject.ders_id)),
-      datasets: [
-        {
-          label: 'Genel Başarı (%)',
-          data: subjectStats.map(subject => subject.overall_accuracy),
-          backgroundColor: subjectStats.map(subject => getProgressColor(subject.overall_accuracy)),
-          borderColor: subjectStats.map(subject => getProgressColor(subject.overall_accuracy)),
-          borderWidth: 2,
-        }
-      ]
-    };
+    const subjectStats = {};
+    filteredStats.forEach(stat => {
+      const dersName = getDersName(stat.ders_id);
+      if (!subjectStats[dersName]) {
+        subjectStats[dersName] = { total: 0, correct: 0 };
+      }
+      subjectStats[dersName].total += stat.total || 1;
+      subjectStats[dersName].correct += stat.correct || (stat.is_correct ? 1 : 0);
+    });
 
-    // Haftalık vs Aylık başarı karşılaştırması
-    const weeklyMonthlyData = {
-      labels: subjectStats.map(subject => getDersName(subject.ders_id)),
-      datasets: [
-        {
-          label: 'Bu Hafta (%)',
-          data: subjectStats.map(subject => subject.week_accuracy),
-          backgroundColor: 'rgba(54, 162, 235, 0.8)',
-          borderColor: 'rgba(54, 162, 235, 1)',
-          borderWidth: 2,
-        },
-        {
-          label: 'Bu Ay (%)',
-          data: subjectStats.map(subject => subject.month_accuracy),
-          backgroundColor: 'rgba(255, 99, 132, 0.8)',
-          borderColor: 'rgba(255, 99, 132, 1)',
-          borderWidth: 2,
-        },
-        {
-          label: 'Tüm Zamanlar (%)',
-          data: subjectStats.map(subject => subject.overall_accuracy),
-          backgroundColor: 'rgba(75, 192, 192, 0.8)',
-          borderColor: 'rgba(75, 192, 192, 1)',
-          borderWidth: 2,
-        }
-      ]
-    };
-
-    // Toplam soru sayıları
-    const totalQuestionsData = {
-      labels: subjectStats.map(subject => getDersName(subject.ders_id)),
-      datasets: [
-        {
-          label: 'Toplam Soru',
-          data: subjectStats.map(subject => subject.total_questions),
-          backgroundColor: 'rgba(75, 192, 192, 0.8)',
-          borderColor: 'rgba(75, 192, 192, 1)',
-          borderWidth: 2,
-        }
-      ]
-    };
-
-    // Harcanan süre dağılımı (dakika cinsinden)
-    const timeSpentData = {
-      labels: subjectStats.map(subject => getDersName(subject.ders_id)),
-      datasets: [
-        {
-          label: 'Bu Hafta (Dakika)',
-          data: subjectStats.map(subject => {
-            // Haftalık süreyi dakika cinsinden hesapla
-            return subject.week_total * 2;
-          }),
-          backgroundColor: 'rgba(54, 162, 235, 0.8)',
-          borderColor: 'rgba(54, 162, 235, 1)',
-          borderWidth: 2,
-        },
-        {
-          label: 'Bu Ay (Dakika)',
-          data: subjectStats.map(subject => {
-            // Aylık süreyi dakika cinsinden hesapla
-            return subject.month_total * 2;
-          }),
-          backgroundColor: 'rgba(255, 99, 132, 0.8)',
-          borderColor: 'rgba(255, 99, 132, 1)',
-          borderWidth: 2,
-        },
-        {
-          label: 'Tüm Zamanlar (Dakika)',
-          data: subjectStats.map(subject => {
-            // Tüm zamanlar süreyi dakika cinsinden hesapla
-            return subject.total_questions * 2;
-          }),
-          backgroundColor: 'rgba(75, 192, 192, 0.8)',
-          borderColor: 'rgba(75, 192, 192, 1)',
-          borderWidth: 2,
-        }
-      ]
-    };
-
-    // Konu bazlı başarı oranları (en iyi 10 konu)
-    const topTopics = detailedStats
-      .sort((a, b) => b.accuracy - a.accuracy)
-      .slice(0, 10);
-
-    const topicAccuracyData = {
-      labels: topTopics.map(topic => getKonuName(topic.ders_id, topic.konu_id)),
-      datasets: [
-        {
-          label: 'Başarı Oranı (%)',
-          data: topTopics.map(topic => topic.accuracy),
-          backgroundColor: topTopics.map(topic => getProgressColor(topic.accuracy)),
-          borderColor: topTopics.map(topic => getProgressColor(topic.accuracy)),
-          borderWidth: 2,
-        }
-      ]
-    };
+    const labels = Object.keys(subjectStats);
+    const data = labels.map(ders => {
+      const stats = subjectStats[ders];
+      return stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
+    });
 
     return {
-      subjectAccuracy: subjectAccuracyData,
-      weeklyMonthly: weeklyMonthlyData,
-      totalQuestions: totalQuestionsData,
-      timeSpent: timeSpentData,
-      topicAccuracy: topicAccuracyData
+      labels,
+      datasets: [{
+        label: 'Başarı Oranı (%)',
+        data,
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.8)',
+          'rgba(54, 162, 235, 0.8)',
+          'rgba(255, 206, 86, 0.8)',
+          'rgba(75, 192, 192, 0.8)',
+          'rgba(153, 102, 255, 0.8)',
+          'rgba(255, 159, 64, 0.8)'
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 2
+      }]
     };
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/');
   };
 
   const chartData = prepareChartData();
 
-  if (loading) {
-    return (
-      <div className="stats-container">
-        <div className="loading">Yükleniyor...</div>
-      </div>
-    );
-  }
-
   return (
-    <div className="stats-container">
-      <div className="stats-header">
-        <h1>📊 İstatistiklerim</h1>
-        <button 
-          className="back-button"
-          onClick={() => navigate('/home')}
-        >
-          ← Anasayfaya Dön
-        </button>
-      </div>
-
-      <div className="stats-tabs">
-        <button 
-          className={`tab-button ${activeTab === 'overview' ? 'active' : ''}`}
-          onClick={() => setActiveTab('overview')}
-        >
-          📈 Genel Bakış
-        </button>
-        <button 
-          className={`tab-button ${activeTab === 'detailed' ? 'active' : ''}`}
-          onClick={() => setActiveTab('detailed')}
-        >
-          📋 Detaylı İstatistikler
-        </button>
-      </div>
-
-      {activeTab === 'overview' && (
-        <div className="overview-section">
-          <div className="overview-header">
-            <h2>{getTimeFilterTitle()} Ders Bazlı Performans</h2>
-            <div className="time-filters">
-              <button 
-                className={`time-filter-button ${timeFilter === 'week' ? 'active' : ''}`}
-                onClick={() => setTimeFilter('week')}
-              >
-                📅 Bu Hafta
-              </button>
-              <button 
-                className={`time-filter-button ${timeFilter === 'month' ? 'active' : ''}`}
-                onClick={() => setTimeFilter('month')}
-              >
-                📆 Bu Ay
-              </button>
-              <button 
-                className={`time-filter-button ${timeFilter === 'all' ? 'active' : ''}`}
-                onClick={() => setTimeFilter('all')}
-              >
-                📊 Tüm Zamanlar
-              </button>
-            </div>
+    <div className="main-wrapper">
+      {/* HazerFen Logo - Absolute Top Left */}
+      <div className="top-logo">
+        <Link to="/home" className="logo-link">
+          <div className="logo">
+            <span className="bold">hazer</span><span className="cursive">Fen</span>
           </div>
-          
-          {subjectStats.length === 0 ? (
-            <div className="no-data">
-              <p>Henüz test çözülmemiş. Test çözmeye başlayarak istatistiklerinizi görebilirsiniz.</p>
-              <button 
-                className="start-test-button"
-                onClick={() => navigate('/home')}
-              >
-                Test Başlat
-              </button>
+          <div className="logo-slogan">BİLGİYLE KANATLAN!</div>
+        </Link>
+      </div>
+
+
+
+      <div className="container-fluid">
+        <div className="row">
+          {/* Sidebar */}
+          <nav id="sidebarMenu" className="col-md-3 col-lg-3 d-md-block sidebar collapse">
+            <div className="position-sticky py-4 px-3 sidebar-sticky">
+              <ul className="nav flex-column h-100">
+                <li className="nav-item">
+                  <Link className="nav-link" to="/home">
+                    <i className="bi-house-fill me-2"></i>
+                    Ana Sayfa
+                  </Link>
+                </li>
+
+                <li className="nav-item">
+                  <a className="nav-link active" aria-current="page" href="#">
+                    <i className="bi-graph-up me-2"></i>
+                    İstatistikler
+                  </a>
+                </li>
+
+                <li className="nav-item">
+                  <Link className="nav-link" to="/completed-tests">
+                    <i className="bi-file-text me-2"></i>
+                    Testler
+                  </Link>
+                </li>
+
+                <li className="nav-item">
+                  <Link className="nav-link" to="/profile">
+                    <i className="bi-person me-2"></i>
+                    Profil
+                  </Link>
+                </li>
+
+                <li className="nav-item">
+                  <Link className="nav-link" to="/settings">
+                    <i className="bi-gear me-2"></i>
+                    Ayarlar
+                  </Link>
+                </li>
+
+                <li className="nav-item border-top mt-auto pt-2">
+                  <a className="nav-link" href="#" onClick={handleLogout}>
+                    <i className="bi-box-arrow-left me-2"></i>
+                    Çıkış Yap
+                  </a>
+                </li>
+              </ul>
             </div>
-          ) : (
-            <div className="subject-cards">
-              {subjectStats
-                .filter(subject => {
-                  const filteredStats = getFilteredStats(subject);
-                  return filteredStats.total > 0; // Sadece soru çözülmüş dersleri göster
-                })
-                .map((subject, index) => {
-                  const subjectTopics = getSubjectTopics(subject.ders_id);
-                  const isExpanded = expandedSubjects.has(subject.ders_id);
-                  const filteredStats = getFilteredStats(subject);
+          </nav>
+
+          {/* Main Content */}
+          <main className="main-wrapper col-md-9 ms-sm-auto py-4 col-lg-9 px-md-4">
+            <div className="title-group mb-3">
+              <h1 className="h2 mb-0">İstatistikler</h1>
+              <small className="text-muted">Performansınızı analiz edin ve gelişim alanlarınızı keşfedin</small>
+            </div>
+
+            {/* Filters */}
+            <div className="row mb-4">
+              <div className="col-lg-6">
+                <div className="custom-block bg-white">
+                  <h5 className="mb-3">Filtreler</h5>
+                  <div className="row">
+                    <div className="col-6">
+                      <label className="form-label">Zaman Aralığı</label>
+                      <select 
+                        className="form-control" 
+                        value={timeFilter} 
+                        onChange={(e) => setTimeFilter(e.target.value)}
+                      >
+                        <option value="all">Tüm Zamanlar</option>
+                        <option value="week">Son 1 Hafta</option>
+                        <option value="month">Son 1 Ay</option>
+                        <option value="year">Son 1 Yıl</option>
+                      </select>
+                    </div>
+                    <div className="col-6">
+                      <label className="form-label">Ders</label>
+                      <select 
+                        className="form-control" 
+                        value={selectedSubject} 
+                        onChange={(e) => setSelectedSubject(e.target.value)}
+                      >
+                        <option value="all">Tüm Dersler</option>
+                        {Object.entries(DERS_ISIMLERI).map(([id, name]) => (
+                          <option key={id} value={id}>{name}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-lg-6">
+                <div className="custom-block bg-white">
+                  <h5 className="mb-3">Genel Özet</h5>
+                  <div className="row text-center">
+                    <div className="col-4">
+                      <div className="custom-block-numbers">
+                        <span className="h3 text-primary">
+                          {(() => {
+                            const filtered = getFilteredStats(selectedSubject);
+                            return filtered.reduce((sum, stat) => sum + (stat.total || 1), 0);
+                          })()}
+                        </span>
+                      </div>
+                      <small>Toplam Soru</small>
+                    </div>
+                    <div className="col-4">
+                      <div className="custom-block-numbers">
+                        <span className="h3 text-success">
+                          {(() => {
+                            const filtered = getFilteredStats(selectedSubject);
+                            const total = filtered.reduce((sum, stat) => sum + (stat.total || 1), 0);
+                            const correct = filtered.reduce((sum, stat) => sum + (stat.correct || 0), 0);
+                            return total > 0 ? Math.round((correct / total) * 100) : 0;
+                          })()}%
+                        </span>
+                      </div>
+                      <small>Başarı Oranı</small>
+                    </div>
+                    <div className="col-4">
+                      <div className="custom-block-numbers">
+                        <span className="h3 text-info">
+                          {(() => {
+                            const filtered = getFilteredStats(selectedSubject);
+                            const uniqueSubjects = new Set(filtered.map(s => s.ders_id)).size;
+                            return uniqueSubjects;
+                          })()}
+                        </span>
+                      </div>
+                      <small>Aktif Ders</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Charts */}
+            <div className="row mb-4">
+              <div className="col-lg-8">
+                <div className="custom-block bg-white">
+                  <h5 className="mb-4">Ders Bazlı Başarı Oranları</h5>
+                  <div style={{ height: '400px' }}>
+                    <Bar 
+                      data={chartData}
+                      options={{
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                          legend: {
+                            display: false
+                          }
+                        },
+                        scales: {
+                          y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                              callback: function(value) {
+                                return value + '%';
+                              }
+                            }
+                          }
+                        }
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-lg-4">
+                <div className="custom-block bg-white">
+                  <h5 className="mb-4">Zorluk Dağılımı</h5>
+                  <div style={{ height: '400px' }}>
+                    <Doughnut 
+                      data={{
+                        labels: ['Kolay', 'Orta', 'Zor', 'Çok Zor', 'Uzman'],
+                        datasets: [{
+                          data: [1, 2, 3, 4, 5].map(level => 
+                            getFilteredStats(selectedSubject).filter(s => s.zorluk === level).length
+                          ),
+                          backgroundColor: [
+                            '#28a745',
+                            '#ffc107',
+                            '#fd7e14',
+                            '#dc3545',
+                            '#6f42c1'
+                          ]
+                        }]
+                      }}
+                      options={{
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                          legend: {
+                            position: 'bottom'
+                          }
+                        }
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Detailed Statistics */}
+            <div className="row">
+              <div className="col-12">
+                <div className="custom-block bg-white">
+                  <h5 className="mb-4">Detaylı İstatistikler</h5>
                   
-                  return (
-                    <div key={index} className="subject-card">
-                      <div className="subject-header">
-                        <h3>{getDersName(subject.ders_id)}</h3>
-                        <div className="header-right">
-                          <div className="accuracy-badge" style={{ backgroundColor: getProgressColor(filteredStats.accuracy) }}>
-                            {filteredStats.accuracy}%
-                          </div>
-                        </div>
+                  {loading ? (
+                    <div className="text-center py-4">
+                      <div className="spinner-border text-primary" role="status">
+                        <span className="visually-hidden">Yükleniyor...</span>
                       </div>
-                      
-                      <div className="subject-stats">
-                        <div className="stat-row">
-                          <span className="stat-label">Toplam çözülen soru:</span>
-                          <span className="stat-value">{filteredStats.total}</span>
-                        </div>
+                    </div>
+                  ) : (
+                    <div className="accordion" id="statsAccordion">
+                      {Object.entries(DERS_ISIMLERI).map(([dersId, dersName]) => {
+                        const subjectStats = getSubjectTopics(parseInt(dersId));
+                        const isExpanded = expandedSubjects.has(parseInt(dersId));
                         
-                        <div className="stat-row">
-                          <span className="stat-label">Doğru çözülen soru:</span>
-                          <span className="stat-value correct-answer">{filteredStats.correct}</span>
-                        </div>
-                        
-                        <div className="stat-row">
-                          <span className="stat-label">Yanlış çözülen soru:</span>
-                          <span className="stat-value incorrect-answer">{filteredStats.incorrect}</span>
-                        </div>
-                        
-                        <div className="stat-row">
-                          <span className="stat-label">Harcanan süre:</span>
-                          <span className="stat-value">{filteredStats.time}</span>
-                        </div>
-                      </div>
+                        if (subjectStats.length === 0) return null;
 
-                      <div className="activity-dates">
-                        <p><strong>İlk Test:</strong> {subject.first_answer_date}</p>
-                        <p><strong>Son Test:</strong> {subject.last_answer_date}</p>
-                      </div>
+                        const totalQuestions = subjectStats.reduce((sum, stat) => sum + (stat.total || 1), 0);
+                        const correctAnswers = subjectStats.reduce((sum, stat) => sum + (stat.correct || 0), 0);
+                        const accuracy = totalQuestions > 0 ? Math.round((correctAnswers / totalQuestions) * 100) : 0;
 
-                      <div className="card-footer">
-                        <button 
-                          className="topic-stats-button"
-                          onClick={() => toggleSubjectExpansion(subject.ders_id)}
-                        >
-                          📚 Konu Bazlı İstatistikler
-                        </button>
-                      </div>
-
-                      {/* Konu Bazlı Detaylar - Butonun altında */}
-                      {isExpanded && subjectTopics.length > 0 && (
-                        <div className="topic-breakdown">
-                          <h4>📚 Konu Bazlı Performans:</h4>
-                          <div className="topic-list">
-                            {subjectTopics.map((topic, topicIndex) => (
-                              <div key={topicIndex} className="topic-item">
-                                <div className="topic-header">
-                                  <span className="topic-name">{getKonuName(topic.ders_id, topic.konu_id)}</span>
-                                  <span 
-                                    className="topic-accuracy" 
-                                    style={{ color: getProgressColor(topic.accuracy) }}
-                                  >
-                                    {topic.accuracy}%
+                        return (
+                          <div key={dersId} className="accordion-item">
+                            <h2 className="accordion-header">
+                              <button 
+                                className={`accordion-button ${!isExpanded ? 'collapsed' : ''}`}
+                                type="button"
+                                onClick={() => toggleSubjectExpansion(parseInt(dersId))}
+                              >
+                                <div className="d-flex justify-content-between align-items-center w-100 me-3">
+                                  <span>
+                                    <i className={`bi-${dersId === '1' ? 'calculator' : dersId === '2' ? 'lightning' : dersId === '3' ? 'flask' : dersId === '4' ? 'heart-pulse' : dersId === '5' ? 'book' : 'clock-history'} me-2`}></i>
+                                    {dersName}
                                   </span>
+                                  <div className="d-flex align-items-center">
+                                    <span className="badge bg-primary me-2">{totalQuestions} soru</span>
+                                    <span className={`badge bg-${getProgressColor(accuracy)}`}>{accuracy}%</span>
+                                  </div>
                                 </div>
-                                <div className="topic-stats">
-                                  <span className="topic-detail">
-                                    {topic.correct} doğru / {topic.total} soru
-                                  </span>
-                                  <div className="topic-progress">
-                                    <div 
-                                      className="topic-progress-fill"
-                                      style={{ 
-                                        width: `${topic.accuracy}%`,
-                                        backgroundColor: getProgressColor(topic.accuracy)
-                                      }}
-                                    ></div>
+                              </button>
+                            </h2>
+                            
+                            {isExpanded && (
+                              <div className="accordion-collapse collapse show">
+                                <div className="accordion-body">
+                                  <div className="table-responsive">
+                                    <table className="table table-hover">
+                                      <thead>
+                                        <tr>
+                                          <th>Konu</th>
+                                          <th>Zorluk</th>
+                                          <th>Toplam</th>
+                                          <th>Doğru</th>
+                                          <th>Başarı</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        {subjectStats.map((stat, index) => {
+                                          const konuName = getKonuName(stat.ders_id, stat.konu_id);
+                                          const total = stat.total || 1;
+                                          const correct = stat.correct || 0;
+                                          const accuracy = total > 0 ? Math.round((correct / total) * 100) : 0;
+                                          
+                                          return (
+                                            <tr key={index}>
+                                              <td>{konuName}</td>
+                                              <td>
+                                                <span className={`badge bg-${stat.zorluk <= 2 ? 'success' : stat.zorluk <= 3 ? 'warning' : 'danger'}`}>
+                                                  {getZorlukText(stat.zorluk)}
+                                                </span>
+                                              </td>
+                                              <td>{total}</td>
+                                              <td>
+                                                <span className="text-success">{correct}</span>
+                                              </td>
+                                              <td>
+                                                <div className="progress" style={{ height: '20px' }}>
+                                                  <div 
+                                                    className={`progress-bar bg-${accuracy >= 80 ? 'success' : accuracy >= 60 ? 'warning' : 'danger'}`}
+                                                    style={{ width: `${accuracy}%` }}
+                                                  ></div>
+                                                </div>
+                                                <small className="text-muted">{accuracy}%</small>
+                                              </td>
+                                            </tr>
+                                          );
+                                        })}
+                                      </tbody>
+                                    </table>
                                   </div>
                                 </div>
                               </div>
-                            ))}
+                            )}
                           </div>
-                        </div>
-                      )}
+                        );
+                      })}
                     </div>
-                  );
-                })}
+                  )}
+                </div>
+              </div>
             </div>
-          )}
+          </main>
         </div>
-      )}
-
-      {activeTab === 'detailed' && (
-        <div className="detailed-section">
-          <h2>📊 Grafiksel İstatistikler</h2>
-          
-          {!chartData ? (
-            <div className="no-data">
-              <p>Henüz detaylı istatistik verisi bulunmuyor.</p>
-            </div>
-          ) : (
-            <div className="charts-grid">
-              {/* Ders Bazlı Başarı Oranları */}
-              <div className="chart-card">
-                <h3>📈 Ders Bazlı Genel Başarı Oranları</h3>
-                <div className="chart-container">
-                  <Bar 
-                    data={chartData.subjectAccuracy}
-                    options={{
-                      responsive: true,
-                      maintainAspectRatio: false,
-                      plugins: {
-                        legend: {
-                          display: false
-                        },
-                        title: {
-                          display: false
-                        }
-                      },
-                      scales: {
-                        y: {
-                          beginAtZero: true,
-                          max: 100,
-                          ticks: {
-                            callback: function(value) {
-                              return value + '%';
-                            }
-                          }
-                        }
-                      }
-                    }}
-                  />
-                </div>
-              </div>
-
-              {/* Haftalık, Aylık ve Tüm Zamanlar Karşılaştırması */}
-              <div className="chart-card">
-                <h3>📊 Haftalık, Aylık ve Tüm Zamanlar Başarı Karşılaştırması</h3>
-                <div className="chart-container">
-                  <Bar 
-                    data={chartData.weeklyMonthly}
-                    options={{
-                      responsive: true,
-                      maintainAspectRatio: false,
-                      plugins: {
-                        legend: {
-                          position: 'top'
-                        },
-                        title: {
-                          display: false
-                        }
-                      },
-                      scales: {
-                        y: {
-                          beginAtZero: true,
-                          max: 100,
-                          ticks: {
-                            callback: function(value) {
-                              return value + '%';
-                            }
-                          }
-                        }
-                      }
-                    }}
-                  />
-                </div>
-              </div>
-
-              {/* Toplam Soru Sayıları */}
-              <div className="chart-card">
-                <h3>📚 Ders Bazlı Toplam Soru Sayıları</h3>
-                <div className="chart-container">
-                  <Bar 
-                    data={chartData.totalQuestions}
-                    options={{
-                      responsive: true,
-                      maintainAspectRatio: false,
-                      plugins: {
-                        legend: {
-                          display: false
-                        },
-                        title: {
-                          display: false
-                        }
-                      },
-                      scales: {
-                        y: {
-                          beginAtZero: true,
-                          ticks: {
-                            stepSize: 1
-                          }
-                        }
-                      }
-                    }}
-                  />
-                </div>
-              </div>
-
-              {/* Harcanan Süre Dağılımı */}
-              <div className="chart-card">
-                <h3>⏱️ Haftalık, Aylık ve Tüm Zamanlar Harcanan Süre</h3>
-                <div className="chart-container">
-                  <Bar 
-                    data={chartData.timeSpent}
-                    options={{
-                      responsive: true,
-                      maintainAspectRatio: false,
-                      plugins: {
-                        legend: {
-                          position: 'top'
-                        },
-                        title: {
-                          display: false
-                        }
-                      },
-                      scales: {
-                        y: {
-                          beginAtZero: true,
-                          max: Math.max(...chartData.timeSpent.datasets.flatMap(dataset => dataset.data)) + 100,
-                          ticks: {
-                            callback: function(value) {
-                              return value + ' dk';
-                            }
-                          }
-                        }
-                      }
-                    }}
-                  />
-                </div>
-              </div>
-
-              {/* En İyi 10 Konu */}
-              <div className="chart-card full-width">
-                <h3>🏆 En İyi 10 Konu (Başarı Oranına Göre)</h3>
-                <div className="chart-container">
-                  <Bar 
-                    data={chartData.topicAccuracy}
-                    options={{
-                      responsive: true,
-                      maintainAspectRatio: false,
-                      indexAxis: 'y',
-                      plugins: {
-                        legend: {
-                          display: false
-                        },
-                        title: {
-                          display: false
-                        }
-                      },
-                      scales: {
-                        x: {
-                          beginAtZero: true,
-                          max: 100,
-                          ticks: {
-                            callback: function(value) {
-                              return value + '%';
-                            }
-                          }
-                        }
-                      }
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-      )}
+      </div>
     </div>
   );
 }

@@ -1,274 +1,267 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import { getCurrentUser } from '../api/auth';
+import { fetchCompletedTests as fetchCompletedTestsAPI } from '../api/statistics';
 import './CompletedTests.css';
 
 export default function CompletedTests({ token }) {
   const navigate = useNavigate();
   const [completedTests, setCompletedTests] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedTest, setSelectedTest] = useState(null);
-  const [showReport, setShowReport] = useState(false);
+  const [user, setUser] = useState(null);
 
   const dersler = [
-    { id: 1, name: 'Matematik' },
-    { id: 2, name: 'Fizik' },
-    { id: 3, name: 'Kimya' },
-    { id: 4, name: 'Biyoloji' },
-    { id: 5, name: 'Türkçe' },
-    { id: 6, name: 'Tarih' },
+    { id: 1, name: 'Matematik', icon: 'bi-calculator' },
+    { id: 2, name: 'Fizik', icon: 'bi-lightning' },
+    { id: 3, name: 'Kimya', icon: 'bi-flask' },
+    { id: 4, name: 'Biyoloji', icon: 'bi-heart-pulse' },
+    { id: 5, name: 'Türkçe', icon: 'bi-book' },
+    { id: 6, name: 'Tarih', icon: 'bi-clock-history' },
   ];
 
   useEffect(() => {
     fetchCompletedTests();
+    fetchUser();
   }, []);
+
+  const fetchUser = async () => {
+    try {
+      const userData = await getCurrentUser(token);
+      setUser(userData);
+    } catch (error) {
+      console.error('Kullanıcı bilgileri alınamadı:', error);
+    }
+  };
 
   const fetchCompletedTests = async () => {
     try {
-      const response = await fetch('/stats/completed-tests', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      
-      if (response.ok) {
-        const data = await response.json();
-        setCompletedTests(data);
-      } else {
-        console.error('Test verileri alınamadı');
-      }
+      setLoading(true);
+      const data = await fetchCompletedTestsAPI(token);
+      setCompletedTests(data);
     } catch (error) {
-      console.error('Hata:', error);
+      console.error('Test yükleme hatası:', error);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleTestClick = (test) => {
-    setSelectedTest(test);
-    setShowReport(true);
-  };
-
-  const handleCloseReport = () => {
-    setShowReport(false);
-    setSelectedTest(null);
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/');
   };
 
   const getDersName = (dersId) => {
-    return dersler.find(d => d.id === dersId)?.name || 'Bilinmeyen Ders';
+    return dersler.find(d => d.id === dersId)?.name || `Ders ${dersId}`;
   };
 
-  const getZorlukText = (zorluk) => {
-    switch (zorluk) {
-      case 1: return 'Kolay';
-      case 2: return 'Orta';
-      case 3: return 'Zor';
-      default: return `Seviye ${zorluk}`;
-    }
+  const getDersIcon = (dersId) => {
+    return dersler.find(d => d.id === dersId)?.icon || 'bi-question';
+  };
+
+  const getAccuracyColor = (accuracy) => {
+    if (accuracy >= 80) return 'success';
+    if (accuracy >= 60) return 'warning';
+    return 'danger';
   };
 
   const formatDate = (dateString) => {
-    // Backend'den gelen tarih zaten Türkiye formatında (dd.mm.yyyy hh:mm)
-    // Sadece daha okunabilir hale getirelim
-    const [date, time] = dateString.split(' ');
-    const [day, month, year] = date.split('.');
-    const [hour, minute] = time.split(':');
-    
-    const months = [
-      'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
-      'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'
-    ];
-    
-    return `${day} ${months[parseInt(month) - 1]} ${year} - ${hour}:${minute}`;
+    try {
+      const date = new Date(dateString);
+      const turkeyTime = new Date(date.getTime() + (3 * 60 * 60 * 1000));
+      return turkeyTime.toLocaleDateString('tr-TR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    } catch (error) {
+      return 'Tarih bilgisi yok';
+    }
   };
 
-  if (loading) {
-    return (
-      <div className="completed-tests-container">
-        <div className="loading">Yükleniyor...</div>
-      </div>
-    );
-  }
-
   return (
-    <div className="completed-tests-container">
-      <div className="completed-tests-header">
-        <h1>Çözülen Testler</h1>
-        <button 
-          className="back-button"
-          onClick={() => navigate('/home')}
-        >
-          ← Anasayfaya Dön
-        </button>
+    <div className="main-wrapper">
+      {/* HazerFen Logo - Absolute Top Left */}
+      <div className="top-logo">
+        <Link to="/home" className="logo-link">
+          <div className="logo">
+            <span className="bold">hazer</span><span className="cursive">Fen</span>
+          </div>
+          <div className="logo-slogan">BİLGİYLE KANATLAN!</div>
+        </Link>
       </div>
 
-      {completedTests.length === 0 ? (
-        <div className="no-tests">
-          <h3>Henüz test çözülmemiş</h3>
-          <p>Test çözmeye başlamak için anasayfaya dönün ve bir test başlatın.</p>
-          <button 
-            className="start-test-button"
-            onClick={() => navigate('/home')}
-          >
-            Test Başlat
-          </button>
-        </div>
-      ) : (
-        <div className="tests-grid">
-          {completedTests.map((test, index) => (
-            <div 
-              key={index} 
-              className="test-card"
-              onClick={() => handleTestClick(test)}
-            >
-              <div className="test-header">
-                <h3>{getDersName(test.ders_id)}</h3>
-                <span className="test-date">{formatDate(test.test_date)}</span>
-              </div>
-              
-              <div className="test-stats">
-                <div className="stat-item">
-                  <span className="stat-label">Toplam Soru:</span>
-                  <span className="stat-value">{test.total_questions}</span>
-                </div>
-                <div className="stat-item">
-                  <span className="stat-label">Doğru:</span>
-                  <span className="stat-value correct">{test.correct_answers}</span>
-                </div>
-                <div className="stat-item">
-                  <span className="stat-label">Yanlış:</span>
-                  <span className="stat-value incorrect">{test.incorrect_answers}</span>
-                </div>
-                <div className="stat-item">
-                  <span className="stat-label">Başarı:</span>
-                  <span className="stat-value accuracy">{test.accuracy}%</span>
-                </div>
-              </div>
-              
-              <div className="test-footer">
-                <span className="view-report">Raporu Görüntüle →</span>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
 
-      {/* Test Raporu Modal */}
-      {showReport && selectedTest && (
-        <div className="report-modal-overlay">
-          <div className="report-modal">
-            <div className="report-header">
-              <h2>Test Raporu</h2>
-              <button className="close-button" onClick={handleCloseReport}>×</button>
+
+      <div className="container-fluid">
+        <div className="row">
+          {/* Sidebar */}
+          <nav id="sidebarMenu" className="col-md-3 col-lg-3 d-md-block sidebar collapse">
+            <div className="position-sticky py-4 px-3 sidebar-sticky">
+              <ul className="nav flex-column h-100">
+                <li className="nav-item">
+                  <Link className="nav-link" to="/home">
+                    <i className="bi-house-fill me-2"></i>
+                    Ana Sayfa
+                  </Link>
+                </li>
+
+                <li className="nav-item">
+                  <Link className="nav-link" to="/statistics">
+                    <i className="bi-graph-up me-2"></i>
+                    İstatistikler
+                  </Link>
+                </li>
+
+                <li className="nav-item">
+                  <a className="nav-link active" aria-current="page" href="#">
+                    <i className="bi-file-text me-2"></i>
+                    Çözülen Testler
+                  </a>
+                </li>
+
+                <li className="nav-item">
+                  <Link className="nav-link" to="/profile">
+                    <i className="bi-person me-2"></i>
+                    Profil
+                  </Link>
+                </li>
+
+                <li className="nav-item">
+                  <Link className="nav-link" to="/settings">
+                    <i className="bi-gear me-2"></i>
+                    Ayarlar
+                  </Link>
+                </li>
+
+                <li className="nav-item border-top mt-auto pt-2">
+                  <a className="nav-link" href="#" onClick={handleLogout}>
+                    <i className="bi-box-arrow-left me-2"></i>
+                    Çıkış Yap
+                  </a>
+                </li>
+              </ul>
             </div>
-            
-            <div className="report-content">
-              <div className="report-summary">
-                <h3>{getDersName(selectedTest.ders_id)} - {formatDate(selectedTest.test_date)}</h3>
-                <div className="summary-stats">
-                  <div className="summary-item">
-                    <span className="summary-label">Genel Başarı:</span>
-                    <span className="summary-value">
-                      {selectedTest.correct_answers} doğru / {selectedTest.incorrect_answers} yanlış 
-                      ({selectedTest.accuracy}%)
-                    </span>
+          </nav>
+
+          {/* Main Content */}
+          <main className="main-wrapper col-md-9 ms-sm-auto py-4 col-lg-9 px-md-4">
+            <div className="title-group mb-3">
+              <h1 className="h2 mb-0">Çözülen Testler</h1>
+              <small className="text-muted">Geçmiş test performanslarınızı inceleyin</small>
+            </div>
+
+            {loading ? (
+              <div className="text-center py-5">
+                <div className="spinner-border text-primary" role="status">
+                  <span className="visually-hidden">Yükleniyor...</span>
+                </div>
+              </div>
+            ) : completedTests.length === 0 ? (
+              <div className="custom-block bg-white text-center py-5">
+                <i className="bi-file-text display-1 text-muted mb-3"></i>
+                <h4>Henüz test çözülmemiş</h4>
+                <p className="text-muted">Test çözmeye başlayarak burada geçmiş performanslarınızı görebilirsiniz.</p>
+                <Link to="/home" className="btn custom-btn">
+                  <i className="bi-play-circle me-2"></i>
+                  Test Başlat
+                </Link>
+              </div>
+            ) : (
+              <div className="row">
+                {completedTests.map((test, index) => (
+                  <div key={index} className="col-lg-6 col-md-12 mb-4">
+                    <div className="custom-block bg-white">
+                      <div className="d-flex align-items-center mb-3">
+                        <div className="profile-rounded bg-primary text-white me-3">
+                          <i className={getDersIcon(test.ders_id)}></i>
+                        </div>
+                        <div>
+                          <h5 className="mb-1">{getDersName(test.ders_id)} Testi</h5>
+                          <small className="text-muted">{formatDate(test.test_date)}</small>
+                        </div>
+                        <div className="ms-auto">
+                          <span className={`badge bg-${getAccuracyColor(test.accuracy)} fs-6`}>
+                            {test.accuracy}%
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="row text-center mb-3">
+                        <div className="col-4">
+                          <div className="custom-block-numbers">
+                            <span className="h4 text-primary">{test.total_questions}</span>
+                          </div>
+                          <small>Toplam Soru</small>
+                        </div>
+                        <div className="col-4">
+                          <div className="custom-block-numbers">
+                            <span className="h4 text-success">{test.correct_answers}</span>
+                          </div>
+                          <small>Doğru</small>
+                        </div>
+                        <div className="col-4">
+                          <div className="custom-block-numbers">
+                            <span className="h4 text-danger">{test.incorrect_answers}</span>
+                          </div>
+                          <small>Yanlış</small>
+                        </div>
+                      </div>
+
+                      <div className="progress mb-3" style={{ height: '8px' }}>
+                        <div 
+                          className="progress-bar bg-success" 
+                          style={{ width: `${test.accuracy}%` }}
+                        ></div>
+                      </div>
+
+                      {test.konu_bazli && test.konu_bazli.length > 0 && (
+                        <div className="mb-3">
+                          <h6 className="mb-2">Konu Bazlı Performans</h6>
+                          <div className="table-responsive">
+                            <table className="table table-sm">
+                              <thead>
+                                <tr>
+                                  <th>Konu</th>
+                                  <th>Başarı</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {test.konu_bazli.slice(0, 3).map((konu, idx) => (
+                                  <tr key={idx}>
+                                    <td>Konu {konu.konu_id}</td>
+                                    <td>
+                                      <span className={`badge bg-${getAccuracyColor(konu.accuracy)}`}>
+                                        {konu.accuracy}%
+                                      </span>
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      )}
+
+                      <div className="d-flex justify-content-between align-items-center">
+                        <small className="text-muted">
+                          <i className="bi-clock me-1"></i>
+                          {test.total_questions * 2} dakika
+                        </small>
+                        <button className="btn btn-outline-primary btn-sm">
+                          <i className="bi-eye me-1"></i>
+                          Detayları Gör
+                        </button>
+                      </div>
+                    </div>
                   </div>
-                  <div className="summary-item">
-                    <span className="summary-label">Toplam Soru:</span>
-                    <span className="summary-value">{selectedTest.total_questions}</span>
-                  </div>
-                </div>
+                ))}
               </div>
-
-              {selectedTest.konu_bazli.length > 0 && (
-                <div className="report-section">
-                  <h4>Konu Bazlı Performans</h4>
-                  <table className="report-table">
-                    <thead>
-                      <tr>
-                        <th>Konu ID</th>
-                        <th>Toplam</th>
-                        <th>Doğru</th>
-                        <th>Başarı %</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {selectedTest.konu_bazli.map((konu, i) => (
-                        <tr key={i}>
-                          <td>{konu.konu_id}</td>
-                          <td>{konu.total}</td>
-                          <td>{konu.correct}</td>
-                          <td>{konu.accuracy}%</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              )}
-
-              {selectedTest.zorluk_bazli.length > 0 && (
-                <div className="report-section">
-                  <h4>Zorluk Seviyesi Bazında</h4>
-                  <table className="report-table">
-                    <thead>
-                      <tr>
-                        <th>Zorluk</th>
-                        <th>Toplam</th>
-                        <th>Doğru</th>
-                        <th>Başarı %</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {selectedTest.zorluk_bazli.map((zorluk, i) => (
-                        <tr key={i}>
-                          <td>{getZorlukText(zorluk.zorluk)}</td>
-                          <td>{zorluk.total}</td>
-                          <td>{zorluk.correct}</td>
-                          <td>{zorluk.accuracy}%</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              )}
-
-              <div className="report-analysis">
-                <h4>Analiz & Gelişim Önerileri</h4>
-                <div className="analysis-content">
-                  {selectedTest.accuracy >= 80 ? (
-                    <p className="positive-feedback">
-                      🎉 Mükemmel performans! Bu testte çok başarılı oldun. 
-                      Bu seviyeyi korumaya devam et.
-                    </p>
-                  ) : selectedTest.accuracy >= 60 ? (
-                    <p className="good-feedback">
-                      👍 İyi bir performans gösterdin. Yanlış yaptığın konularda 
-                      biraz daha pratik yaparak başarı oranını artırabilirsin.
-                    </p>
-                  ) : (
-                    <p className="improvement-feedback">
-                      📚 Bu testte zorlandığın görülüyor. Yanlış yaptığın konularda 
-                      temel kavramları tekrar etmeni ve daha fazla pratik yapmanı öneririz.
-                    </p>
-                  )}
-                  
-                  <ul className="suggestions">
-                    <li>Yanlış yaptığın konularda ek testler çöz</li>
-                    <li>Temel kavramları tekrar gözden geçir</li>
-                    <li>Zaman yönetimi için pratik yap</li>
-                    <li>Düzenli olarak test çözmeye devam et</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            
-            <div className="report-footer">
-              <button className="close-report-button" onClick={handleCloseReport}>
-                Kapat
-              </button>
-            </div>
-          </div>
+            )}
+          </main>
         </div>
-      )}
+      </div>
     </div>
   );
 } 

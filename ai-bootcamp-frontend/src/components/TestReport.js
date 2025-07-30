@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function TestReport() {
-  // Örnek veriler (backend'den alınacak şekilde güncellenebilir)
   const toplamSoru = 30;
   const dogru = 18;
   const yanlis = 9;
@@ -21,10 +20,6 @@ export default function TestReport() {
     { seviye: 'Zor', toplam: 5, dogru: 2, yanlis: 2, bos: 1 },
   ];
 
-  // Bu sayfada buton veya menü yok, sadece rapor var
-  // İstatistiklere kaydetme işlemi için ileride backend entegrasyonu eklenebilir
-
-  // Sayfa yüklendiğinde scroll'u en üste al
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
   return (
