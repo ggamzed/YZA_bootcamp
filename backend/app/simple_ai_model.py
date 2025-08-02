@@ -31,47 +31,47 @@ class SimpleAIModel:
         }
     
     def save_user_stats(self):
-        # Pickle sorunu nedeniyle şimdilik kaydetmeyi atla
-        pass
+        try:
+            with open(self.user_stats_path, "wb") as f:
+                pickle.dump(self.user_stats, f)
+        except Exception as e:
+            print(f"User stats kaydetme hatası: {e}")
+            pass
     
     def predict(self, X):
-        """Soru uygunluk skorunu hesapla"""
         user_id = X.get('user_id', 1)
         user_data = self.user_stats[user_id]
         
-        # Temel parametreler
         difficulty = X.get('zorluk', 3)
         ders_id = X.get('ders_id', 1)
         konu_id = X.get('konu_id', 1)
         
-        # Kullanıcı performansı
         user_accuracy = 0.5
         if user_data['total_questions'] > 0:
             user_accuracy = user_data['correct_answers'] / user_data['total_questions']
         
-        # Ders performansı
         subject_accuracy = 0.5
         subject_data = user_data['subject_performance'][ders_id]
         if subject_data['total'] > 0:
             subject_accuracy = subject_data['correct'] / subject_data['total']
         
-        # Konu performansı
         topic_accuracy = 0.5
         topic_key = (ders_id, konu_id)
         topic_data = user_data['topic_performance'][topic_key]
         if topic_data['total'] > 0:
             topic_accuracy = topic_data['correct'] / topic_data['total']
         
-        # Zorluk performansı
+        print(f"DEBUG AI Predict - User: {user_id}, Total: {user_data['total_questions']}, Correct: {user_data['correct_answers']}")
+        print(f"DEBUG AI Predict - User Accuracy: {user_accuracy:.2f}, Subject: {subject_accuracy:.2f}, Topic: {topic_accuracy:.2f}")
+        print(f"DEBUG AI Predict - Topic Key: {topic_key}, Topic Data: {topic_data}")
+        
         difficulty_accuracy = 0.5
         difficulty_data = user_data['difficulty_performance'][difficulty]
         if difficulty_data['total'] > 0:
             difficulty_accuracy = difficulty_data['correct'] / difficulty_data['total']
         
-        # Skor hesaplama
         base_score = 0.5
         
-        # Zorluk faktörü
         if difficulty <= 2:
             difficulty_factor = 0.3
         elif difficulty <= 4:
@@ -79,32 +79,30 @@ class SimpleAIModel:
         else:
             difficulty_factor = 0.7
         
-        # Performans faktörü (düşük performans = yüksek öncelik)
-        performance_factor = 1.0 - (user_accuracy * 0.3 + subject_accuracy * 0.3 + topic_accuracy * 0.4)
+        performance_factor = (user_accuracy * 0.1 + subject_accuracy * 0.2 + topic_accuracy * 0.7)
         
-        # Final skor
-        score = base_score + (difficulty_factor * 0.3) + (performance_factor * 0.4)
+        score = base_score + (difficulty_factor * 0.2) + (performance_factor * 0.6)
+        
+        print(f"DEBUG AI Predict - Final Score: {score:.2f} ({score*100:.0f}%)")
         
         return max(0.0, min(1.0, score))
     
     def update(self, X, y):
-        """Kullanıcı istatistiklerini güncelle"""
         user_id = X.get('user_id', 1)
         user_data = self.user_stats[user_id]
         
-        # Genel istatistikler
+        print(f"DEBUG AI Update - User: {user_id}, Correct: {y}, Before - Total: {user_data['total_questions']}, Correct: {user_data['correct_answers']}")
+        
         user_data['total_questions'] += 1
         if y:
             user_data['correct_answers'] += 1
         
-        # Ders bazlı istatistikler
         ders_id = X.get('ders_id', 1)
         subject_data = user_data['subject_performance'][ders_id]
         subject_data['total'] += 1
         if y:
             subject_data['correct'] += 1
         
-        # Konu bazlı istatistikler
         konu_id = X.get('konu_id', 1)
         topic_key = (ders_id, konu_id)
         topic_data = user_data['topic_performance'][topic_key]
@@ -112,22 +110,20 @@ class SimpleAIModel:
         if y:
             topic_data['correct'] += 1
         
-        # Zorluk bazlı istatistikler
         difficulty = X.get('zorluk', 3)
         difficulty_data = user_data['difficulty_performance'][difficulty]
         difficulty_data['total'] += 1
         if y:
             difficulty_data['correct'] += 1
         
-        # Son performans
         user_data['recent_performance'].append(y)
         if len(user_data['recent_performance']) > 10:
             user_data['recent_performance'].pop(0)
         
-        # Son aktivite
         user_data['last_activity'] = datetime.now(timezone(timedelta(hours=3)))  # Türkiye saati
         
-        # İstatistikleri kaydet
+        print(f"DEBUG AI Update - After - Total: {user_data['total_questions']}, Correct: {user_data['correct_answers']}")
+        
         self.save_user_stats()
     
     def get_user_insights(self, user_id):
@@ -139,11 +135,9 @@ class SimpleAIModel:
                 'message': 'Henüz soru çözülmemiş',
                 'recommendations': ['İlk testinizi çözmeye başlayın!']
             }
-        
-        # Genel performans
+
         overall_accuracy = user_data['correct_answers'] / user_data['total_questions']
         
-        # En iyi ders
         best_subject = None
         best_accuracy = 0
         for ders_id, data in user_data['subject_performance'].items():
@@ -153,7 +147,6 @@ class SimpleAIModel:
                     best_accuracy = accuracy
                     best_subject = ders_id
         
-        # En zayıf ders
         worst_subject = None
         worst_accuracy = 1
         for ders_id, data in user_data['subject_performance'].items():
@@ -163,7 +156,6 @@ class SimpleAIModel:
                     worst_accuracy = accuracy
                     worst_subject = ders_id
         
-        # Son performans trendi
         recent_accuracy = 0
         if len(user_data['recent_performance']) > 0:
             recent_accuracy = sum(user_data['recent_performance']) / len(user_data['recent_performance'])

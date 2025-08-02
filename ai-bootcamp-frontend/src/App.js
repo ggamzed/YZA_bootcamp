@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/Login';
 import HomePage from './components/HomePage/HomePage';
+import TestPage from './components/TestPage';
 import QuestionPage from './components/questions/QuestionPage';
 import StatsPage from './components/StatsPage/StatsPage';
 import CompletedTests from './components/CompletedTests';
@@ -36,7 +37,7 @@ function App() {
           />
           <Route 
             path="/test" 
-            element={token ? <QuestionPage token={token} /> : <Navigate to="/" />} 
+            element={token ? <TestPage token={token} setToken={setToken} /> : <Navigate to="/" />} 
           />
           <Route 
             path="/statistics" 

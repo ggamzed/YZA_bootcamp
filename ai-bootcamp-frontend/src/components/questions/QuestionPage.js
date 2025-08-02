@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { submitAnswer } from '../../api/answers';
+import { submitAnswer, getAnswerPrediction } from '../../api/answers';
 import './questionPage.css';
 
 const QuestionText = ({ text }) => {
@@ -120,8 +120,8 @@ export default function QuestionPage({ token }) {
   const nav = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [showReport, setShowReport] = useState(false);
-
-  // Debug için log
+  const [aiPrediction, setAiPrediction] = useState(null);
+  const [showPrediction, setShowPrediction] = useState(false);
 
   
   useEffect(() => {
@@ -169,68 +169,122 @@ export default function QuestionPage({ token }) {
   }, []);
 
   async function fetchBatch() {
-    const res = await fetch(`/questions/batch?ders_id=${dersId}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    const data = await res.json();
-    setQuestions(data);
-    setCurrent(0);
-    setSelected('');
-    setMessage('');
-    setShowExplanation(false);
-    setAnswerHistory([]);
+    try {
+      const res = await fetch(`/questions/batch?ders_id=${dersId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      
+      const data = await res.json();
+      setQuestions(data);
+      setCurrent(0);
+      setSelected('');
+      setMessage('');
+      setShowExplanation(false);
+      setAnswerHistory([]);
+    } catch (error) {
+      console.error('Soru yükleme hatası:', error);
+      let errorMessage = 'Sorular yüklenirken bir hata oluştu. Lütfen sayfayı yenileyin.';
+      
+      if (error.message.includes('401')) {
+        errorMessage = 'Oturum süreniz dolmuş. Lütfen tekrar giriş yapın.';
+      } else if (error.message.includes('400')) {
+        errorMessage = 'Bu ders için yeterli soru bulunamadı.';
+      } else if (error.message.includes('500')) {
+        errorMessage = 'Sunucu hatası. Lütfen daha sonra tekrar deneyin.';
+      } else if (error.message.includes('fetch')) {
+        errorMessage = 'İnternet bağlantınızı kontrol edin ve tekrar deneyin.';
+      }
+      
+      setMessage(errorMessage);
+    }
   }
 
   const question = questions[current];
 
-  const handleCheck = () => {
+  const handleCheck = async () => {
     if (!selected) {
       setMessage('Lütfen bir seçenek seçin.');
       return;
     }
-    const isCorrect = selected === question.dogru_cevap;
-    setMessage(isCorrect ? '✔️ Doğru' : '❌ Yanlış');
-    setShowExplanation(true);
+    
+    try {
+      const isCorrect = selected === question.dogru_cevap;
+      setMessage(isCorrect ? '✔️ Doğru' : '❌ Yanlış');
+      setShowExplanation(true);
+      
+      const prediction = await getAnswerPrediction({
+        ...question,
+        is_correct: isCorrect
+      }, token);
+      setAiPrediction(prediction);
+      setShowPrediction(true);
+    } catch (error) {
+      console.error('AI tahmin hatası:', error);
+      const isCorrect = selected === question.dogru_cevap;
+      setMessage(isCorrect ? '✔️ Doğru' : '❌ Yanlış');
+      setShowExplanation(true);
+    }
   };
 
   const handleSubmit = async () => {
-    const isSkipped = !selected;
-    
-    if (isSkipped) {
-      await submitAnswer({
-        soru_id: question.soru_id,
-        ders_id: question.ders_id,
-        konu_id: question.konu_id,
-        zorluk: question.zorluk,
-        altbaslik_id: question.altbaslik_id,
-        selected: null,
-        is_correct: null,
-        is_skipped: true,
-      }, token);
+    try {
+      const isSkipped = !selected;
       
-      setMessage('⏭️ Soru atlandı');
-    } else {
-      const isCorrect = selected === question.dogru_cevap;
-      
-      await submitAnswer({
-        soru_id: question.soru_id,
-        ders_id: question.ders_id,
-        konu_id: question.konu_id,
-        zorluk: question.zorluk,
-        altbaslik_id: question.altbaslik_id,
-        selected: selected,
-        is_correct: isCorrect,
-        is_skipped: false,
-      }, token);
+      if (isSkipped) {
+        await submitAnswer({
+          soru_id: question.soru_id,
+          ders_id: question.ders_id,
+          konu_id: question.konu_id,
+          zorluk: question.zorluk,
+          altbaslik_id: question.altbaslik_id,
+          selected: null,
+          is_correct: null,
+          is_skipped: true,
+        }, token);
+        
+        setMessage('⏭️ Soru atlandı');
+      } else {
+        const isCorrect = selected === question.dogru_cevap;
+        
+        await submitAnswer({
+          soru_id: question.soru_id,
+          ders_id: question.ders_id,
+          konu_id: question.konu_id,
+          zorluk: question.zorluk,
+          altbaslik_id: question.altbaslik_id,
+          selected: selected,
+          is_correct: isCorrect,
+          is_skipped: false,
+        }, token);
 
-      const newHistory = [...answerHistory, isCorrect];
-      setAnswerHistory(newHistory);
+        const newHistory = [...answerHistory, isCorrect];
+        setAnswerHistory(newHistory);
+      }
+
+      setCurrent(current + 1);
+      setSelected('');
+      setMessage('');
+      setShowExplanation(false);
+      setShowPrediction(false);
+      setAiPrediction(null);
+    } catch (error) {
+      console.error('Cevap gönderme hatası:', error);
+      let errorMessage = 'Cevap gönderilirken bir hata oluştu. Lütfen tekrar deneyin.';
+      
+      if (error.message.includes('401')) {
+        errorMessage = 'Oturum süreniz dolmuş. Lütfen tekrar giriş yapın.';
+      } else if (error.message.includes('500')) {
+        errorMessage = 'Sunucu hatası. Cevabınız kaydedilemedi.';
+      } else if (error.message.includes('fetch')) {
+        errorMessage = 'İnternet bağlantınızı kontrol edin ve tekrar deneyin.';
+      }
+      
+      setMessage(errorMessage);
     }
-
-    setCurrent(current + 1);
-    setSelected('');
-    setMessage('');
-    setShowExplanation(false);
   };
 
   const handleModalOk = () => {
@@ -244,7 +298,24 @@ export default function QuestionPage({ token }) {
   };
 
   if (questions.length === 0) {
-    return <p className="question-page">Yükleniyor…</p>;
+    return (
+      <div className="question-page" style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '50vh',
+        fontSize: '1.2rem',
+        color: '#6c757d'
+      }}>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ marginBottom: '1rem' }}>🔄</div>
+          <div>Sorular yükleniyor...</div>
+          <div style={{ fontSize: '0.9rem', marginTop: '0.5rem' }}>
+            Lütfen bekleyin, bu işlem birkaç saniye sürebilir.
+          </div>
+        </div>
+      </div>
+    );
   }
 
   const toplamSoru = 30;
@@ -390,6 +461,82 @@ export default function QuestionPage({ token }) {
             boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
           }}>
             {message}
+          </div>
+        )}
+
+        {/* AI Tahmin Mesajı */}
+        {showPrediction && aiPrediction && (
+          <div style={{
+            margin: '1.5rem 0',
+            padding: '1.5rem',
+            borderRadius: '12px',
+            background: aiPrediction.motivational_message.type === 'excellent' ? '#d4edda' :
+                        aiPrediction.motivational_message.type === 'strong' ? '#d1ecf1' :
+                        aiPrediction.motivational_message.type === 'good' ? '#cce5ff' :
+                        aiPrediction.motivational_message.type === 'medium' ? '#fff3cd' :
+                        '#e2e3e5',
+            border: `2px solid ${
+              aiPrediction.motivational_message.type === 'excellent' ? '#28a745' :
+              aiPrediction.motivational_message.type === 'strong' ? '#17a2b8' :
+              aiPrediction.motivational_message.type === 'good' ? '#007bff' :
+              aiPrediction.motivational_message.type === 'medium' ? '#ffc107' :
+              '#6c757d'
+            }`,
+            boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem' }}>
+              <div style={{ fontSize: '2rem' }}>
+                {aiPrediction.motivational_message.emoji}
+              </div>
+              <div style={{ flex: 1 }}>
+                <h4 style={{
+                  margin: '0 0 0.5rem 0',
+                  fontSize: '1.1rem',
+                  fontWeight: '600',
+                  color: aiPrediction.motivational_message.type === 'excellent' ? '#155724' :
+                         aiPrediction.motivational_message.type === 'strong' ? '#0c5460' :
+                         aiPrediction.motivational_message.type === 'good' ? '#004085' :
+                         aiPrediction.motivational_message.type === 'medium' ? '#856404' :
+                         '#383d41'
+                }}>
+                  {aiPrediction.motivational_message.title}
+                </h4>
+                <p style={{
+                  margin: '0 0 1rem 0',
+                  fontSize: '1rem',
+                  lineHeight: '1.5',
+                  color: aiPrediction.motivational_message.type === 'excellent' ? '#155724' :
+                         aiPrediction.motivational_message.type === 'strong' ? '#0c5460' :
+                         aiPrediction.motivational_message.type === 'good' ? '#004085' :
+                         aiPrediction.motivational_message.type === 'medium' ? '#856404' :
+                         '#383d41'
+                }}>
+                  {aiPrediction.motivational_message.message}
+                </p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '0.5rem' }}>
+                  <span style={{ fontWeight: 'bold', fontSize: '0.8rem' }}>
+                    AI Tahmin: <span style={{ fontSize: '0.7rem' }}>%{aiPrediction.prediction_percentage}</span>
+                  </span>
+                  <div style={{
+                    flex: 1,
+                    height: '6px',
+                    background: '#e9ecef',
+                    borderRadius: '4px',
+                    overflow: 'hidden'
+                  }}>
+                    <div style={{
+                      height: '100%',
+                      width: `${aiPrediction.prediction_percentage}%`,
+                      background: aiPrediction.prediction_percentage >= 80 ? '#28a745' :
+                                 aiPrediction.prediction_percentage >= 60 ? '#17a2b8' :
+                                 aiPrediction.prediction_percentage >= 40 ? '#ffc107' :
+                                 '#6c757d',
+                      transition: 'width 0.3s ease'
+                    }}></div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         )}
         

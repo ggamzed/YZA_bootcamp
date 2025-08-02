@@ -18,13 +18,13 @@ class UserOut(BaseModel):
 
 class AnswerIn(BaseModel):
     soru_id: int
-    selected: str | None = None  # Boş bırakılabilir
+    selected: str | None = None
     ders_id: int
     konu_id: int
     zorluk: int
     altbaslik_id: int
-    is_correct: int | None = None  # Boş bırakıldığında None olabilir
-    is_skipped: bool = False  # Yeni alan: soru atlandı mı?
+    is_correct: int | None = None
+    is_skipped: bool = False
 
 class PredictIn(BaseModel):
     user_id: int
@@ -32,8 +32,8 @@ class PredictIn(BaseModel):
     konu_id: int
     altbaslik_id: int
     zorluk: int
+    is_correct: bool | None = None
 
-# ✅ Yeni eklenen şema
 class QuestionOut(BaseModel):
     soru_id: int
     ders_id: int
