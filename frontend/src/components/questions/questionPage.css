@@ -1,0 +1,289 @@
+/* questionPage.css */
+.question-page {
+  background: linear-gradient(135deg, #d2fcd2 0%, #a8c9ff 100%);
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Soru çözme sayfasında sidebar kartlarını gizle */
+.question-page .col-lg-5,
+.question-page .custom-block-profile,
+.question-page .custom-block-bottom,
+.question-page .custom-block-transations {
+  display: none !important;
+}
+
+.question-page .question-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2.5rem;
+  background: rgba(255,255,255,0.4) !important;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(46, 43, 145, 0.1);
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(46, 43, 145, 0.2);
+}
+
+.question-page .question-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+}
+
+.question-page .question-container h2 {
+  margin-bottom: 1.5rem;
+  color: #2c3e50;
+  font-size: 1.8rem;
+  font-weight: 600;
+  text-align: center;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+}
+
+.question-page .question-container p {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #34495e;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.question-page .image-wrapper {
+  text-align: center;
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.question-page .question-image {
+  max-width: 100%;
+  max-height: 400px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  border: 2px solid #e9ecef;
+}
+
+.question-page .options {
+  margin: 2rem 0;
+  max-width: 400px;
+}
+
+.question-page .options button {
+  display: flex;
+  width: 100%;
+  text-align: left;
+  padding: 0.8rem 1rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid rgba(46, 43, 145, 0.3);
+  background: rgba(255,255,255,0.4) !important;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: #2e2b91 !important;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  align-items: flex-start;
+  gap: 0.8rem;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 8px rgba(46, 43, 145, 0.1);
+  min-height: 50px;
+}
+
+.question-page .options button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: #2e2b91;
+  transform: scaleY(0);
+  transition: transform 0.3s ease;
+}
+
+.question-page .options button:hover {
+  background: rgba(229, 232, 255, 0.6) !important;
+  border-color: #2e2b91;
+  transform: translateX(3px);
+  box-shadow: 0 4px 12px rgba(46, 43, 145, 0.15);
+}
+
+.question-page .options button:hover::before {
+  transform: scaleY(1);
+}
+
+.question-page .options button.selected {
+  background: linear-gradient(135deg, #2e2b91, #a8c9ff) !important;
+  border-color: #2e2b91;
+  color: white !important;
+  transform: translateX(3px);
+  box-shadow: 0 6px 20px rgba(46, 43, 145, 0.3);
+}
+
+.question-page .options button.selected::before {
+  transform: scaleY(1);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.question-page .options button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.question-page .options button:disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.question-page .submit-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background: #e5e8ff;
+  color: #2e2b91;
+  border: 2px solid #2e2b91;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(46, 43, 145, 0.2);
+  margin: 0.5rem;
+}
+
+.question-page .submit-button:hover {
+  background: rgba(46, 43, 145, 0.08);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(46, 43, 145, 0.3);
+}
+
+.question-page .submit-button:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.question-page .submit-button:disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.question-page .question-message {
+  margin: 1.5rem 0;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+.question-page .question-message:contains('✔️') {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.question-page .question-message:contains('❌') {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.question-page .notepad {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  min-height: 250px;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 12px;
+  border: 2px solid #e9ecef;
+}
+
+.question-page canvas#sketchpad {
+  border: 2px solid #dee2e6;
+  border-radius: 12px;
+  background-color: #fff;
+  cursor: crosshair;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  z-index: 1;
+  max-width: 100%;
+  transition: border-color 0.3s ease;
+}
+
+.question-page canvas#sketchpad:hover {
+  border-color: #667eea;
+}
+
+/* Responsive tasarım */
+@media (max-width: 768px) {
+  .question-page {
+    padding: 1rem 0.5rem;
+  }
+  
+  .question-page .question-container {
+    padding: 1.5rem;
+    margin: 0 auto;
+  }
+  
+  .question-page .question-container h2 {
+    font-size: 1.5rem;
+  }
+  
+  .question-page .question-container p {
+    font-size: 1rem;
+  }
+  
+  .question-page .options button {
+    padding: 0.8rem 1rem;
+    font-size: 0.95rem;
+  }
+  
+  .question-page .submit-button {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+  }
+}
+
+/* Animasyonlar */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.question-page .question-container {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.question-page .options button {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.question-page .options button:nth-child(1) { animation-delay: 0.1s; }
+.question-page .options button:nth-child(2) { animation-delay: 0.2s; }
+.question-page .options button:nth-child(3) { animation-delay: 0.3s; }
+.question-page .options button:nth-child(4) { animation-delay: 0.4s; }
+.question-page .options button:nth-child(5) { animation-delay: 0.5s; }

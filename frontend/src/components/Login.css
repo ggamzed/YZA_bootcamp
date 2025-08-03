@@ -1,0 +1,181 @@
+/* Login page specific styles - extending the main template */
+
+/* Background gradient for login page */
+.main-wrapper {
+  background: linear-gradient(135deg, #d2fcd2 0%, #a8c9ff 100%) !important;
+  min-height: 100vh;
+}
+
+/* Login form container */
+.custom-block {
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(46, 43, 145, 0.15);
+  border: 1px solid rgba(46, 43, 145, 0.2);
+  backdrop-filter: blur(15px);
+  background: rgba(255,255,255,0.4) !important;
+}
+
+/* Form styling */
+.custom-form .form-control {
+  border: 1px solid rgba(46, 43, 145, 0.3);
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: rgba(255,255,255,0.4) !important;
+  color: #2e2b91 !important;
+}
+
+.custom-form .form-control:focus {
+  border-color: #2e2b91;
+  box-shadow: 0 0 0 3px rgba(46, 43, 145, 0.1);
+  outline: none;
+}
+
+.custom-form .form-label {
+  font-weight: 600;
+  color: #2e2b91 !important;
+  margin-bottom: 0.5rem;
+}
+
+/* Button styling */
+.btn.custom-btn {
+  background: #e5e8ff;
+  border: 2px solid #2e2b91;
+  color: #2e2b91;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(46, 43, 145, 0.2);
+}
+
+.btn.custom-btn:hover {
+  background: rgba(46, 43, 145, 0.08);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(46, 43, 145, 0.3);
+}
+
+.btn.custom-btn:disabled {
+  background: #6c757d;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Alert styling */
+.alert {
+  border-radius: 12px;
+  border: 1px solid rgba(46, 43, 145, 0.2);
+  padding: 1rem 1.5rem;
+}
+
+.alert-danger {
+  background: linear-gradient(135deg, #ffd2d2 0%, #ffa8a8 100%);
+  color: #2e2b91;
+}
+
+/* Profile image styling */
+.profile-rounded {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  box-shadow: 0 4px 15px rgba(46, 43, 145, 0.2);
+  background: #2e2b91;
+  color: white;
+}
+
+/* Demo credentials styling */
+.bg-light {
+  background: linear-gradient(135deg, #e5e8ff 0%, #d2fcd2 100%) !important;
+  border: 1px solid rgba(46, 43, 145, 0.2);
+  border-radius: 12px;
+}
+
+code {
+  background: rgba(46, 43, 145, 0.1);
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  color: #2e2b91;
+}
+
+/* Link styling */
+.text-primary {
+  color: #2e2b91 !important;
+}
+
+.text-primary:hover {
+  color: #a8c9ff !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .custom-block {
+    margin: 1rem;
+    border-radius: 16px;
+  }
+  
+  .btn.custom-btn {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Animation for loading spinner */
+.spinner-border {
+  animation: spinner-border 0.75s linear infinite;
+  color: #2e2b91;
+}
+
+@keyframes spinner-border {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Hover effects */
+.custom-block:hover {
+  transform: translateY(-2px);
+  transition: transform 0.3s ease;
+}
+
+/* Focus states */
+.form-control:focus {
+  outline: none;
+}
+
+/* Custom scrollbar for the page */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255,255,255,0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2e2b91;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8c9ff;
+}
+
+/* Logo styling */
+.logo {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+  color: #2e2b91;
+}
+
+.logo .bold {
+  font-weight: bold;
+}
+
+.logo .cursive {
+  font-family: cursive;
+  font-style: italic;
+}

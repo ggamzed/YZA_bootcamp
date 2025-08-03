@@ -1,0 +1,273 @@
+/* HomePage specific styles - extending the main template */
+
+/* Header component styles moved to Header.css */
+
+/* Navbar düzenlemeleri - Improved styling */
+.navbar {
+  background: rgba(255,255,255,0.85) !important;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 2px 20px rgba(46, 43, 145, 0.08);
+  margin-top: 0;
+  padding: 0.75rem 1rem;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: #2e2b91 !important;
+  font-size: 1.1rem;
+}
+
+.navbar-brand i {
+  font-size: 1.2rem;
+  color: #2e2b91;
+}
+
+/* Custom overrides for test area */
+.test-area .custom-block {
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(46, 43, 145, 0.1);
+  border: 1px solid rgba(46, 43, 145, 0.2);
+  background: rgba(255,255,255,0.4) !important;
+  backdrop-filter: blur(10px);
+}
+
+.test-area .form-check {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border: 1px solid rgba(46, 43, 145, 0.2);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  background: rgba(255,255,255,0.4) !important;
+}
+
+.test-area .form-check:hover {
+  border-color: rgba(46, 43, 145, 0.3);
+  background-color: rgba(46, 43, 145, 0.08) !important;
+  transform: translateY(-1px);
+}
+
+.test-area .form-check-input:checked + .form-check-label {
+  color: #2e2b91;
+  font-weight: 600;
+}
+
+.test-area .form-check-input:checked {
+  background-color: #2e2b91;
+  border-color: #2e2b91;
+}
+
+/* Progress indicator */
+.progress-indicator {
+  background: linear-gradient(135deg, #2e2b91 0%, #a8c9ff 100%);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* Canvas styling */
+#sketchpad {
+  border: 1px solid rgba(46, 43, 145, 0.3);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.4) !important;
+  cursor: crosshair;
+}
+
+/* Alert customizations */
+.alert {
+  border-radius: 12px;
+  border: 1px solid rgba(46, 43, 145, 0.2);
+  padding: 1rem 1.5rem;
+}
+
+.alert-success {
+  background: linear-gradient(135deg, #d2fcd2 0%, #a8c9ff 100%);
+  color: #2e2b91;
+}
+
+.alert-danger {
+  background: linear-gradient(135deg, #ffd2d2 0%, #ffa8a8 100%);
+  color: #2e2b91;
+}
+
+/* Button enhancements */
+.btn.custom-btn {
+  background: #e5e8ff;
+  border: 2px solid #2e2b91;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-weight: bold;
+  color: #2e2b91;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(46, 43, 145, 0.2);
+}
+
+.btn.custom-btn:hover {
+  background: rgba(46, 43, 145, 0.08);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(46, 43, 145, 0.3);
+}
+
+.btn.custom-btn:disabled {
+  background: #6c757d;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Profile section enhancements */
+.custom-block-profile {
+  background: linear-gradient(135deg, #e5e8ff 0%, #d2fcd2 100%);
+}
+
+.profile-rounded {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  background: #2e2b91;
+  color: white;
+}
+
+/* Activity items */
+.custom-block-transations .d-flex {
+  padding: 1rem;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(46, 43, 145, 0.2);
+  background: rgba(255,255,255,0.4) !important;
+}
+
+.custom-block-transations .d-flex:hover {
+  background-color: rgba(46, 43, 145, 0.08) !important;
+  transform: translateX(5px);
+  border-color: rgba(46, 43, 145, 0.25);
+}
+
+/* Badge enhancements */
+.badge {
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+  font-weight: 600;
+  background: #2e2b91;
+  color: white;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  /* Header responsive styles moved to Header.css */
+  
+  .test-area .form-check {
+    padding: 0.75rem;
+  }
+  
+  #sketchpad {
+    width: 100%;
+    height: 200px;
+  }
+  
+  .btn.custom-btn {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Animation for loading states */
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+.loading {
+  animation: pulse 1.5s infinite;
+}
+
+/* Custom scrollbar */
+.custom-block::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-block::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.custom-block::-webkit-scrollbar-thumb {
+  background: #2e2b91;
+  border-radius: 3px;
+}
+
+.custom-block::-webkit-scrollbar-thumb:hover {
+  background: #a8c9ff;
+}
+
+/* Logo styling */
+.navbar-brand .logo {
+  font-size: 1.4rem;
+  color: #2e2b91;
+}
+
+.navbar-brand .logo .bold {
+  font-weight: bold;
+}
+
+.navbar-brand .logo .cursive {
+  font-family: cursive;
+  font-style: italic;
+}
+
+/* Bootstrap override'ları */
+.bg-white {
+  background: rgba(255,255,255,0.4) !important;
+  backdrop-filter: blur(10px);
+}
+
+.custom-block {
+  background: rgba(255,255,255,0.4) !important;
+  border: 1px solid rgba(46, 43, 145, 0.2) !important;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(46, 43, 145, 0.1);
+}
+/* Özel Level Tooltip Stilleri */
+.level-tooltip-custom {
+  max-width: 300px !important;
+  min-width: 280px !important;
+  background: rgba(46, 43, 145, 0.95) !important;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.3) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 25px rgba(46, 43, 145, 0.3) !important;
+  padding: 12px 16px !important;
+  font-size: 0.9rem !important;
+  line-height: 1.4 !important;
+  color: white !important;
+  text-align: left !important;
+}
+
+.level-tooltip-custom .tooltip-arrow::before {
+  border-top-color: rgba(46, 43, 145, 0.95) !important;
+}
+
+.level-tooltip-content {
+  text-align: left;
+  line-height: 1.6;
+}
+
+.level-tooltip-content strong {
+  color: #a8c9ff;
+  font-size: 1rem;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.level-tooltip-content br {
+  margin-bottom: 4px;
+}
+
