@@ -242,7 +242,7 @@ Sprint sonunda yapılan gözden geçirme toplantısında şu kararlar alınmış
 - “Soru istatistikleri” ve “eksik konuya göre içerik sıklığı” işlevleri test edilmiştir.
 
 **Sprint Review Katılımcıları**:  
-Ayşenur Öztürk, Muhammed Seyfi Büyük, Gamze Demirci, Ayşe Mermer
+Ayşenur Akbaba, Muhammed Seyfi Büyük, Gamze Demirci, Ayşe Mermer
 
 ---
 
