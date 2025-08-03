@@ -237,7 +237,12 @@ Ekibimiz, **hezarFen** uygulamasının geliştirilmesine Sprint 3 boyunca odakla
 
   ## Uygulama Screenshots  
 
----
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/8f190ad8-1c64-44a6-989d-15edc5e68f6a" alt="7777" width="45%"/>
+  <img src="https://github.com/user-attachments/assets/5ea707c6-59c7-42e6-b153-ab6a1ec8ab81" alt="8888" width="45%"/>
+</p>
+
+
 
 ##  Sprint Review
 
