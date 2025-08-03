@@ -177,6 +177,93 @@ Sprint 2 sonunda ekibimiz toplanmış ve Sprint gözden geçirilmiştir. Alınan
 Tamamlanması Gereken Puan: 160  
 Tamamlanan Puan: 160  
 
+#  Sprint 3 
+
+## Sprint Notları
+Ekibimiz, **hezarFen** uygulamasının geliştirilmesine Sprint 3 boyunca odaklanmıştır. Bu sprintte yalnızca yeni özellikler eklenmemiş, aynı zamanda uygulamanın genel yapısı sadeleştirilmiş, kullanıcı dostu bir hale getirilmiştir. En önemli güncellemelerden biri ise uygulama adının doğrudan “Hezarfen Ahmet Çelebi”ye referansla **hezarHen** olarak yeniden belirlenmesidir. Logo sadeleştirilmiş, renk paleti daha modern ve sade bir tasarıma evrilmiştir.
+
+---
+
+##  Sprint Hedefi ve Puanlama
+
+- **Tahmini Puan**: 160  
+- **Tamamlanan Puan**: 160  
+
+**Puanlama Mantığı**:  
+* Bu sprintte yapılması hedeflenen görevler belirli modüller üzerinden puanlandırılmıştır.
+
+ ## Daily Scrum Toplantı ScreenShotları   
+---
+
+## Sprint Sürecinde Yapılanlar
+
+- Uygulama ismi “HazerFen” yerine doğrudan **hezarFen** olarak değiştirildi.
+- Logo ve genel renk tasarımı sadeleştirildi, kullanıcı dostu bir hale getirildi.
+- **Soru önerme**, **istatistik kartları**, **kronometre**, **not defteri**, **günlük planlayıcı** tasarlandı ve geliştirildi.
+- Öğrencinin yanlış yaptığı konulara göre dinamik içerik önerisi mantığı geliştirildi.
+- Veriye dayalı geri bildirim sistemi üzerine odaklanıldı.
+- Tasarım dili sadeleştirildi, kullanıcı arayüzü daha akıcı hale getirildi.
+
+---
+
+## Daily Scrum
+
+- **İletişim Araçları**:  
+  - Gün içi: WhatsApp  
+  - Akşam: Slack  
+- **Toplantı Frekansı**: 2 günde bir toplantı yapılmıştır.
+
+---
+
+##  Sprint Board Güncellemeleri
+
+- Sprint boyunca tüm görevler, GitHub Project Board üzerinden takip edilmiştir.
+- Tamamlanan, devam eden ve iptal edilen görevler net şekilde ayrıştırılmıştır.
+
+
+---
+
+##  Ürün Durumu
+
+- Ürün tamamlandı.
+
+  ## Uygulama Screenshots  
+
+---
+
+##  Sprint Review
+
+Sprint sonunda yapılan gözden geçirme toplantısında şu kararlar alınmıştır:
+
+- Uygulamanın adının net bir bağlam kazanması adına **hezarFen** ismine geçilmiştir.
+- Logo tasarımı sade tutulmuş, modern bir font tercih edilmiştir.
+- Renk paleti güncellenmiş, daha sade ve dinlendirici tonlar tercih edilmiştir.
+- “Konuya özel soru önerme” sistemi başarıyla çalışmaktadır.
+- “Soru istatistikleri” ve “eksik konuya göre içerik sıklığı” işlevleri test edilmiştir.
+
+**Sprint Review Katılımcıları**:  
+Ayşenur Öztürk, Muhammed Seyfi Büyük, Gamze Demirci, Ayşe Mermer
+
+---
+
+## Sprint Retrospective
+
+Bu sprintle birlikte **hezarFen** uygulamasının temel işlevleri tamamlanmış ve ürün nihai haline ulaşmıştır.  
+Tasarım sadeleştirmeleri, kullanıcıya özel içerik önerme sistemi, geri bildirim mekanizmaları ve zaman yönetimi araçları (örneğin not defteri, kronometre) başarıyla entegre edilmiştir.
+
+### Kazanımlarımız
+- Gerçekçi sprint planlamasının ve esnek görev yönetiminin, takımı zorlamadan hedefe ulaştırdığı görüldü.
+- Kullanıcı ihtiyaçlarını merkeze alan tasarımların, daha sürdürülebilir çözümler sunduğu net olarak gözlemlendi.
+- Takım içi iletişimin, rol paylaşımının ve iş birliğinin proje verimliliği üzerindeki etkisi çok belirgindi.
+- Kullanıcı arayüzü üzerinde yapılan sadeleştirme kararları, kullanıcının uygulamayı daha rahat deneyimlemesini sağladı.
+
+### Sonuç
+**hezarFen**, yalnızca teknik olarak değil; aynı zamanda fikirsel olarak da bütünlüğe sahip, kullanıcı dostu ve sürdürülebilir bir ürün olarak tamamlandı.  
+Gelecekteki projelerimiz için sağlam bir altyapı ve deneyim kazandık.
+
+
+---
+
 
 
 
