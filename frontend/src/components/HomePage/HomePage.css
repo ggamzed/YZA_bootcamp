@@ -271,3 +271,307 @@
   margin-bottom: 4px;
 }
 
+/* Pomodoro Zamanlayıcısı Stilleri */
+.pomodoro-container {
+  background: rgba(255,255,255,0.4) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(46, 43, 145, 0.2) !important;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(46, 43, 145, 0.1);
+  color: #2e2b91;
+}
+
+.pomodoro-container.break-mode {
+  background: linear-gradient(135deg, #e5e8ff 0%, #d2fcd2 100%) !important;
+  border-color: rgba(46, 43, 145, 0.25) !important;
+  box-shadow: 0 8px 32px rgba(46, 43, 145, 0.15);
+}
+
+.pomodoro-container.break-mode .pomodoro-timer {
+  color: #2e2b91;
+}
+
+.pomodoro-container.break-mode .pomodoro-status {
+  color: #2e2b91;
+}
+
+.pomodoro-timer {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #2e2b91;
+  text-shadow: 0 2px 10px rgba(46, 43, 145, 0.2);
+  margin: 1rem 0;
+}
+
+.pomodoro-status {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: #2e2b91;
+  opacity: 0.8;
+  font-weight: 600;
+}
+
+.pomodoro-controls {
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.pomodoro-btn {
+  background: #e5e8ff;
+  border: 2px solid #2e2b91;
+  color: #2e2b91;
+  border-radius: 25px;
+  padding: 0.5rem 1.5rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(46, 43, 145, 0.2);
+}
+
+.pomodoro-btn:hover {
+  background: rgba(46, 43, 145, 0.08);
+  border-color: #2e2b91;
+  color: #2e2b91;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(46, 43, 145, 0.3);
+}
+
+.pomodoro-btn:disabled {
+  background: #6c757d;
+  opacity: 0.6;
+  transform: none;
+  cursor: not-allowed;
+}
+
+.pomodoro-stats {
+  background: rgba(46, 43, 145, 0.05);
+  border: 1px solid rgba(46, 43, 145, 0.15);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-top: 1rem;
+  backdrop-filter: blur(10px);
+}
+
+.pomodoro-counter {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2e2b91;
+}
+
+.pomodoro-progress {
+  height: 6px;
+  background: rgba(46, 43, 145, 0.15);
+  border-radius: 3px;
+  overflow: hidden;
+  margin: 0.5rem 0;
+}
+
+.pomodoro-progress-bar {
+  height: 100%;
+  background: linear-gradient(135deg, #2e2b91 0%, #a8c9ff 100%);
+  border-radius: 3px;
+  transition: width 1s ease;
+}
+
+@media (max-width: 768px) {
+  .pomodoro-timer {
+    font-size: 2.5rem;
+  }
+  
+  .pomodoro-btn {
+    padding: 0.4rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Floating Pomodoro Widget Stilleri */
+.floating-pomodoro {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1050;
+  background: rgba(255,255,255,0.85) !important;
+  border-radius: 16px;
+  border: 2px solid rgba(46, 43, 145, 0.3);
+  color: #2e2b91;
+  padding: 1rem;
+  min-width: 200px;
+  box-shadow: 0 8px 32px rgba(46, 43, 145, 0.3);
+  backdrop-filter: blur(20px);
+  transition: all 0.3s ease;
+  animation: slideInFromRight 0.5s ease-out;
+}
+
+.floating-pomodoro.break-mode {
+  background: linear-gradient(135deg, rgba(229, 232, 255, 0.9) 0%, rgba(210, 252, 210, 0.9) 100%) !important;
+  border-color: rgba(46, 43, 145, 0.4);
+  box-shadow: 0 8px 32px rgba(46, 43, 145, 0.4);
+}
+
+.floating-pomodoro.break-mode .floating-pomodoro-timer,
+.floating-pomodoro.break-mode .floating-pomodoro-status,
+.floating-pomodoro.break-mode .floating-pomodoro-title,
+.floating-pomodoro.break-mode .floating-pomodoro-count {
+  color: #2e2b91;
+}
+
+.floating-pomodoro:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(46, 43, 145, 0.4);
+}
+
+.floating-pomodoro-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.floating-pomodoro-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin: 0;
+  color: #2e2b91;
+}
+
+.floating-pomodoro-close {
+  background: rgba(46, 43, 145, 0.1);
+  border: 1px solid rgba(46, 43, 145, 0.2);
+  color: #2e2b91;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.floating-pomodoro-close:hover {
+  background: rgba(46, 43, 145, 0.2);
+  border-color: rgba(46, 43, 145, 0.3);
+  transform: scale(1.1);
+}
+
+.floating-pomodoro-timer {
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-align: center;
+  margin: 0.5rem 0;
+  color: #2e2b91;
+  text-shadow: 0 2px 10px rgba(46, 43, 145, 0.2);
+}
+
+.floating-pomodoro-status {
+  text-align: center;
+  font-size: 0.8rem;
+  color: #2e2b91;
+  opacity: 0.8;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.floating-pomodoro-progress {
+  height: 4px;
+  background: rgba(46, 43, 145, 0.15);
+  border-radius: 2px;
+  overflow: hidden;
+  margin: 0.5rem 0;
+}
+
+.floating-pomodoro-progress-bar {
+  height: 100%;
+  background: linear-gradient(135deg, #2e2b91 0%, #a8c9ff 100%);
+  border-radius: 2px;
+  transition: width 1s ease;
+}
+
+.floating-pomodoro-controls {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+.floating-pomodoro-btn {
+  background: #e5e8ff;
+  border: 1px solid #2e2b91;
+  color: #2e2b91;
+  border-radius: 20px;
+  padding: 0.3rem 0.8rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(46, 43, 145, 0.15);
+}
+
+.floating-pomodoro-btn:hover {
+  background: rgba(46, 43, 145, 0.08);
+  border-color: #2e2b91;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(46, 43, 145, 0.2);
+}
+
+.floating-pomodoro-btn:disabled {
+  background: #6c757d;
+  opacity: 0.6;
+  transform: none;
+  cursor: not-allowed;
+}
+
+.floating-pomodoro-count {
+  text-align: center;
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+  color: #2e2b91;
+  opacity: 0.8;
+  font-weight: 600;
+}
+
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutToRight {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.floating-pomodoro.closing {
+  animation: slideOutToRight 0.3s ease-in;
+}
+
+/* Mobil responsive */
+@media (max-width: 768px) {
+  .floating-pomodoro {
+    top: 10px;
+    right: 10px;
+    min-width: 180px;
+    padding: 0.8rem;
+  }
+  
+  .floating-pomodoro-timer {
+    font-size: 1.5rem;
+  }
+  
+  .floating-pomodoro-btn {
+    padding: 0.25rem 0.6rem;
+    font-size: 0.7rem;
+  }
+}
+
