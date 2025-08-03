@@ -199,7 +199,7 @@ Ekibimiz, **hezarFen** uygulamasının geliştirilmesine Sprint 3 boyunca odakla
 
 - Uygulama ismi “HazerFen” yerine doğrudan **hezarFen** olarak değiştirildi.
 - Logo ve genel renk tasarımı sadeleştirildi, kullanıcı dostu bir hale getirildi.
-- **Soru önerme**, **istatistik kartları**, **kronometre**, **not defteri**, **günlük planlayıcı** tasarlandı ve geliştirildi.
+- **Soru önerme**, **istatistik kartları**, **kronometre**, **not defteri** tasarlandı ve geliştirildi.
 - Öğrencinin yanlış yaptığı konulara göre dinamik içerik önerisi mantığı geliştirildi.
 - Veriye dayalı geri bildirim sistemi üzerine odaklanıldı.
 - Tasarım dili sadeleştirildi, kullanıcı arayüzü daha akıcı hale getirildi.
