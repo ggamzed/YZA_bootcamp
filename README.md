@@ -181,7 +181,7 @@ Tamamlanan Puan: 160
 #  Sprint 3 
 
 ## Sprint Notları
-Ekibimiz, **hezarFen** uygulamasının geliştirilmesine Sprint 3 boyunca odaklanmıştır. Bu sprintte yalnızca yeni özellikler eklenmemiş, aynı zamanda uygulamanın genel yapısı sadeleştirilmiş, kullanıcı dostu bir hale getirilmiştir. En önemli güncellemelerden biri ise uygulama adının doğrudan “Hezarfen Ahmet Çelebi”ye referansla **hezarHen** olarak yeniden belirlenmesidir. Logo sadeleştirilmiş, renk paleti daha modern ve sade bir tasarıma evrilmiştir.
+Ekibimiz, **hezarFen** uygulamasının geliştirilmesine Sprint 3 boyunca odaklanmıştır. Bu sprintte yalnızca yeni özellikler eklenmemiş, aynı zamanda uygulamanın genel yapısı sadeleştirilmiş, kullanıcı dostu bir hale getirilmiştir. En önemli güncellemelerden biri ise uygulama adının doğrudan “Hezarfen Ahmet Çelebi”ye referansla **hezarFen** olarak yeniden belirlenmesidir. Logo sadeleştirilmiş, renk paleti daha modern ve sade bir tasarıma evrilmiştir.
 
 ---
 
