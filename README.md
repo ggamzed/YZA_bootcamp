@@ -149,6 +149,7 @@ Tamamlanan puan: 160
   <img src="https://github.com/user-attachments/assets/7d481ebe-2a63-43e6-861d-10a506ebb9df" alt="Ortalanmış Görsel" width="40%">
 </p>
 
+![3](https://github.com/user-attachments/assets/12bdf18c-2158-430b-9dec-6c07cf5c478f)
 ---
 
 ## Sprint Review  
@@ -193,6 +194,13 @@ Ekibimiz, **hezarFen** uygulamasının geliştirilmesine Sprint 3 boyunca odakla
 * Bu sprintte yapılması hedeflenen görevler belirli modüller üzerinden puanlandırılmıştır.
 
  ## Daily Scrum Toplantı ScreenShotları   
+ 
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/c75fcfc4-6cee-4704-a73a-3fba042f4a7b" alt="1" width="30%"/>
+  <img src="https://github.com/user-attachments/assets/1676a2ce-a85b-42a3-b367-f6894de3e8b7" alt="2" width="30%"/>
+</p>
+
+
 ---
 
 ## Sprint Sürecinde Yapılanlar
