@@ -8,10 +8,11 @@ export default function Header() {
     <div className="top-logo">
       <Link to="/home" className="logo-link">
         <div className="logo-container">
-          <img src={hazerFenLogo} alt="HazerFen Logo" className="logo-image" />
-          <div className="logo-text">
-            <span className="bold">Hazer</span><span className="cursive">Fen</span>
-          </div>
+                           <img src="/favicon.png" alt="HezarFen Favicon" className="favicon-icon" />
+                 <img src={hazerFenLogo} alt="HezarFen Logo" className="logo-image" />
+                 <div className="logo-text">
+                   <span className="bold">Hezar</span><span className="cursive">Fen</span>
+                 </div>
         </div>
         <div className="logo-slogan">BİLGİYLE KANATLAN!</div>
       </Link>

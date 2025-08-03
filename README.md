@@ -96,7 +96,7 @@ Tamamlanan puan: 160
 
 # Sprint 2  
 
-- **Sprint notları:** Ekibimiz, HazerFen uygulamasının tasarımını ve kullanıcı deneyimini geliştirmeye odaklanmıştır. Giriş ve kayıt ekranları oluşturulmuş, logo tasarımı tamamlanmış ve slogan belirlenmiştir. Açılış sayfasında kullanıcıyı karşılayan animasyon fikirleri geliştirilmiş, CSS düzenlemeleri yapılmıştır.  
+- **Sprint notları:** Ekibimiz, HezarFen uygulamasının tasarımını ve kullanıcı deneyimini geliştirmeye odaklanmıştır. Giriş ve kayıt ekranları oluşturulmuş, logo tasarımı tamamlanmış ve slogan belirlenmiştir. Açılış sayfasında kullanıcıyı karşılayan animasyon fikirleri geliştirilmiş, CSS düzenlemeleri yapılmıştır.  
 
 - **Sprint içinde tamamlanması tahmin edilen puan:** 160 Puan  
 

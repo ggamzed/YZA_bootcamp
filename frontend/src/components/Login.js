@@ -175,7 +175,8 @@ export default function Login() {
                   </div>
                 </div>
                 <div className="logo">
-                  <span className="bold">hazer</span><span className="cursive">Fen</span>
+                  <img src="/favicon.png" alt="HezarFen" className="favicon-icon-login" />
+                  <span className="bold">Hezar</span><span className="cursive">Fen</span>
                 </div>
                 <h3>BİLGİYLE KANATLAN!</h3>
                 <p className="text-muted">{isRegistering ? 'Hesap oluşturun' : 'Hesabınıza giriş yapın'}</p>

@@ -121,6 +121,16 @@ code {
     padding: 10px 20px;
     font-size: 0.9rem;
   }
+  
+  .favicon-icon-login {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .logo {
+    font-size: 1.6rem;
+    gap: 0.25rem;
+  }
 }
 
 /* Animation for loading spinner */
@@ -169,6 +179,19 @@ code {
   font-size: 1.8rem;
   margin-bottom: 0.5rem;
   color: #2e2b91;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+}
+
+.favicon-icon-login {
+  width: 60px;
+  height: 60px;
+  margin-right: -1rem;
+  margin-top: -1.5rem;
+  object-fit: contain;
+  /* Arkaplan ve gölge yok - temiz görünüm */
 }
 
 .logo .bold {

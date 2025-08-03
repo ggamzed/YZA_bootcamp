@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { getCurrentUser } from '../../api/auth';
-import { fetchCompletedTests, fetchAIRecommendations, fetchStats } from '../../api/statistics';
+import { fetchCompletedTests, fetchStats } from '../../api/statistics';
 import { getUserLevel } from '../../api/profile';
 import { useUser } from '../../contexts/UserContext';
 import Header from '../Header';
@@ -19,14 +19,32 @@ const initializeTooltips = () => {
 
 export default function HomePage({ onLogout }) {
   const navigate = useNavigate();
-  const { token, resetKey, user: globalUser, setUser: setGlobalUser } = useUser();
+  const { 
+    token, 
+    resetKey, 
+    user: globalUser, 
+    setUser: setGlobalUser,
+    // Pomodoro state'leri ve fonksiyonları
+    pomodoroTime,
+    isRunning,
+    isBreak,
+    pomodoroCount,
+    currentSession,
+    showFloatingPomodoro,
+    startPomodoro,
+    pausePomodoro,
+    resetPomodoro,
+    closeFloatingPomodoro,
+    setShowFloatingPomodoro,
+    formatTime,
+    getProgressPercentage
+  } = useUser();
 
   const [dersId, setDersId] = useState('');
   const [etiket, setEtiket] = useState('');
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(null);
   const [recentActivities, setRecentActivities] = useState([]);
-  const [aiRecommendations, setAiRecommendations] = useState(null);
   const [userLevel, setUserLevel] = useState(null);
   const [stats, setStats] = useState([]);
 
@@ -45,7 +63,6 @@ export default function HomePage({ onLogout }) {
 
             setUser(null);
         setRecentActivities([]);
-        setAiRecommendations([]);
         setStats([]);
         setLoading(false);
     
@@ -81,32 +98,7 @@ export default function HomePage({ onLogout }) {
             console.error('İstatistikler alınamadı:', error);
           }
         };
-        
-        const fetchAIRecommendations = async () => {
-          try {
-            console.log('DEBUG: Fetching AI recommendations with token:', token ? 'Token exists' : 'No token');
-            const data = await fetchAIRecommendations(token);
-            console.log('DEBUG: AI recommendations received:', data);
-            setAiRecommendations(data);
-          } catch (error) {
-            console.error('AI önerileri alınamadı:', error);
 
-            setAiRecommendations({
-              recommendations: {
-                recommended_difficulty: 2,
-                weak_topics: [],
-                strong_topics: []
-              },
-              user_stats: {
-                total_questions: 0,
-                correct_answers: 0,
-                overall_accuracy: 0,
-                recent_performance: [],
-                last_activity: null
-              }
-            });
-          }
-        };
 
         const fetchUserLevel = async () => {
           try {
@@ -120,7 +112,6 @@ export default function HomePage({ onLogout }) {
         fetchUser();
         fetchRecentActivities();
         fetchStatsData();
-        fetchAIRecommendations();
         fetchUserLevel();
       }, 100);
     }
@@ -263,8 +254,7 @@ export default function HomePage({ onLogout }) {
     }
   };
 
-  // Debug: Log current privacy settings
-  console.log('DEBUG: Privacy settings - globalUser:', globalUser?.show_profile, globalUser?.show_stats, globalUser?.hide_ai_recommendations, 'local user:', user?.show_profile, user?.show_stats, user?.hide_ai_recommendations);
+
 
   return (
     <div className="main-wrapper">
@@ -423,72 +413,90 @@ export default function HomePage({ onLogout }) {
                   </div>
                 )}
 
-                {/* AI Recommendations */}
-                {(globalUser || user)?.show_stats === true && !((globalUser || user)?.hide_ai_recommendations === true) ? (
-                  aiRecommendations && aiRecommendations.recommendations ? (
-                    <div className="custom-block bg-white mt-4">
-                      <h5 className="mb-4">🤖 AI Önerileri</h5>
+                {/* Pomodoro Zamanlayıcısı */}
+                <div className={`custom-block mt-4 pomodoro-container ${isBreak ? 'break-mode' : ''}`}>
+                  <h5 className="mb-4 text-center">
+                    🍅 Pomodoro Zamanlayıcısı
+                  </h5>
+                  
+                  <div className="text-center">
+                    <div className="pomodoro-status">
+                      {currentSession === 'focus' ? '' : 
+                       currentSession === 'shortBreak' ? '☕ Kısa Mola' : 
+                       '🛋️ Uzun Mola'}
+                    </div>
+                    
+                    <div className="pomodoro-timer">
+                      {formatTime(pomodoroTime)}
+                    </div>
+                    
+                    <div className="pomodoro-progress">
+                      <div 
+                        className="pomodoro-progress-bar" 
+                        style={{ width: `${getProgressPercentage()}%` }}
+                      ></div>
+                    </div>
+                    
+                    <div className="d-flex justify-content-center pomodoro-controls flex-wrap">
+                      {!isRunning ? (
+                        <button 
+                          className="btn pomodoro-btn" 
+                          onClick={startPomodoro}
+                        >
+                          <i className="bi-play-fill me-2"></i>Başlat
+                        </button>
+                      ) : (
+                        <button 
+                          className="btn pomodoro-btn" 
+                          onClick={pausePomodoro}
+                        >
+                          <i className="bi-pause-fill me-2"></i>Duraklat
+                        </button>
+                      )}
                       
-                      <div className="row">
-                        <div className="col-12">
-                          <div className="alert alert-info">
-                            <h6 className="alert-heading">Önerilen Zorluk Seviyesi</h6>
-                            <p className="mb-2">
-                              {(() => {
-                                const difficulty = aiRecommendations?.recommendations?.recommended_difficulty;
-                                if (difficulty === 1) return '🟢 Kolay seviye sorular öneriliyor';
-                                if (difficulty === 2) return '🟡 Orta seviye sorular öneriliyor';
-                                if (difficulty === 3) return '🔴 Zor seviye sorular öneriliyor';
-                                return '📊 Zorluk seviyesi hesaplanıyor...';
-                              })()}
-                            </p>
-                            <small>Genel başarı oranınıza göre optimize edilmiştir.</small>
-                          </div>
-                        </div>
-                      </div>
-
-                      {aiRecommendations?.recommendations?.weak_topics && aiRecommendations.recommendations.weak_topics.length > 0 && (
-                        <div className="row mt-3">
-                          <div className="col-12">
-                            <h6>📚 Geliştirilmesi Gereken Konular:</h6>
-                            <ul className="list-group list-group-flush">
-                              {aiRecommendations.recommendations.weak_topics.slice(0, 3).map((topic, index) => (
-                                <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
-                                  <span>{topic.replace('topic_', 'Konu ')}</span>
-                                  <span className="badge bg-warning text-dark">Düşük Performans</span>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        </div>
+                      <button 
+                        className="btn pomodoro-btn" 
+                        onClick={resetPomodoro}
+                      >
+                        <i className="bi-arrow-clockwise me-2"></i>Sıfırla
+                      </button>
+                      
+                      {!showFloatingPomodoro && (
+                        <button 
+                          className="btn pomodoro-btn" 
+                          onClick={() => setShowFloatingPomodoro(true)}
+                          title="Floating modda aç"
+                        >
+                          <i className="bi-pip me-2"></i>Floating
+                        </button>
                       )}
                     </div>
-                  ) : (
-                    <div className="custom-block bg-white mt-4">
-                      <h5 className="mb-4">🤖 AI Önerileri</h5>
-                      <div className="text-center py-3">
-                        <div className="spinner-border text-primary" role="status">
-                          <span className="visually-hidden">AI önerileri yükleniyor...</span>
+                    
+                    <div className="pomodoro-stats">
+                      <div className="row">
+                        <div className="col-6">
+                          <div className="pomodoro-counter">
+                            🎯 Tamamlanan Pomodoro
+                          </div>
+                          <div className="h4 mb-0">{pomodoroCount}</div>
                         </div>
-                        <p className="mt-2 text-muted">AI önerileri yükleniyor...</p>
+                        <div className="col-6">
+                          <div className="pomodoro-counter">
+                            🕐 Mevcut Durum
+                          </div>
+                          <div className="small">
+                            {currentSession === 'focus' ? 'Çalışma' : 'Mola'}
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="mt-3 small opacity-75">
+                        💡 <strong>Pomodoro Tekniği:</strong> 25 dakika odaklanma, 5 dakika mola. 
+                        Her 4 pomodoro sonrasında 20 dakika uzun mola.
                       </div>
                     </div>
-                  )
-                ) : (
-                  <div className="custom-block bg-white mt-4">
-                    <h5 className="mb-4">🤖 AI Önerileri</h5>
-                    <div className="text-center py-3">
-                      <i className="bi-robot text-muted" style={{ fontSize: '2rem' }}></i>
-                      <p className="text-muted mt-2 mb-0">AI önerileri gizli</p>
-                      <small className="text-muted">
-                        {(globalUser || user)?.show_stats !== true 
-                          ? 'İstatistikler gizli olduğu için AI önerileri gösterilemiyor'
-                          : 'AI tahminleri gizlilik ayarlarınızdan kapatılmış'
-                        }
-                      </small>
-                    </div>
                   </div>
-                )}
+                </div>
               </div>
 
               {/* Sidebar Content */}

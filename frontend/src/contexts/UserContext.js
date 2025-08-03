@@ -37,6 +37,14 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [resetKey, setResetKey] = useState(0);
 
+  // Pomodoro state'leri
+  const [pomodoroTime, setPomodoroTime] = useState(25 * 60); // 25 dakika (saniye cinsinden)
+  const [isRunning, setIsRunning] = useState(false);
+  const [isBreak, setIsBreak] = useState(false);
+  const [pomodoroCount, setPomodoroCount] = useState(0);
+  const [currentSession, setCurrentSession] = useState('focus'); // 'focus' veya 'break'
+  const [showFloatingPomodoro, setShowFloatingPomodoro] = useState(false);
+
   const clearAllCache = () => {
     localStorage.clear();
     
@@ -114,16 +122,112 @@ export const UserProvider = ({ children }) => {
     }, 100);
   };
 
+  // Pomodoro fonksiyonları
+  const startPomodoro = () => {
+    setIsRunning(true);
+    setShowFloatingPomodoro(true);
+    // Bildirim izni iste
+    if (Notification.permission === 'default') {
+      Notification.requestPermission();
+    }
+  };
+
+  const pausePomodoro = () => {
+    setIsRunning(false);
+  };
+
+  const resetPomodoro = () => {
+    setIsRunning(false);
+    setPomodoroTime(25 * 60);
+    setCurrentSession('focus');
+    setIsBreak(false);
+    // NOT: showFloatingPomodoro'yu sıfırlamıyoruz
+  };
+
+  const closeFloatingPomodoro = () => {
+    setShowFloatingPomodoro(false);
+  };
+
   const logout = () => {
     console.log('DEBUG: Logout called');
     setToken('');
     setUser(null);
+    
+    // Pomodoro'yu da sıfırla
+    resetPomodoro();
     
     clearAllCache();
     
     setTimeout(() => {
       window.location.reload();
     }, 100);
+  };
+
+  // Pomodoro tamamlandığında çalışan fonksiyon
+  const handlePomodoroComplete = () => {
+    if (currentSession === 'focus') {
+      const newCount = pomodoroCount + 1;
+      setPomodoroCount(newCount);
+      
+      // 4 pomodoro sonrasında uzun mola, aksi halde kısa mola
+      if (newCount % 4 === 0) {
+        setPomodoroTime(20 * 60); // 20 dakika uzun mola
+        setCurrentSession('longBreak');
+      } else {
+        setPomodoroTime(5 * 60); // 5 dakika kısa mola
+        setCurrentSession('shortBreak');
+      }
+      setIsBreak(true);
+    } else {
+      // Mola bitti, tekrar odaklanma zamanı
+      setPomodoroTime(25 * 60); // 25 dakika odaklanma
+      setCurrentSession('focus');
+      setIsBreak(false);
+    }
+    
+    // Tarayıcı bildirimi (izin varsa)
+    if (Notification.permission === 'granted') {
+      new Notification('Pomodoro Zamanlayıcısı', {
+        body: currentSession === 'focus' ? 'Mola zamanı!' : 'Çalışma zamanı!',
+        icon: '/favicon.png'
+      });
+    }
+  };
+
+  // Pomodoro zamanlayıcısı useEffect
+  useEffect(() => {
+    let interval = null;
+    
+    if (isRunning && pomodoroTime > 0) {
+      interval = setInterval(() => {
+        setPomodoroTime(time => time - 1);
+      }, 1000);
+    } else if (pomodoroTime === 0) {
+      setIsRunning(false);
+      handlePomodoroComplete();
+    }
+    
+    return () => clearInterval(interval);
+  }, [isRunning, pomodoroTime, currentSession, pomodoroCount]);
+
+  // Süreyi formatla (mm:ss)
+  const formatTime = (seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  // Progress yüzdesi hesapla
+  const getProgressPercentage = () => {
+    let totalTime;
+    if (currentSession === 'focus') {
+      totalTime = 25 * 60;
+    } else if (currentSession === 'shortBreak') {
+      totalTime = 5 * 60;
+    } else {
+      totalTime = 20 * 60;
+    }
+    return ((totalTime - pomodoroTime) / totalTime) * 100;
   };
 
   const value = {
@@ -133,7 +237,22 @@ export const UserProvider = ({ children }) => {
     login,
     logout,
     clearAllCache,
-    resetKey
+    resetKey,
+    // Pomodoro state'leri
+    pomodoroTime,
+    isRunning,
+    isBreak,
+    pomodoroCount,
+    currentSession,
+    showFloatingPomodoro,
+    // Pomodoro fonksiyonları
+    startPomodoro,
+    pausePomodoro,
+    resetPomodoro,
+    closeFloatingPomodoro,
+    setShowFloatingPomodoro,
+    formatTime,
+    getProgressPercentage
   };
 
   return (
