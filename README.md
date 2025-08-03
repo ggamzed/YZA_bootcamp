@@ -207,7 +207,7 @@ Ekibimiz, **hezarFen** uygulamasının geliştirilmesine Sprint 3 boyunca odakla
 
 - Uygulama ismi “HazerFen” yerine doğrudan **hezarFen** olarak değiştirildi.
 - Logo ve genel renk tasarımı sadeleştirildi, kullanıcı dostu bir hale getirildi.
-- **Soru önerme**, **istatistik kartları**, **kronometre**, **not defteri**, **pomodoro** tasarlandı ve geliştirildi.
+- **Soru önerme**, **istatistik kartları**, **not defteri**, **pomodoro** tasarlandı ve geliştirildi.
 - Öğrencinin yanlış yaptığı konulara göre dinamik içerik önerisi mantığı geliştirildi.
 - Veriye dayalı geri bildirim sistemi üzerine odaklanıldı.
 - Tasarım dili sadeleştirildi, kullanıcı arayüzü daha akıcı hale getirildi.
@@ -262,7 +262,7 @@ Ayşenur Akbaba, Muhammed Seyfi Büyük, Gamze Demirci, Ayşe Mermer
 ## Sprint Retrospective
 
 Bu sprintle birlikte **hezarFen** uygulamasının temel işlevleri tamamlanmış ve ürün nihai haline ulaşmıştır.  
-Tasarım sadeleştirmeleri, kullanıcıya özel içerik önerme sistemi, geri bildirim mekanizmaları ve zaman yönetimi araçları (örneğin not defteri, kronometre) başarıyla entegre edilmiştir.
+Tasarım sadeleştirmeleri, kullanıcıya özel içerik önerme sistemi, geri bildirim mekanizmaları ve zaman yönetimi araçları (örneğin not defteri, pomodoro) başarıyla entegre edilmiştir.
 
 ### Kazanımlarımız
 - Gerçekçi sprint planlamasının ve esnek görev yönetiminin, takımı zorlamadan hedefe ulaştırdığı görüldü.
