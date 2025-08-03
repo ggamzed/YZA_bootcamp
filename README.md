@@ -225,7 +225,7 @@ Ekibimiz, **hezarFen** uygulamasının geliştirilmesine Sprint 3 boyunca odakla
 
 ##  Sprint Board Güncellemeleri
 
-- Sprint boyunca tüm görevler, GitHub Project Board üzerinden takip edilmiştir.
+- Sprint boyunca tüm görevler, Trello üzerinden takip edilmiştir.
 - Tamamlanan, devam eden ve iptal edilen görevler net şekilde ayrıştırılmıştır.
 
 
