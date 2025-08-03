@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getCurrentUser } from '../api/auth';
 import { updateProfilePicture, getAvailablePictures, setRandomPicture, getUserLevel } from '../api/profile';
+import { fetchStats, fetchCompletedTests } from '../api/statistics';
 import { useUser } from '../contexts/UserContext';
 import Header from './Header';
 import './Profile.css';
@@ -14,6 +15,8 @@ export default function Profile({ onLogout }) {
   const [showPictureSelector, setShowPictureSelector] = useState(false);
   const [updatingPicture, setUpdatingPicture] = useState(false);
   const [userLevel, setUserLevel] = useState(null);
+  const [statsData, setStatsData] = useState(null);
+  const [completedTests, setCompletedTests] = useState([]);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -54,6 +57,24 @@ export default function Profile({ onLogout }) {
     fetchUserLevel();
   }, [token]);
 
+  useEffect(() => {
+    const fetchStatistics = async () => {
+      if (token) {
+        try {
+          const [stats, tests] = await Promise.all([
+            fetchStats(token),
+            fetchCompletedTests(token)
+          ]);
+          setStatsData(stats);
+          setCompletedTests(tests);
+        } catch (error) {
+          console.error('İstatistik verileri alınamadı:', error);
+        }
+      }
+    };
+    fetchStatistics();
+  }, [token]);
+
   const handleLogout = () => {
     if (onLogout) {
       onLogout();
@@ -64,7 +85,6 @@ export default function Profile({ onLogout }) {
     setUpdatingPicture(true);
     try {
       await updateProfilePicture(token, pictureName);
-      // Kullanıcı bilgilerini yeniden yükle
       const userData = await getCurrentUser(token);
       setUser(userData);
       setShowPictureSelector(false);
@@ -80,7 +100,6 @@ export default function Profile({ onLogout }) {
     setUpdatingPicture(true);
     try {
       await setRandomPicture(token);
-      // Kullanıcı bilgilerini yeniden yükle
       const userData = await getCurrentUser(token);
       setUser(userData);
     } catch (error) {
@@ -93,13 +112,49 @@ export default function Profile({ onLogout }) {
 
   const getLevelColor = (levelId) => {
     switch (levelId) {
-      case 1: return 'bg-secondary'; // Tembel Fil - Gri
-      case 2: return 'bg-warning';   // Hızlı Karınca - Sarı
-      case 3: return 'bg-success';   // Zıplayan Çekirge - Yeşil
-      case 4: return 'bg-primary';   // Çalışkan Arı - Mavi
+      case 1: return 'bg-secondary';
+      case 2: return 'bg-warning';
+      case 3: return 'bg-success';
+      case 4: return 'bg-primary';
       default: return 'bg-secondary';
     }
   };
+
+  const calculateStats = () => {
+    if (!statsData || !completedTests) {
+      return {
+        totalQuestions: 0,
+        successRate: 0,
+        totalTests: 0,
+        activeDays: 0
+      };
+    }
+
+    const totalQuestions = statsData.reduce((sum, stat) => sum + (stat.total || 0), 0);
+    
+    const totalCorrect = statsData.reduce((sum, stat) => sum + (stat.correct || 0), 0);
+    const successRate = totalQuestions > 0 ? Math.round((totalCorrect / totalQuestions) * 100) : 0;
+    
+    const totalTests = completedTests.length;
+    
+    const uniqueDays = new Set();
+    completedTests.forEach(test => {
+      if (test.test_date) {
+        const date = test.test_date.split(' ')[0];
+        uniqueDays.add(date);
+      }
+    });
+    const activeDays = uniqueDays.size;
+
+    return {
+      totalQuestions,
+      successRate,
+      totalTests,
+      activeDays
+    };
+  };
+
+  const stats = calculateStats();
 
   if (loading) {
     return (
@@ -345,28 +400,28 @@ export default function Profile({ onLogout }) {
                   <div className="row text-center">
                     <div className="col-md-3 mb-3">
                       <div className="custom-block-numbers">
-                        <span className="h3 text-primary">{userLevel?.level_info?.total_questions || 0}</span>
+                        <span className="h3 text-primary">{stats.totalQuestions || 0}</span>
                       </div>
                       <small>Toplam Soru</small>
                     </div>
                     
                     <div className="col-md-3 mb-3">
                       <div className="custom-block-numbers">
-                        <span className="h3 text-success">0%</span>
+                        <span className="h3 text-success">{stats.successRate || 0}%</span>
                       </div>
                       <small>Başarı Oranı</small>
                     </div>
                     
                     <div className="col-md-3 mb-3">
                       <div className="custom-block-numbers">
-                        <span className="h3 text-info">0</span>
+                        <span className="h3 text-info">{stats.totalTests || 0}</span>
                       </div>
                       <small>Toplam Test</small>
                     </div>
                     
                     <div className="col-md-3 mb-3">
                       <div className="custom-block-numbers">
-                        <span className="h3 text-warning">0</span>
+                        <span className="h3 text-warning">{stats.activeDays || 0}</span>
                       </div>
                       <small>Aktif Gün</small>
                     </div>
@@ -398,15 +453,6 @@ export default function Profile({ onLogout }) {
                       <i className="bi-gear me-2"></i>
                       Ayarlar
                     </Link>
-                  </div>
-                </div>
-
-                <div className="custom-block bg-white mt-4">
-                  <h5 className="mb-4">Son Aktiviteler</h5>
-                  
-                  <div className="text-center py-3">
-                    <p className="text-muted mb-0">Henüz aktivite yok</p>
-                    <small>Test çözmeye başlayın!</small>
                   </div>
                 </div>
               </div>

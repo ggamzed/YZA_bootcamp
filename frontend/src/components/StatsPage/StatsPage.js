@@ -626,7 +626,6 @@ export default function Statistics({ onLogout }) {
                                       <thead>
                                         <tr>
                                           <th>Konu</th>
-                                          <th>Zorluk</th>
                                           <th>Toplam</th>
                                           <th>Doğru</th>
                                           <th>Başarı</th>
@@ -642,11 +641,6 @@ export default function Statistics({ onLogout }) {
                                           return (
                                             <tr key={index}>
                                               <td>{konuName}</td>
-                                              <td>
-                                                <span className={`badge bg-${stat.zorluk <= 2 ? 'success' : stat.zorluk <= 3 ? 'warning' : 'danger'}`}>
-                                                  {getZorlukText(stat.zorluk)}
-                                                </span>
-                                              </td>
                                               <td>{total}</td>
                                               <td>
                                                 <span className="text-success">{correct}</span>

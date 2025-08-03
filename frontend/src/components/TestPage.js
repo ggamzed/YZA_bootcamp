@@ -39,15 +39,65 @@ export default function TestPage({ onLogout }) {
   ];
 
   const getKonuIsmi = (dersId, konuId) => {
-    const konuIsimleri = {
-      1: { 1: 'Basit Eşitsizlikler', 2: 'Fonksiyonlar', 3: 'Olasılık' },
-      2: { 1: 'Basit Makineler', 2: 'İş, Güç ve Enerji', 3: 'Atom Modelleri' },
-      3: { 1: 'Kimyasal Türler Arası Etkileşimler', 2: 'Karışımlar', 3: 'Gazlar' },
-      4: { 1: 'Sinir Sistemi', 2: 'Sindirim Sistemi', 3: 'Solunum Sistemi' },
-      5: { 1: 'Sözcükte Anlam', 2: 'Cümlede Anlam', 3: 'Ses Bilgisi' },
-      6: { 1: 'İlk Türk Devletleri', 2: 'Türk-İslam Devletleri', 3: 'Kurtuluş Savaşı\'nda Cepheler' }
+    const dersler = [
+      { id: 1, name: 'Matematik' },
+      { id: 2, name: 'Fizik' },
+      { id: 3, name: 'Kimya' },
+      { id: 4, name: 'Biyoloji' },
+      { id: 5, name: 'Türkçe' },
+      { id: 6, name: 'Tarih' }
+    ];
+    
+    const konular = {
+      1: { // Matematik
+        1: 'Temel Kavramlar', 2: 'Problemler', 3: 'Üslü Sayılar', 4: 'Sayı Basamakları',
+        5: 'Bölme-Bölünebilme', 6: 'Asal Çarpanlar', 7: 'OBEB-OKEK', 8: 'Rasyonel Sayılar',
+        9: 'Mutlak Değer', 10: 'Basit Eşitsizlikler', 11: 'Çarpanlara Ayırma', 12: 'Oran-Orantı',
+        13: 'Yüzde Problemleri', 14: 'Karışım Problemleri', 15: 'Hareket Problemleri',
+        16: 'İşçi Problemleri', 17: 'Kesir Problemleri', 18: 'Yaş Problemleri', 19: 'Sayı Problemleri',
+        20: 'Kümeler', 21: 'Fonksiyonlar', 22: 'Polinomlar', 23: 'İkinci Dereceden Denklemler',
+        24: 'Parabol', 25: 'Trigonometri', 26: 'Logaritma', 27: 'Limit', 28: 'Türev', 29: 'İntegral'
+      },
+      2: { // Fizik
+        1: 'Vektörler', 2: 'Kuvvet ve Hareket', 3: 'Enerji', 4: 'Momentum', 5: 'Dairesel Hareket',
+        6: 'Basit Harmonik Hareket', 7: 'Elektrik', 8: 'Manyetizma', 9: 'Optik', 10: 'Dalgalar',
+        11: 'Atom Fiziği', 12: 'Nükleer Fizik', 13: 'Termodinamik', 14: 'Akışkanlar', 15: 'Basınç'
+      },
+      3: { // Kimya
+        1: 'Maddenin Yapısı', 2: 'Atomun Yapısı', 3: 'Periyodik Sistem', 4: 'Kimyasal Bağlar',
+        5: 'Mol Kavramı', 6: 'Kimyasal Tepkimeler', 7: 'Çözeltiler', 8: 'Asitler ve Bazlar',
+        9: 'Tuzlar', 10: 'Elektrokimya', 11: 'Organik Kimya', 12: 'Polimerler', 13: 'Gazlar',
+        14: 'Sıvılar', 15: 'Katılar'
+      },
+      4: { // Biyoloji
+        1: 'Hücre', 2: 'Genetik', 3: 'Sistemler', 4: 'Ekoloji', 5: 'Evrim',
+        6: 'Bitkiler', 7: 'Hayvanlar', 8: 'Mikrobiyoloji', 9: 'İnsan Fizyolojisi',
+        10: 'Biyokimya', 11: 'Biyoteknoloji', 12: 'Biyoçeşitlilik'
+      },
+      5: { // Türkçe
+        1: 'Dil Bilgisi', 2: 'Anlatım', 3: 'Yazım Kuralları', 4: 'Noktalama', 5: 'Ses Bilgisi',
+        6: 'Kelime Yapısı', 7: 'Cümle Yapısı', 8: 'Paragraf', 9: 'Anlatım Türleri',
+        10: 'Edebi Türler', 11: 'Edebi Sanatlar', 12: 'Türk Edebiyatı'
+      },
+      6: { // Tarih
+        1: 'İlk Çağ', 2: 'Orta Çağ', 3: 'Yeni Çağ', 4: 'Yakın Çağ', 5: 'Osmanlı Tarihi',
+        6: 'İnkılap Tarihi', 7: 'Cumhuriyet Dönemi', 8: 'Dünya Tarihi', 9: 'Türk Tarihi',
+        10: 'Anadolu Tarihi', 11: 'İslam Tarihi', 12: 'Çağdaş Türk Dünyası'
+      }
     };
-    return konuIsimleri[dersId]?.[konuId] || `Konu ${konuId}`;
+    
+    return konular[dersId]?.[konuId] || `Konu ${konuId}`;
+  };
+
+  const getDifficultyName = (zorluk) => {
+    const difficultyNames = {
+      1: "Kolay",
+      2: "Orta", 
+      3: "Zor",
+      4: "Çok Zor",
+      5: "İleri Seviye"
+    };
+    return difficultyNames[zorluk] || `Seviye ${zorluk}`;
   };
 
   const showCanvasSubjects = ['Matematik', 'Fizik', 'Kimya'];
@@ -422,7 +472,7 @@ export default function TestPage({ onLogout }) {
   const zorlukBazliMap = {};
   answerHistory.forEach(a => {
     const key = a.zorluk;
-    if (!zorlukBazliMap[key]) zorlukBazliMap[key] = { seviye: key, toplam: 0, dogru: 0, yanlis: 0, bos: 0 };
+    if (!zorlukBazliMap[key]) zorlukBazliMap[key] = { seviye: getDifficultyName(key), toplam: 0, dogru: 0, yanlis: 0, bos: 0 };
     zorlukBazliMap[key].toplam++;
     if (!a.selected) zorlukBazliMap[key].bos++;
     else if (a.is_correct) zorlukBazliMap[key].dogru++;
